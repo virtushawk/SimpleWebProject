@@ -1,0 +1,23 @@
+
+w
+java:S4144"UUpdate this method so that its implementation is not identical to "doGet" on line 22.(ÿàğÿùÿÿÿÿ8“èöíí.
+y
+java:S1488%"\Immediately return this expression instead of assigning it to the temporary variable "page".(‰èïÓ8´Àóíí.
+ƒ
+java:S1989"aHandle the following exceptions that could be thrown by "forward": ServletException, IOException.(ÜÕˆêøÿÿÿÿ8… ½¬ë.
+\
+java:S1161":Add the "@Override" annotation above this method signature(ÿàğÿùÿÿÿÿ8©ù¸‚é.
+
+java:S1186"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(ùïˆ•8©È³‚é.
+\
+java:S1161":Add the "@Override" annotation above this method signature(°Å·ğşÿÿÿÿ8òæëõè.
+ƒ
+java:S1989"aHandle the following exceptions that could be thrown by "forward": ServletException, IOException.(ÜÕˆêøÿÿÿÿ8áö¼¬ë.
+W
+java:S1161)":Add the "@Override" annotation above this method signature(‚“¶î8òæëõè.
+L
+java:S1068"*Remove this unused "logger" private field.(á±ÿÄÿÿÿÿÿ8ƒİÊŒê.
+W
+java:S1161":Add the "@Override" annotation above this method signature(ùïˆ•8˜ö”‡é.
+—
+java:S1186)"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(‚“¶î

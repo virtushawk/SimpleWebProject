@@ -1,0 +1,17 @@
+div {
+    text-align: center;
+}
+form {
+    display: inline-block;
+}
+input:invalid {
+    border: 2px dashed red;
+}
+
+input:invalid:required {
+    background-color: darkgray;
+}
+
+input:valid {
+    border: 2px solid black;
+}

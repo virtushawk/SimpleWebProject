@@ -1,0 +1,13 @@
+div {
+    text-align: center;
+}
+form {
+    display: inline-block;
+}
+button{
+    margin-top: auto;
+}
+#error {
+    margin:auto;
+    width: 200px;
+}
