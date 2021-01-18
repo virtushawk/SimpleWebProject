@@ -15,3 +15,7 @@ input:invalid:required {
 input:valid {
     border: 2px solid black;
 }
+#error {
+    margin:auto;
+    width: 200px;
+}

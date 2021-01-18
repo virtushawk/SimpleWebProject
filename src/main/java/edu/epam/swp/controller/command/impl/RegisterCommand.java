@@ -2,7 +2,9 @@ package edu.epam.swp.controller.command.impl;
 
 import edu.epam.swp.controller.PagePath;
 import edu.epam.swp.controller.command.Command;
+import edu.epam.swp.model.constant.AttributeConstant;
 import edu.epam.swp.model.constant.ParameterConstant;
+import edu.epam.swp.model.exception.ServiceException;
 import edu.epam.swp.model.service.UserService;
 import edu.epam.swp.model.service.impl.UserServiceImpl;
 import org.apache.logging.log4j.LogManager;
@@ -22,7 +24,19 @@ public class RegisterCommand implements Command {
                 ,StandardCharsets.UTF_8);
         String password = request.getParameter(ParameterConstant.PARAMETER_PASSWORD);
         String email = request.getParameter(ParameterConstant.PARAMETER_EMAIL);
-        service.registerUser(email,username,password);
-        return PagePath.HOME;
+        boolean flag;
+        try {
+            flag = service.registerUser(email,username,password);
+        } catch (ServiceException e) {
+            logger.error("Error occurred while creating account!",e);
+            flag = false;
+        }
+        if (flag) {
+            request.setAttribute(AttributeConstant.ATTRIBUTE_REGISTRATION_MESSAGE_CONFIRMED, true);
+            return PagePath.HOME;
+        } else {
+            request.setAttribute(AttributeConstant.ATTRIBUTE_REGISTRATION_MESSAGE_ERROR, true);
+            return PagePath.REGISTER;
+        }
     }
 }

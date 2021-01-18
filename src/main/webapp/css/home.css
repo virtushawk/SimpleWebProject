@@ -1,3 +1,7 @@
 h1 {
     text-align: center;
 }
+#success {
+    margin:auto;
+    width: 200px;
+}

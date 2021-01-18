@@ -1,5 +1,6 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <fmt:setLocale value="${sessionScope.lang}"/>
 <fmt:setBundle basename="property.text"/>
 <fmt:message key="register.email.placeHolder" var="emailPlaceHolder"/>
@@ -46,6 +47,11 @@
             <fmt:message key="register.register"/>
         </button>
     </form>
+    <c:if test="${requestScope.errorMessage}">
+        <div id="error" class="p-3 mb-2 bg-danger text-white">
+            <fmt:message key="register.errorMessage"/>
+        </div>
+    </c:if>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
 </body>

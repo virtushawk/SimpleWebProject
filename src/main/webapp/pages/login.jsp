@@ -3,7 +3,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <fmt:setLocale value="${sessionScope.lang}"/>
 <fmt:setBundle basename="property.text"/>
-<fmt:message key="login.email.placeHolder" var="emailPlaceHolder"/>
+<fmt:message key="login.username.placeHolder" var="usernamePlaceHolder"/>
 <fmt:message key="login.password.placeHolder" var="passwordPlaceHolder"/>
 <!DOCTYPE html>
 <html lang=${sessionScope.lang}>
@@ -19,10 +19,10 @@
 <div>
     <form id="login_form" action="${pageContext.request.contextPath}/controller?command=login" method="post">
         <div class="form-group">
-            <label for="email">
-                <fmt:message key="login.email.label"/>
+            <label for="username">
+                <fmt:message key="login.username.label"/>
             </label>
-            <input type="email" name="email" class="form-control" id="email" placeholder="${emailPlaceHolder}" required>
+            <input type="text" name="username" class="form-control" id="username" placeholder="${usernamePlaceHolder}" required>
         </div>
         <div class="form-group">
             <label for="password">

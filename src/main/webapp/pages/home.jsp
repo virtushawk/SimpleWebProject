@@ -17,6 +17,15 @@
 <h1>
     <fmt:message key="home.welcomeMessage"/> ${sessionScope.username}
 </h1>
+<c:if test="${requestScope.confirmedMessage}">
+    <div id="success" class="alert alert-success" role="alert">
+        <h4 class="alert-heading text-center"><fmt:message key="home.successMessage.label"/> </h4>
+        <p><fmt:message key="home.successMessage.body"/> </p>
+        <hr>
+        <p class="mb-0"><fmt:message key="home.successMessage.next"/> </p>
+    </div>
+
+</c:if>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
 </body>
 </html>

@@ -2,7 +2,9 @@ package edu.epam.swp.model.dao.impl;
 
 import edu.epam.swp.model.constant.StatementConstant;
 import edu.epam.swp.model.dao.UserDao;
+import edu.epam.swp.model.entity.AccountRole;
 import edu.epam.swp.model.entity.User;
+import edu.epam.swp.model.exception.DaoException;
 import edu.epam.swp.model.pool.ConnectionPool;
 
 import java.sql.Connection;
@@ -23,49 +25,55 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public List<User> findAll() {
+    public List<User> findAll() throws DaoException {
         return null;
     }
 
     @Override
-    public Optional<User> findUserByEmailPassword(String email,String password) {
+    public Optional<User> findUserByUsernamePassword(String username, String password) throws DaoException {
         try(Connection connection = pool.getConnection()) {
-            PreparedStatement statement = connection.prepareStatement(StatementConstant.SELECT_USER_BY_EMAIL_PASSWORD);
-            statement.setString(1,email);
+            PreparedStatement statement = connection.prepareStatement(StatementConstant.SELECT_ACCOUNT_BY_USERNAME_PASSWORD);
+            statement.setString(1,username);
             statement.setString(2,password);
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
-                long id = resultSet.getInt(1);
+                String id = resultSet.getString(1);
                 String userEmail = resultSet.getString(2);
-                String username = resultSet.getString(3);
-                String userPassword = resultSet.getString(4);
-                User user = new User(userEmail,username,userPassword);
+                String userName = resultSet.getString(3);
+                AccountRole role = AccountRole.valueOf(resultSet.getString(4));
+                User user = new User(userEmail,userName,role);
                 user.setId(id);
                 return Optional.of(user);
             }
         } catch (SQLException e) {
-           logger.error("SQLException",e);
+           logger.error("An error occurred when requesting a database",e);
+           throw new DaoException("An error occurred when requesting a database",e);
         }
         Optional<User> result = Optional.empty();
         return result;
     }
 
     @Override
-    public void create(User user) {
+    public boolean create(User user,String password) throws DaoException {
+        boolean flag;
         try(Connection connection = pool.getConnection()) {
-            PreparedStatement statement = connection.prepareStatement(StatementConstant.INSERT_USER);
-            statement.setInt(1,user.getId().intValue());
+            PreparedStatement statement = connection.prepareStatement(StatementConstant.INSERT_ACCOUNT);
+            statement.setString(1,user.getId());
             statement.setString(2,user.getEmail());
             statement.setString(3,user.getUsername());
-            statement.setString(4,user.getPassword());
-            statement.executeUpdate();
+            statement.setString(4,password);
+            int roleUser = 1;
+            statement.setInt(5,roleUser);
+            flag = statement.executeUpdate() > 0;
         } catch (SQLException e) {
-           logger.error("SQLException ",e);
+           logger.error("Error occurred while creating user. Exception :  {}. User : {}",e,user);
+           throw new DaoException("Error occurred while creating user",e);
         }
+        return flag;
     }
 
     @Override
-    public void delete(User user) {
+    public void delete(User user) throws DaoException {
 
     }
 }

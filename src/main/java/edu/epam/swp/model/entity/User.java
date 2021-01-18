@@ -1,17 +1,17 @@
 package edu.epam.swp.model.entity;
 
-import edu.epam.swp.model.util.IdGenerator;
+import java.util.UUID;
 
 public class User {
     private String email;
     private String username;
-    private String password;
-    private Long id = IdGenerator.generateId();
+    private String id = UUID.randomUUID().toString();
+    private AccountRole role;
 
-    public User(String email, String username, String password) {
+    public User(String email, String username,AccountRole role) {
         this.email = email;
         this.username = username;
-        this.password = password;
+        this.role = role;
     }
 
     public String getEmail() {
@@ -30,20 +30,20 @@ public class User {
         this.username = username;
     }
 
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(String id) {
         this.id = id;
+    }
+
+    public AccountRole getRole() {
+        return role;
+    }
+
+    public void setRole(AccountRole role) {
+        this.role = role;
     }
 
     @Override
@@ -51,14 +51,15 @@ public class User {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
-        return email.equals(user.email) && username.equals(user.username) && password.equals(user.password);
+        return email.equals(user.email) && username.equals(user.username) &&
+                role.equals(user.role);
     }
 
     @Override
     public int hashCode() {
         int hash = email.hashCode();
         hash = hash * 31 + username.hashCode();
-        hash = hash * 31 + password.hashCode();
+        hash = hash * 31 + role.hashCode();
         return hash;
     }
 
@@ -67,7 +68,7 @@ public class User {
         final StringBuilder sb = new StringBuilder("User{");
         sb.append("email='").append(email).append('\'');
         sb.append(", username='").append(username).append('\'');
-        sb.append(", password='").append(password).append('\'');
+        sb.append(", role='").append(role).append('\'');
         sb.append('}');
         return sb.toString();
     }

@@ -5,6 +5,7 @@ import edu.epam.swp.controller.command.Command;
 import edu.epam.swp.model.constant.AttributeConstant;
 import edu.epam.swp.model.constant.ParameterConstant;
 import edu.epam.swp.model.entity.User;
+import edu.epam.swp.model.exception.ServiceException;
 import edu.epam.swp.model.service.UserService;
 import edu.epam.swp.model.service.impl.UserServiceImpl;
 import org.apache.logging.log4j.LogManager;
@@ -20,12 +21,14 @@ public class LoginCommand implements Command {
     @Override
     public String execute(HttpServletRequest request) {
         String password = request.getParameter(ParameterConstant.PARAMETER_PASSWORD);
-        String email = request.getParameter(ParameterConstant.PARAMETER_EMAIL);
-        logger.info("password : {}, email : {}",password,email);
-        Optional<User> optional = service.findUser(email,password);
+        String username = request.getParameter(ParameterConstant.PARAMETER_USERNAME);
+        Optional<User> optional = Optional.empty();
+        try {
+            optional = service.findUser(username,password);
+        } catch (ServiceException e) {
+            logger.error("Error occurred while finding user",e);
+        }
         if (optional.isPresent()) {
-            User user = optional.get();
-            String username = user.getUsername();
             request.getSession().setAttribute(AttributeConstant.ATTRIBUTE_AUTHORISED,true);
             request.getSession().setAttribute(AttributeConstant.ATTRIBUTE_USERNAME,username);
             return PagePath.HOME;

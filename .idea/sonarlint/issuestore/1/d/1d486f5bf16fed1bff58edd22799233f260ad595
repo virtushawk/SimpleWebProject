@@ -1,7 +1,11 @@
 
+q
+java:S2095!"OUse try-with-resources or close this "PreparedStatement" in a "finally" clause.(çâ¨çüÿÿÿÿ8ÀÊ†…ğ.
+l
+java:S20958"OUse try-with-resources or close this "PreparedStatement" in a "finally" clause.(é¼¯8şŸã†ğ.
+{
+java:S14881"^Immediately return this expression instead of assigning it to the temporary variable "result".(á¯ÙÆ8şŸã†ğ.
 H
-java:S1168"+Return an empty collection instead of null.(¥¹ï8ĞÉÒªë.
-9
-java:S1116"Remove this empty statement.(ùÏÇó8è£¨«ë.
+java:S1168"+Return an empty collection instead of null.(¥¹ï8‡´‡ƒğ.
 £
-java:S1186/"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(…·Ëéúÿÿÿÿ8ĞÉÒªë.
+java:S1186D"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(…·Ëéúÿÿÿÿ8şŸã†ğ.

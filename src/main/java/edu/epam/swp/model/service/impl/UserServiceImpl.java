@@ -2,7 +2,10 @@ package edu.epam.swp.model.service.impl;
 
 import edu.epam.swp.model.dao.UserDao;
 import edu.epam.swp.model.dao.impl.UserDaoImpl;
+import edu.epam.swp.model.entity.AccountRole;
 import edu.epam.swp.model.entity.User;
+import edu.epam.swp.model.exception.DaoException;
+import edu.epam.swp.model.exception.ServiceException;
 import edu.epam.swp.model.service.UserService;
 import edu.epam.swp.model.validation.UserValidator;
 import org.apache.logging.log4j.LogManager;
@@ -22,27 +25,36 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean registerUser(String email,String username,String password) {
-        boolean flag = false;
+    public boolean registerUser(String email,String username,String password) throws ServiceException {
         UserValidator validator = new UserValidator();
-        if (validator.isUsername(username) && validator.isPassword(password) && validator.isEmail(email)) {
-            logger.info("registration completed, username : {}",username);
-            User user = new User(email,username,password);
-            dao.create(user);
-            flag = true;
+        boolean flag;
+        if (!(validator.isUsername(username) && validator.isPassword(password) && validator.isEmail(email))) {
+            logger.info("Invalid credentials : email : {}, username : {}, password : {}"
+                    ,email,username, password);
+            return false;
         }
-        else {
-            logger.info("Registration error username : {}",username);
+        User user = new User(email,username,AccountRole.USER);
+        try {
+            flag = dao.create(user,password);
+        } catch (DaoException e) {
+            logger.error("Error occurred while creating account.Exception : {}, email : {},username : {}," +
+                            "password : {}",e,email,username,password);
+            throw new ServiceException("Error occurred while creating account",e);
         }
         return flag;
     }
 
-    public Optional<User> findUser(String email,String password) {
+    public Optional<User> findUser(String username,String password) throws ServiceException {
         Optional<User> user = Optional.empty();
         UserValidator validator = new UserValidator();
-        if (validator.isEmail(email) && validator.isPassword(password)) {
-            user = dao.findUserByEmailPassword(email,password);
-            logger.info("user found!");
+        if (validator.isUsername(username) && validator.isPassword(password)) {
+            try {
+                user = dao.findUserByUsernamePassword(username,password);
+            } catch (DaoException e) {
+                logger.error("An error occurred when requesting a database");
+                throw new ServiceException("An error occurred when requesting a database",e);
+            }
+            logger.info("User found!");
         }
         return user;
     }
