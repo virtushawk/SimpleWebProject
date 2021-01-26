@@ -1,8 +1,8 @@
-package edu.epam.swp.model.constant;
+package edu.epam.swp.controller;
 
-public class ParameterConstant {
+public class ParameterName {
 
-    private ParameterConstant() {}
+    private ParameterName() {}
 
     public static final String PARAMETER_COMMAND = "command";
     public static final String PARAMETER_PASSWORD = "password";

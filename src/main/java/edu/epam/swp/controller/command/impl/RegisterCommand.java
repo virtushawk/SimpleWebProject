@@ -1,9 +1,9 @@
 package edu.epam.swp.controller.command.impl;
 
 import edu.epam.swp.controller.PagePath;
+import edu.epam.swp.controller.command.AttributeName;
 import edu.epam.swp.controller.command.Command;
-import edu.epam.swp.model.constant.AttributeConstant;
-import edu.epam.swp.model.constant.ParameterConstant;
+import edu.epam.swp.controller.ParameterName;
 import edu.epam.swp.model.exception.ServiceException;
 import edu.epam.swp.model.service.UserService;
 import edu.epam.swp.model.service.impl.UserServiceImpl;
@@ -11,31 +11,29 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
-import java.nio.charset.StandardCharsets;
 
 public class RegisterCommand implements Command {
-
     private static final Logger logger = LogManager.getLogger(RegisterCommand.class);
     private static final UserService service = UserServiceImpl.getInstance();
 
     @Override
     public String execute(HttpServletRequest request) {
-        String username = new String(request.getParameter(ParameterConstant.PARAMETER_USERNAME).getBytes(StandardCharsets.ISO_8859_1)
-                ,StandardCharsets.UTF_8);
-        String password = request.getParameter(ParameterConstant.PARAMETER_PASSWORD);
-        String email = request.getParameter(ParameterConstant.PARAMETER_EMAIL);
+        String username = request.getParameter(ParameterName.PARAMETER_USERNAME);
+        String password = request.getParameter(ParameterName.PARAMETER_PASSWORD);
+        String email = request.getParameter(ParameterName.PARAMETER_EMAIL);
         boolean flag;
         try {
             flag = service.registerUser(email,username,password);
         } catch (ServiceException e) {
             logger.error("Error occurred while creating account!",e);
-            flag = false;
+            request.setAttribute(AttributeName.ATTRIBUTE_DATABASE_ERROR_MESSAGE, true);
+            return PagePath.REGISTER;
         }
         if (flag) {
-            request.setAttribute(AttributeConstant.ATTRIBUTE_REGISTRATION_MESSAGE_CONFIRMED, true);
+            request.setAttribute(AttributeName.ATTRIBUTE_REGISTRATION_MESSAGE_CONFIRMED, true);
             return PagePath.HOME;
         } else {
-            request.setAttribute(AttributeConstant.ATTRIBUTE_REGISTRATION_MESSAGE_ERROR, true);
+            request.setAttribute(AttributeName.ATTRIBUTE_REGISTRATION_MESSAGE_ERROR, true);
             return PagePath.REGISTER;
         }
     }

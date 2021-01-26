@@ -13,7 +13,9 @@
 <head>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/register.css"/>
-    <title>Register</title>
+    <title>
+        <fmt:message key="register.title"/>
+    </title>
 </head>
 <body>
 <jsp:include page="/pages/module/header.jsp"/>
@@ -50,6 +52,11 @@
     <c:if test="${requestScope.errorMessage}">
         <div id="error" class="p-3 mb-2 bg-danger text-white">
             <fmt:message key="register.errorMessage"/>
+        </div>
+    </c:if>
+    <c:if test="${requestScope.errorMessageDB}">
+        <div id="error" class="p-3 mb-2 bg-danger text-white">
+            <fmt:message key="login.errorMessageDB"/>
         </div>
     </c:if>
 </div>

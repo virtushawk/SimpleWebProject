@@ -1,34 +1,11 @@
 package edu.epam.swp.model.dao;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import edu.epam.swp.model.exception.DaoException;
 
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.util.List;
 
-public interface BaseDao {
+public interface BaseDao<T> {
 
-    Logger logger = LogManager.getLogger(BaseDao.class);
-
-    default void close(Statement statement) {
-        if (statement != null) {
-            try {
-                statement.close();
-            } catch (SQLException e) {
-                logger.error("Error occurred while closing statement", e);
-            }
-        }
-    }
-
-    default void close(Connection connection) {
-        if (connection != null) {
-            try {
-                connection.close();
-            } catch (SQLException e) {
-                logger.error("Error occurred while closing connection", e);
-            }
-        }
-    }
-
+    List<T> findAll() throws DaoException;
+    T get(String id) throws DaoException;
 }

@@ -1,7 +1,5 @@
 package edu.epam.swp.model.pool;
 
-import edu.epam.swp.model.constant.PropertyConstant;
-import edu.epam.swp.model.constant.PropertyPath;
 import edu.epam.swp.model.exception.PropertyReaderException;
 import edu.epam.swp.model.reader.PropertyReader;
 import org.apache.logging.log4j.LogManager;
@@ -19,26 +17,27 @@ import java.util.concurrent.LinkedBlockingDeque;
 public enum ConnectionPool {
     INSTANCE;
 
+    private final Logger logger = LogManager.getLogger(ConnectionPool.class);
     private BlockingQueue<Connection> freeConnections;
     private Queue<Connection> givenAwayConnections;
-    private static final Logger logger = LogManager.getLogger(ConnectionPool.class);
-
     private static final int DEFAULT_POOL_SIZE = 32;
+    public static final String DATABASE_PROPERTIES = "property/database.properties";
 
     ConnectionPool() {
-        String propertyPath = PropertyPath.DATABASE_PROPERTIES;
         PropertyReader propertyReader = new PropertyReader();
         Properties properties;
         try {
-            properties = propertyReader.readProperty(propertyPath);
+            properties = propertyReader.readProperty(DATABASE_PROPERTIES);
         } catch (PropertyReaderException e) {
-            throw new RuntimeException(e);
+            logger.error("Error occurred while reading the property file",e);
+            throw new RuntimeException("Error occurred while reading the property file",e);
         }
-        String url = properties.getProperty(PropertyConstant.DATABASE_URL);
-        String driverName = properties.getProperty(PropertyConstant.DATABASE_DRIVER);
+        String url = properties.getProperty(PropertyName.DATABASE_URL);
+        String driverName = properties.getProperty(PropertyName.DATABASE_DRIVER);
         try {
             Class.forName(driverName);
         } catch (ClassNotFoundException e) {
+            logger.error("Unable to register DB driver",e);
             throw new RuntimeException("Unable to register DB driver!", e);
         }
         freeConnections = new LinkedBlockingDeque<>(DEFAULT_POOL_SIZE);
@@ -49,7 +48,7 @@ public enum ConnectionPool {
                 ProxyConnection proxyConnection = new ProxyConnection(connection);
                 freeConnections.add(proxyConnection);
             } catch (SQLException e) {
-                e.printStackTrace();
+                logger.error("Error occurred while creating connection",e);
             }
         }
     }
@@ -60,7 +59,7 @@ public enum ConnectionPool {
             connection = freeConnections.take();
             givenAwayConnections.offer(connection);
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            logger.error("Interrupted Exception occurred",e);
         }
         return connection;
     }
@@ -75,9 +74,9 @@ public enum ConnectionPool {
             try {
                 freeConnections.take().close();
             } catch (SQLException e) {
-                e.printStackTrace();
+                logger.error("Error occurred while destroying connection",e);
             } catch (InterruptedException e) {
-                e.printStackTrace();
+                logger.error("Interrupted Exception occurred",e);
             }
         }
         deregisterDrivers();

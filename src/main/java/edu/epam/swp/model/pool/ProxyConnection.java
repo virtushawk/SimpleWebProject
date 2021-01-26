@@ -1,11 +1,15 @@
 package edu.epam.swp.model.pool;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import java.sql.*;
 import java.util.Map;
 import java.util.Properties;
 import java.util.concurrent.Executor;
 
 public class ProxyConnection implements Connection {
+    private static final Logger logger = LogManager.getLogger(ProxyConnection.class);
     private Connection connection;
 
     ProxyConnection(Connection connection) {
@@ -61,7 +65,7 @@ public class ProxyConnection implements Connection {
         try {
             connection.close();
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.error("Error occurred while closing connection",e);
         }
     }
 

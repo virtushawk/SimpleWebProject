@@ -38,7 +38,9 @@
            <c:choose>
                <c:when test="${sessionScope.authorised}">
                    <li class="nav-item ">
-                       <a href="#" class="nav-link m-2 menu-item ">${sessionScope.username}</a>
+                       <a href="#" class="nav-link m-2 menu-item ">
+                           ${sessionScope.username}
+                       </a>
                    </li>
                    <li class="nav-item">
                        <a href="${pageContext.request.contextPath}/controller?command=logout" class="nav-link m-2 menu-item">

@@ -16,6 +16,6 @@ input:valid {
     border: 2px solid black;
 }
 #error {
-    margin:auto;
+    margin: auto;
     width: 200px;
 }

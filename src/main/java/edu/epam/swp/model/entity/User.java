@@ -3,9 +3,9 @@ package edu.epam.swp.model.entity;
 import java.util.UUID;
 
 public class User {
+    private String id = UUID.randomUUID().toString();
     private String email;
     private String username;
-    private String id = UUID.randomUUID().toString();
     private AccountRole role;
 
     public User(String email, String username,AccountRole role) {

@@ -2,8 +2,8 @@ package edu.epam.swp.controller.command.impl;
 
 import edu.epam.swp.controller.PagePath;
 import edu.epam.swp.controller.command.Command;
-import edu.epam.swp.model.constant.AttributeConstant;
-import edu.epam.swp.model.constant.ParameterConstant;
+import edu.epam.swp.controller.command.AttributeName;
+import edu.epam.swp.controller.ParameterName;
 import edu.epam.swp.model.entity.User;
 import edu.epam.swp.model.exception.ServiceException;
 import edu.epam.swp.model.service.UserService;
@@ -20,20 +20,22 @@ public class LoginCommand implements Command {
 
     @Override
     public String execute(HttpServletRequest request) {
-        String password = request.getParameter(ParameterConstant.PARAMETER_PASSWORD);
-        String username = request.getParameter(ParameterConstant.PARAMETER_USERNAME);
-        Optional<User> optional = Optional.empty();
+        String password = request.getParameter(ParameterName.PARAMETER_PASSWORD);
+        String username = request.getParameter(ParameterName.PARAMETER_USERNAME);
+        Optional<User> optional;
         try {
             optional = service.findUser(username,password);
         } catch (ServiceException e) {
             logger.error("Error occurred while finding user",e);
+            request.setAttribute(AttributeName.ATTRIBUTE_DATABASE_ERROR_MESSAGE, true);
+            return PagePath.LOGIN;
         }
         if (optional.isPresent()) {
-            request.getSession().setAttribute(AttributeConstant.ATTRIBUTE_AUTHORISED,true);
-            request.getSession().setAttribute(AttributeConstant.ATTRIBUTE_USERNAME,username);
+            request.getSession().setAttribute(AttributeName.ATTRIBUTE_AUTHORISED,true);
+            request.getSession().setAttribute(AttributeName.ATTRIBUTE_USERNAME,username);
             return PagePath.HOME;
         } else {
-            request.setAttribute(AttributeConstant.ATTRIBUTE_ERROR_MESSAGE, true);
+            request.setAttribute(AttributeName.ATTRIBUTE_LOGIN_ERROR_MESSAGE, true);
             return PagePath.LOGIN;
         }
     }
