@@ -23,6 +23,8 @@ public enum ConnectionPool {
     private static final int DEFAULT_POOL_SIZE = 32;
     public static final String DATABASE_PROPERTIES = "property/database.properties";
 
+    // todo : Create ConnectionCreator?
+    // todo : Исправить connection pool
     ConnectionPool() {
         PropertyReader propertyReader = new PropertyReader();
         Properties properties;
@@ -87,7 +89,7 @@ public enum ConnectionPool {
             try {
                 DriverManager.deregisterDriver(driver);
             } catch (SQLException e) {
-                logger.error("Error occurred while deregisterDrivers ",e);
+                logger.error("Error occurred while deregister drivers ",e);
             }
         });
     }

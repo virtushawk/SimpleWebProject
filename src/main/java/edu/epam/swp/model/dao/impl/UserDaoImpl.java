@@ -42,8 +42,8 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public Optional<User> findUserByUsernamePassword(String username, String password) throws DaoException {
-        try(Connection connection = pool.getConnection()) {
-            PreparedStatement statement = connection.prepareStatement(SELECT_ACCOUNT_BY_USERNAME_PASSWORD);
+        try(Connection connection = pool.getConnection();
+            PreparedStatement statement = connection.prepareStatement(SELECT_ACCOUNT_BY_USERNAME_PASSWORD)) {
             statement.setString(1,username);
             statement.setString(2,password);
             ResultSet resultSet = statement.executeQuery();
@@ -67,8 +67,8 @@ public class UserDaoImpl implements UserDao {
     @Override
     public boolean create(User user,String password) throws DaoException {
         boolean flag;
-        try(Connection connection = pool.getConnection()) {
-            PreparedStatement statement = connection.prepareStatement(INSERT_ACCOUNT);
+        try(Connection connection = pool.getConnection();
+            PreparedStatement statement = connection.prepareStatement(INSERT_ACCOUNT)) {
             statement.setString(1,user.getId());
             statement.setString(2,user.getEmail());
             statement.setString(3,user.getUsername());

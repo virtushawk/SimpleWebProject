@@ -1,6 +1,5 @@
 package edu.epam.swp.model.service.impl;
 
-import com.mysql.cj.protocol.PacketSentTimeHolder;
 import edu.epam.swp.model.dao.UserDao;
 import edu.epam.swp.model.dao.impl.UserDaoImpl;
 import edu.epam.swp.model.entity.AccountRole;

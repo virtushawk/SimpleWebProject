@@ -28,7 +28,7 @@ public class MainServlet extends HttpServlet {
     }
 
     private void proceedRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String commandType = request.getParameter(ParameterName.PARAMETER_COMMAND);
+        String commandType = request.getParameter(ParameterName.COMMAND);
         Command command = CommandType.valueOf(commandType.toUpperCase()).getCommand();
         String page = command.execute(request);
         RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(page);
@@ -37,6 +37,7 @@ public class MainServlet extends HttpServlet {
 
     @Override
     public void destroy() {
+        super.destroy();
         pool.destroyPool();
     }
 }

@@ -20,22 +20,22 @@ public class LoginCommand implements Command {
 
     @Override
     public String execute(HttpServletRequest request) {
-        String password = request.getParameter(ParameterName.PARAMETER_PASSWORD);
-        String username = request.getParameter(ParameterName.PARAMETER_USERNAME);
+        String password = request.getParameter(ParameterName.PASSWORD);
+        String username = request.getParameter(ParameterName.USERNAME);
         Optional<User> optional;
         try {
             optional = service.findUser(username,password);
         } catch (ServiceException e) {
             logger.error("Error occurred while finding user",e);
-            request.setAttribute(AttributeName.ATTRIBUTE_DATABASE_ERROR_MESSAGE, true);
+            request.setAttribute(AttributeName.DATABASE_ERROR_MESSAGE, true);
             return PagePath.LOGIN;
         }
         if (optional.isPresent()) {
-            request.getSession().setAttribute(AttributeName.ATTRIBUTE_AUTHORISED,true);
-            request.getSession().setAttribute(AttributeName.ATTRIBUTE_USERNAME,username);
-            return PagePath.HOME;
+            request.getSession().setAttribute(AttributeName.AUTHORISED,true);
+            request.getSession().setAttribute(AttributeName.USERNAME,username);
+            return PagePath.SERVLET_HOME;
         } else {
-            request.setAttribute(AttributeName.ATTRIBUTE_LOGIN_ERROR_MESSAGE, true);
+            request.setAttribute(AttributeName.LOGIN_ERROR_MESSAGE, true);
             return PagePath.LOGIN;
         }
     }

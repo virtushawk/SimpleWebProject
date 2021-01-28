@@ -22,15 +22,15 @@
     </div>
     <div class="collapse navbar-collapse flex-grow-1 text-right" id="login">
         <ul class="navbar-nav ms-auto flex-nowrap">
-            <li class="nav-item dropdown" id="language">
-                <button class="btn btn-light btn-sm dropdown-toggle " type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+            <li class="nav-item dropdown dropstart" id="language">
+                <button class="btn btn-light btn-sm dropdown-toggle  " type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
                     <fmt:message key="header.language"/>
                 </button>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <a class="dropdown-item" href="${pageContext.request.requestURL}?sessionLocale=en_US">
+                <div class="dropdown-menu " aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" href="${requestScope['javax.servlet.forward.request_url']}?sessionLocale=en_US&command=${param.command}">
                         <fmt:message key="header.language.en"/>
                     </a>
-                    <a class="dropdown-item" href="${pageContext.request.requestURL}?sessionLocale=ru_RU">
+                    <a class="dropdown-item" href="${requestScope['javax.servlet.forward.request_url']}?sessionLocale=ru_RU&command=${param.command}">
                         <fmt:message key="header.language.ru"/>
                     </a>
                 </div>

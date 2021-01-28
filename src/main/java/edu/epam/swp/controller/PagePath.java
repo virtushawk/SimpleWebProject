@@ -9,4 +9,5 @@ public class PagePath {
     public static final String ERROR = "/pages/error_404.jsp";
     public static final String IMAGE = "/pages/image.jsp";
     public static final String REGISTER = "/pages/register.jsp";
+    public static final String SERVLET_HOME = "/controller?command=home";
 }

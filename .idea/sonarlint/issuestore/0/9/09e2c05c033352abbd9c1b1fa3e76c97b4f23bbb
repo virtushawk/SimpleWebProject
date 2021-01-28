@@ -2,6 +2,6 @@
 
 java:S1186"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(ωο•8ΰΨΰπ.
 
-java:S1989"hHandle the following exceptions that could be thrown by "proceedRequest": ServletException, IOException.(ΙΕγήωÿÿÿÿ8΅Άΰ§ς.
-
 java:S1989"hHandle the following exceptions that could be thrown by "proceedRequest": ServletException, IOException.(ΙΕγήωÿÿÿÿ8παΰ§ς.
+
+java:S1989"hHandle the following exceptions that could be thrown by "proceedRequest": ServletException, IOException.(ΙΕγήωÿÿÿÿ8΅Άΰ§ς.
