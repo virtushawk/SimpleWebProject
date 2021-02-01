@@ -1,29 +1,27 @@
 package edu.epam.swp.model.entity;
 
-import java.util.UUID;
+import java.sql.Date;
 
 public class Creature {
 
-    private String id = UUID.randomUUID().toString();
+    private long id;
     private String name;
     private String picture;
     private String description;
-    private int rating;
-    private long lastUpdated;
+    private Date lastUpdated;
 
-    public Creature(String name, String picture, String description, int rating, long lastUpdated) {
+    public Creature(String name, String picture, String description, Date lastUpdated) {
         this.name = name;
         this.picture = picture;
         this.description = description;
-        this.rating = rating;
         this.lastUpdated = lastUpdated;
     }
 
-    public String getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -51,19 +49,11 @@ public class Creature {
         this.description = description;
     }
 
-    public int getRating() {
-        return rating;
-    }
-
-    public void setRating(int rating) {
-        this.rating = rating;
-    }
-
-    public long getLastUpdated() {
+    public Date getLastUpdated() {
         return lastUpdated;
     }
 
-    public void setLastUpdated(long lastUpdated) {
+    public void setLastUpdated(Date lastUpdated) {
         this.lastUpdated = lastUpdated;
     }
 
@@ -72,18 +62,18 @@ public class Creature {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Creature creature = (Creature) o;
-        return rating == creature.rating && lastUpdated == creature.lastUpdated && id.equals(creature.id)
+        return  lastUpdated.equals(creature.lastUpdated) && id == creature.id
                 && name.equals(creature.name) && picture.equals(creature.picture)
                 && description.equals(creature.description);
     }
 
     @Override
     public int hashCode() {
-        int hashcode = name.hashCode();
+        int hashcode = (int) id;
+        hashcode = hashcode * 31 + name.hashCode();
         hashcode = hashcode * 31 + picture.hashCode();
         hashcode = hashcode * 31 + description.hashCode();
-        hashcode = hashcode * 31 + rating;
-        hashcode = hashcode * 31 + (int) lastUpdated;
+        hashcode = hashcode * 31 + lastUpdated.hashCode();
         return hashcode;
     }
 }

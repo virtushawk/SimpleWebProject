@@ -14,8 +14,8 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="${pageContext.request.contextPath}/controller?command=image">
-                    png/gif
+                <a class="nav-link" href="${pageContext.request.contextPath}/controller?command=catalog">
+                    Catalog
                 </a>
             </li>
         </ul>
@@ -27,10 +27,10 @@
                     <fmt:message key="header.language"/>
                 </button>
                 <div class="dropdown-menu " aria-labelledby="navbarDropdown">
-                    <a class="dropdown-item" href="${requestScope['javax.servlet.forward.request_url']}?sessionLocale=en_US&command=${param.command}">
+                    <a class="dropdown-item" href="${requestScope['javax.servlet.forward.request_url']}?sessionLocale=en_US&command=${param.command}&id=${param.id}">
                         <fmt:message key="header.language.en"/>
                     </a>
-                    <a class="dropdown-item" href="${requestScope['javax.servlet.forward.request_url']}?sessionLocale=ru_RU&command=${param.command}">
+                    <a class="dropdown-item" href="${requestScope['javax.servlet.forward.request_url']}?sessionLocale=ru_RU&command=${param.command}&id=${param.id}">
                         <fmt:message key="header.language.ru"/>
                     </a>
                 </div>

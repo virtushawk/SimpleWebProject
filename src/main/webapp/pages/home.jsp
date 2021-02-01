@@ -16,7 +16,7 @@
 </head>
 <body>
 <jsp:include page="/pages/module/header.jsp"/>
-<c:if test="${requestScope.confirmedMessage}">
+<c:if test="${sessionScope.confirmedMessage}">
     <div class="alert alert-success col-md-3 text-center mx-auto" role="alert">
         <h4 class="alert-heading">
             <fmt:message key="home.successMessage.label"/>
@@ -29,31 +29,36 @@
             <fmt:message key="home.successMessage.next"/>
         </p>
     </div>
+    <c:remove var="confirmedMessage" scope="session"/>
 </c:if>
-<p class="fs-1 text-center"> <fmt:message key="home.label.new"/> </p>
-<div class="row row-cols-1 row-cols-md-3 g-4 mx-auto shadow p-3 mb-5 bg-white rounded" style="width: 50rem">
+<p class="fs-1 text-center">
+    <fmt:message key="home.label.new"/>
+</p>
+<div class="row row-cols-1 row-cols-md-3 g-4 mx-auto shadow p-3 mb-5 bg-white rounded" style="width: 60rem">
     <c:forEach var="creature" items="${requestScope.creatureList}">
         <div class="col">
             <div class="card h-100 border-0">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/4/47/PNG_transparency_demonstration_1.png" class="card-img-top" alt="...">
+                <img src="${pageContext.request.contextPath}/uploadController?url=${creature.picture}" class="card-img-top" alt="..." style=" width: 100%;object-fit: cover;height: 15vw">
                 <div class="card-body">
-                    <a href="#" class="text-decoration-none stretched-link">
+                    <a href="${pageContext.request.contextPath}/controller?command=creature&id=${creature.id}" class="text-decoration-none stretched-link">
                         ${creature.name}
                     </a>
-                    <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                    <p class="card-text text-truncate">
+                            ${creature.description}
+                    </p>
                 </div>
                 <div class="card-footer border-0">
                     <small class="text-muted">
-                        <fmt:message key="home.creature.lastUpdated"/> ${creature.lastUpdated}
+                        <fmt:message key="home.creature.lastUpdated"/> ${creature.lastUpdated.toString()}
                     </small>
                 </div>
             </div>
         </div>
     </c:forEach>
 </div>
-<h1>
+<p class="fs-1 text-center">
     <fmt:message key="home.label.mostPopular"/>
-</h1>
+</p>
 <div class="card-group mx-auto" style="width: 50rem">
     <div class="card">
         <img src="https://upload.wikimedia.org/wikipedia/commons/4/47/PNG_transparency_demonstration_1.png" class="card-img-top" alt="...">

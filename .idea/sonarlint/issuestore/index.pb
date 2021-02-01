@@ -91,3 +91,13 @@ M
 src/main/webapp/css/error.css,e\1\e1c46cbf3d1a44922068c29ea9fa352fbaf24394
 g
 7src/main/java/edu/epam/swp/model/util/PasswordHash.java,a\4\a4635ac1e7fb610bd19a0c396c129637b8a04260
+e
+5src/main/java/edu/epam/swp/model/entity/Creature.java,8\3\83dc8e8fae946ddbf781826091894d732fac1f20
+e
+5src/main/java/edu/epam/swp/model/dao/CreatureDao.java,3\f\3f1262bb1f00f2dcd823b659936caac2d484efe9
+n
+>src/main/java/edu/epam/swp/model/dao/impl/CreatureDaoImpl.java,9\f\9f088bbb61be50f1cc8a1202c8adc9022b8d9598
+m
+=src/main/java/edu/epam/swp/model/service/CreatureService.java,8\e\8e68b9dcaa965806275bf6e824c33b0db05c550b
+v
+Fsrc/main/java/edu/epam/swp/model/service/impl/CreatureServiceImpl.java,b\b\bb32990ab6ad266a261c43e8aaa4254b5471df35

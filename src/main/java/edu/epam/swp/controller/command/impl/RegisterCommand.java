@@ -26,14 +26,14 @@ public class RegisterCommand implements Command {
             flag = service.registerUser(email,username,password);
         } catch (ServiceException e) {
             logger.error("Error occurred while creating account!",e);
-            request.setAttribute(AttributeName.DATABASE_ERROR_MESSAGE, true);
+            request.getSession().setAttribute(AttributeName.DATABASE_ERROR_MESSAGE, true);
             return PagePath.REGISTER;
         }
         if (flag) {
-            request.setAttribute(AttributeName.REGISTRATION_MESSAGE_CONFIRMED, true);
+            request.getSession().setAttribute(AttributeName.REGISTRATION_MESSAGE_CONFIRMED, true);
             return PagePath.SERVLET_HOME;
         } else {
-            request.setAttribute(AttributeName.REGISTRATION_MESSAGE_ERROR, true);
+            request.getSession().setAttribute(AttributeName.REGISTRATION_MESSAGE_ERROR, true);
             return PagePath.REGISTER;
         }
     }

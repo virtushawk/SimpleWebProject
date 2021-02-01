@@ -10,4 +10,8 @@ public class PagePath {
     public static final String IMAGE = "/pages/image.jsp";
     public static final String REGISTER = "/pages/register.jsp";
     public static final String SERVLET_HOME = "/controller?command=home";
+    public static final String CATALOG = "/pages/catalog.jsp";
+    public static final String CREATE_CREATURE = "/pages/createCreature.jsp";
+    public static final String SERVLET_CATALOG = "/controller?command=catalog";
+    public static final String CREATURE = "/pages/creature.jsp";
 }

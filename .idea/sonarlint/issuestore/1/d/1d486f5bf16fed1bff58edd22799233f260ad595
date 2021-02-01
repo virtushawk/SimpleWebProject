@@ -1,7 +1,3 @@
 
-q
-java:S2095."OUse try-with-resources or close this "PreparedStatement" in a "finally" clause.(£š€Ûÿÿÿÿÿ8™­„´ó.
 {
 java:S1488?"^Immediately return this expression instead of assigning it to the temporary variable "result".(á¯ÙÆ8þŸã†ð.
-l
-java:S2095G"OUse try-with-resources or close this "PreparedStatement" in a "finally" clause.(³þæÐ8†Õ„´ó.

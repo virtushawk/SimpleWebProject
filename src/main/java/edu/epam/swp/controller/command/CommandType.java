@@ -7,7 +7,10 @@ public enum CommandType {
     REGISTER(new RegisterCommand()),
     LOGIN(new LoginCommand()),
     LOGOUT(new LogoutCommand()),
-    IMAGE(new ImageCommand());
+    IMAGE(new ImageCommand()),
+    CATALOG(new CatalogCommand()),
+    CREATE_CREATURE(new CreateCreatureCommand()),
+    CREATURE(new CreatureCommand());
 
     private final Command command;
 

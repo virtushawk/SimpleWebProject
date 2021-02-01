@@ -19,20 +19,22 @@ public class MainServlet extends HttpServlet {
 
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-        proceedRequest(request,response);
+        String page = proceedRequest(request);
+        RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(page);
+        dispatcher.forward(request,response);
     }
 
     @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-        proceedRequest(request,response);
+        String page = proceedRequest(request);
+        response.sendRedirect(request.getContextPath() + page);
     }
 
-    private void proceedRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    private String proceedRequest(HttpServletRequest request) {
         String commandType = request.getParameter(ParameterName.COMMAND);
         Command command = CommandType.valueOf(commandType.toUpperCase()).getCommand();
         String page = command.execute(request);
-        RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(page);
-        dispatcher.forward(request,response);
+        return page;
     }
 
     @Override

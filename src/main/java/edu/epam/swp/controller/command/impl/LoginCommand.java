@@ -27,7 +27,7 @@ public class LoginCommand implements Command {
             optional = service.findUser(username,password);
         } catch (ServiceException e) {
             logger.error("Error occurred while finding user",e);
-            request.setAttribute(AttributeName.DATABASE_ERROR_MESSAGE, true);
+            request.getSession().setAttribute(AttributeName.DATABASE_ERROR_MESSAGE, true);
             return PagePath.LOGIN;
         }
         if (optional.isPresent()) {
@@ -35,7 +35,7 @@ public class LoginCommand implements Command {
             request.getSession().setAttribute(AttributeName.USERNAME,username);
             return PagePath.SERVLET_HOME;
         } else {
-            request.setAttribute(AttributeName.LOGIN_ERROR_MESSAGE, true);
+            request.getSession().setAttribute(AttributeName.LOGIN_ERROR_MESSAGE, true);
             return PagePath.LOGIN;
         }
     }

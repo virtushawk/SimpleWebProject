@@ -8,6 +8,7 @@ import edu.epam.swp.model.exception.DaoException;
 import edu.epam.swp.model.exception.ServiceException;
 import edu.epam.swp.model.service.UserService;
 import edu.epam.swp.model.util.PasswordHash;
+import edu.epam.swp.model.util.mail.MailUtility;
 import edu.epam.swp.model.validation.UserValidator;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -37,6 +38,7 @@ public class UserServiceImpl implements UserService {
         String encryptedPassword = PasswordHash.createHash(password);
         try {
             flag = dao.create(user,encryptedPassword);
+            MailUtility.sendConfirmMessage(user.getEmail());
         } catch (DaoException e) {
             logger.error("Error occurred while creating account.Exception : {}, email : {},username : {}," +
                             "password : {}",e,email,username,password);

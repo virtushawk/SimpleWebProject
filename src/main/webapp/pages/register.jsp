@@ -49,15 +49,17 @@
             <fmt:message key="register.register"/>
         </button>
     </form>
-    <c:if test="${requestScope.errorMessage}">
+    <c:if test="${sessionScope.errorMessage}">
         <div id="error" class="p-3 mb-2 bg-danger text-white">
             <fmt:message key="register.errorMessage"/>
         </div>
+        <c:remove var="errorMessage" scope="session"/>
     </c:if>
-    <c:if test="${requestScope.errorMessageDB}">
+    <c:if test="${sessionScope.errorMessageDB}">
         <div id="error" class="p-3 mb-2 bg-danger text-white">
             <fmt:message key="login.errorMessageDB"/>
         </div>
+        <c:remove var="errorMessageDB" scope="session"/>
     </c:if>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>

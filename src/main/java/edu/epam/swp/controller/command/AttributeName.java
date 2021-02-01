@@ -11,4 +11,5 @@ public class AttributeName {
     public static final String REGISTRATION_MESSAGE_CONFIRMED = "confirmedMessage";
     public static final String REGISTRATION_MESSAGE_ERROR = "errorMessage";
     public static final String HOME_CREATURE_LIST = "creatureList";
+    public static final String CREATURE = "creature";
 }
