@@ -32,7 +32,7 @@ public class LoginCommand implements Command {
         }
         if (optional.isPresent()) {
             request.getSession().setAttribute(AttributeName.AUTHORISED,true);
-            request.getSession().setAttribute(AttributeName.USERNAME,username);
+            request.getSession().setAttribute(AttributeName.USER,optional.get());
             return PagePath.SERVLET_HOME;
         } else {
             request.getSession().setAttribute(AttributeName.LOGIN_ERROR_MESSAGE, true);

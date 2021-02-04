@@ -2,11 +2,13 @@ package edu.epam.swp.controller.command.impl;
 
 import edu.epam.swp.controller.PagePath;
 import edu.epam.swp.controller.ParameterName;
+import edu.epam.swp.controller.command.AttributeName;
 import edu.epam.swp.controller.command.Command;
 import edu.epam.swp.model.entity.Creature;
 import edu.epam.swp.model.service.CreatureService;
 import edu.epam.swp.model.service.impl.CreatureServiceImpl;
 import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.logging.log4j.LogManager;
@@ -23,6 +25,7 @@ import java.util.UUID;
 public class CreateCreatureCommand implements Command {
     private static final Logger logger = LogManager.getLogger(CreateCreatureCommand.class);
     private static final String EXTENSION_SEPARATOR = ".";
+    private static final String SLASH = "/";
     private static final int FILE_SIZE_THRESHOLD = 1024 * 1024;
     private static final int MAX_REQUEST_SIZE = 1024 * 1024 * 5 * 5;
     private static final String UPLOAD_PATH = "C:/storage";
@@ -33,49 +36,25 @@ public class CreateCreatureCommand implements Command {
     @Override
     public String execute(HttpServletRequest request) {
         boolean flag;
-        DiskFileItemFactory factory = new DiskFileItemFactory();
-        factory.setSizeThreshold(FILE_SIZE_THRESHOLD);
-        ServletContext servletContext = request.getServletContext();
-        File repository = (File) servletContext.getAttribute(TEMP_DIR);
-        factory.setRepository(repository);
-        ServletFileUpload upload = new ServletFileUpload(factory);
-        upload.setSizeMax(MAX_REQUEST_SIZE);
         try {
-            List<FileItem> fileItem = upload.parseRequest(request);
-            Iterator<FileItem> iter = fileItem.iterator();
-            String picture = null;
-            String name = null;
-            String description = null;
-            while (iter.hasNext()) {
-                FileItem item = iter.next();
-                if (item.isFormField()) {
-                    if (item.getFieldName().equals(ParameterName.NAME)) {
-                        name = item.getString();
-                    } else {
-                        description = item.getString();
-                    }
-                } else {
-                    picture = saveImage(item,request);
-                }
-            }
-            long currentTime = System.currentTimeMillis();
-            Date lastUpdated = new Date(currentTime);
-            logger.info("username {},descrption {},picture {}",name,description,picture);
-            Creature creature = new Creature(name,picture,description,lastUpdated);
+            List<FileItem> fileItems = parseRequest(request);
+            Creature creature = handleFileItems(fileItems);
             flag = service.createCreature(creature);
-        } catch (Exception e) {
-            logger.error(e);
+        }
+        catch (Exception e) {
+            logger.error("Error occurred while creating the creature",e);
+            request.getSession().setAttribute(AttributeName.GENERAL_ERROR_MESSAGE,true);
+            return PagePath.CREATE_CREATURE;
         }
         return PagePath.SERVLET_CATALOG;
     }
 
-    private String saveImage(FileItem fileItem,HttpServletRequest request) throws Exception {
+    private String saveImage(FileItem fileItem) throws Exception {
         String itemName = fileItem.getName();
         String uploadName = generateName(itemName);
-        String appName = UPLOAD_PATH + '/' +uploadName;
+        String appName = UPLOAD_PATH + SLASH + uploadName;
         File uploadedFile = new File(appName);
         fileItem.write(uploadedFile);
-        logger.info("{} FILE WAS UPLOADED",itemName);
         return appName;
     }
 
@@ -85,5 +64,40 @@ public class CreateCreatureCommand implements Command {
         int index = uploadName.lastIndexOf(EXTENSION_SEPARATOR);
         String extension = uploadName.substring(index);
         return name + extension;
+    }
+
+    private List<FileItem> parseRequest(HttpServletRequest request) throws FileUploadException {
+        DiskFileItemFactory factory = new DiskFileItemFactory();
+        factory.setSizeThreshold(FILE_SIZE_THRESHOLD);
+        ServletContext servletContext = request.getServletContext();
+        File repository = (File) servletContext.getAttribute(TEMP_DIR);
+        factory.setRepository(repository);
+        ServletFileUpload upload = new ServletFileUpload(factory);
+        upload.setSizeMax(MAX_REQUEST_SIZE);
+        List<FileItem> fileItems = upload.parseRequest(request);
+        return fileItems;
+    }
+
+    private Creature handleFileItems(List<FileItem> fileItems) throws Exception {
+        Iterator<FileItem> iterator = fileItems.iterator();
+        String picture = null;
+        String name = null;
+        String description = null;
+        while (iterator.hasNext()) {
+            FileItem item = iterator.next();
+            if (item.isFormField()) {
+                if (item.getFieldName().equals(ParameterName.NAME)) {
+                    name = item.getString();
+                } else {
+                    description = item.getString();
+                }
+            } else {
+                picture = saveImage(item);
+            }
+        }
+        long currentTime = System.currentTimeMillis();
+        Date lastUpdated = new Date(currentTime);
+        Creature creature = new Creature(name,picture,description,lastUpdated);
+        return creature;
     }
 }

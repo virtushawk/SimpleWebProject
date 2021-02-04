@@ -3,12 +3,9 @@ package edu.epam.swp.model.service.impl;
 import edu.epam.swp.model.dao.CreatureDao;
 import edu.epam.swp.model.dao.impl.CreatureDaoImpl;
 import edu.epam.swp.model.entity.Creature;
-import edu.epam.swp.model.entity.User;
 import edu.epam.swp.model.exception.DaoException;
 import edu.epam.swp.model.exception.ServiceException;
 import edu.epam.swp.model.service.CreatureService;
-import edu.epam.swp.model.util.PasswordHash;
-import edu.epam.swp.model.validation.UserValidator;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -42,8 +39,8 @@ public class CreatureServiceImpl implements CreatureService {
     public boolean createCreature(Creature creature) throws ServiceException {
         boolean flag;
         try {
-            flag = dao.createCreature(creature);
-        } catch (Exception e) {
+            flag = dao.create(creature);
+        } catch (DaoException e) {
             logger.error("Error occurred while creating creature.",e);
             throw new ServiceException("Error occurred while creating creature",e);
         }
@@ -56,7 +53,7 @@ public class CreatureServiceImpl implements CreatureService {
         try {
             creature = dao.get(id);
         } catch (DaoException e) {
-            logger.error("An error occurred when requesting a database");
+            logger.error("An error occurred when requesting a database",e);
             throw new ServiceException("An error occurred when requesting a database",e);
         }
         return creature;

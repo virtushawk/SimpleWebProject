@@ -12,4 +12,7 @@ public class ParameterName {
     public static final String DESCRIPTION = "description";
     public static final String CREATURE = "creature";
     public static final String ID = "id";
+    public static final String REVIEW = "review";
+    public static final String RATING = "rating";
+    public static final String IMAGE = "image";
 }

@@ -20,7 +20,7 @@ public class UserDaoImpl implements UserDao {
     public static final String INSERT_ACCOUNT = "INSERT INTO accounts(account_id,email,username,password,role_id) " +
             "VALUES(?,?,?,?,?)";
     public static final String SELECT_ACCOUNT_BY_USERNAME_PASSWORD =
-            "SELECT accounts.account_id,accounts.email,accounts.username,roles.role " +
+            "SELECT accounts.account_id,accounts.email,accounts.username,roles.role,accounts.avatar " +
                     "FROM accounts INNER JOIN roles ON accounts.role_id = roles.role_id " +
                     "WHERE accounts.username =? AND accounts.password =?";
 
@@ -36,8 +36,13 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public User get(String id) throws DaoException {
+    public Optional<User> get(long id) throws DaoException {
         throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public boolean create(User user) throws DaoException {
+        return false;
     }
 
     @Override
@@ -48,11 +53,12 @@ public class UserDaoImpl implements UserDao {
             statement.setString(2,password);
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
-                String id = resultSet.getString(1);
+                long id = resultSet.getLong(1);
                 String userEmail = resultSet.getString(2);
                 String userName = resultSet.getString(3);
                 AccountRole role = AccountRole.valueOf(resultSet.getString(4));
-                User user = new User(userEmail,userName,role);
+                String avatar = resultSet.getString(5);
+                User user = new User(userEmail,userName,role,avatar);
                 user.setId(id);
                 return Optional.of(user);
             }
@@ -69,7 +75,7 @@ public class UserDaoImpl implements UserDao {
         boolean flag;
         try(Connection connection = pool.getConnection();
             PreparedStatement statement = connection.prepareStatement(INSERT_ACCOUNT)) {
-            statement.setString(1,user.getId());
+            statement.setLong(1,user.getId());
             statement.setString(2,user.getEmail());
             statement.setString(3,user.getUsername());
             statement.setString(4,password);

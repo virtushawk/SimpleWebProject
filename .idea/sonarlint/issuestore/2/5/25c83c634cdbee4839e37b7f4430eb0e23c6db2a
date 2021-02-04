@@ -1,12 +1,12 @@
 
+V	java:S899G":Do something with the "boolean" value returned by "offer".(Á‘8Û‘ü‚ğ.
+c
+java:S2142?"FEither re-interrupt this method or rethrow the "InterruptedException".(ä ¹€8Û‘ü‚ğ.
 g	java:S112+"FDefine and throw a dedicated exception instead of using a generic one.(±‡Æ‘úÿÿÿÿ8†‰“„ğ.
+T
+java:S1135"2Complete the task associated to this TODO comment.(êõÍºùÿÿÿÿ8©†¶Ãô.
+g	java:S112#"FDefine and throw a dedicated exception instead of using a generic one.(â¡Æûÿÿÿÿ8Û‘ü‚ğ.
 T
 java:S1135"2Complete the task associated to this TODO comment.(•‚ÔÖüÿÿÿÿ8³ÿ´Äô.
 c
-java:S2142?"FEither re-interrupt this method or rethrow the "InterruptedException".(ä ¹€8Û‘ü‚ğ.
-g	java:S112#"FDefine and throw a dedicated exception instead of using a generic one.(â¡Æûÿÿÿÿ8Û‘ü‚ğ.
-V	java:S899G":Do something with the "boolean" value returned by "offer".(Á‘8Û‘ü‚ğ.
-c
 java:S2142P"FEither re-interrupt this method or rethrow the "InterruptedException".(ä ¹€8Û‘ü‚ğ.
-T
-java:S1135"2Complete the task associated to this TODO comment.(êõÍºùÿÿÿÿ8©†¶Ãô.

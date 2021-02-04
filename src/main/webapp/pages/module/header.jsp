@@ -15,7 +15,7 @@
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="${pageContext.request.contextPath}/controller?command=catalog">
-                    Catalog
+                    <fmt:message key="header.catalog"/>
                 </a>
             </li>
         </ul>
@@ -39,7 +39,7 @@
                <c:when test="${sessionScope.authorised}">
                    <li class="nav-item ">
                        <a href="#" class="nav-link m-2 menu-item ">
-                           ${sessionScope.username}
+                           ${sessionScope.user.username}
                        </a>
                    </li>
                    <li class="nav-item">

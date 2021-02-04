@@ -10,14 +10,14 @@
 <head>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
     <title>
-        ?
+        <fmt:message key="catalog.title"/>
     </title>
 </head>
 <body>
 <jsp:include page="/pages/module/header.jsp"/>
 <c:if test="${sessionScope.authorised}">
     <a class="btn btn-outline-primary mt-4 ms-3" href="${pageContext.request.contextPath}/pages/createCreature.jsp" role="button">
-        add creature
+        <fmt:message key="catalog.button.create"/>
     </a>
 </c:if>
 <div class="row row-cols-1 row-cols-md-5 g-4 mx-auto shadow p-3 mb-5 bg-white rounded mt-0" style="width: 75rem;">

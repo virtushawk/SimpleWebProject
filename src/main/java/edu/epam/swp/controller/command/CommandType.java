@@ -10,7 +10,8 @@ public enum CommandType {
     IMAGE(new ImageCommand()),
     CATALOG(new CatalogCommand()),
     CREATE_CREATURE(new CreateCreatureCommand()),
-    CREATURE(new CreatureCommand());
+    CREATURE(new CreatureCommand()),
+    CREATE_REVIEW(new CreateReviewCommand());
 
     private final Command command;
 

@@ -2,7 +2,6 @@ package edu.epam.swp.model.dao.impl;
 
 import edu.epam.swp.model.dao.CreatureDao;
 import edu.epam.swp.model.entity.Creature;
-import edu.epam.swp.model.entity.User;
 import edu.epam.swp.model.exception.DaoException;
 import edu.epam.swp.model.pool.ConnectionPool;
 import org.apache.logging.log4j.LogManager;
@@ -15,7 +14,7 @@ import java.util.Optional;
 
 public class CreatureDaoImpl implements CreatureDao {
     private static final Logger logger = LogManager.getLogger(CreatureDaoImpl.class);
-    private static final CreatureDaoImpl instance = new CreatureDaoImpl();
+    private static final CreatureDao instance = new CreatureDaoImpl();
     private static final ConnectionPool pool = ConnectionPool.INSTANCE;
     private static final String SELECT_CREATURE_BY_LAST_UPDATED_LIMIT = "SELECT creatures.creature_id,creatures.name," +
             "creatures.picture,creatures.description,creatures.last_updated FROM creatures " +
@@ -27,17 +26,12 @@ public class CreatureDaoImpl implements CreatureDao {
 
     private CreatureDaoImpl() {}
 
-    public static CreatureDaoImpl getInstance() {
+    public static CreatureDao getInstance() {
         return instance;
     }
 
     @Override
-    public List<CreatureDao> findAll() throws DaoException {
-        return null;
-    }
-
-    @Override
-    public CreatureDao get(String id) throws DaoException {
+    public List<Creature> findAll() throws DaoException {
         return null;
     }
 
@@ -67,24 +61,27 @@ public class CreatureDaoImpl implements CreatureDao {
     }
 
     @Override
-    public boolean createCreature(Creature creature) throws DaoException {
+    public boolean create(Creature creature) throws DaoException {
         boolean flag;
         try(Connection connection = pool.getConnection();
             PreparedStatement statement = connection.prepareStatement(INSERT_CREATURE)) {
             statement.setString(1,creature.getName());
             statement.setString(2,creature.getPicture());
             statement.setString(3,creature.getDescription());
-            statement.setLong(4,creature.getLastUpdated().getTime());
+            Date date = creature.getLastUpdated();
+            long lastUpdated = date.getTime();
+            statement.setLong(4,lastUpdated);
             flag = statement.executeUpdate() > 0;
         } catch (SQLException e) {
-                logger.error("Error occurred while creating creature. Exception :  {}. Creature : {}",e,creature);
-                throw new DaoException("Error occurred while creating creature",e);
+            logger.error("Error occurred while creating creatureCreature : {}",creature,e);
+            throw new DaoException("Error occurred while creating creature",e);
         }
         return flag;
     }
 
     @Override
     public Optional<Creature> get(long id) throws DaoException {
+        Optional<Creature> result = Optional.empty();
         try(Connection connection = pool.getConnection();
             PreparedStatement statement = connection.prepareStatement(SELECT_CREATURE_BY_ID)) {
             statement.setLong(1,id);
@@ -97,13 +94,12 @@ public class CreatureDaoImpl implements CreatureDao {
                 Date date = new Date(lastUpdated);
                 Creature creature = new Creature(name,picture,description,date);
                 creature.setId(id);
-                return Optional.of(creature);
+                result = Optional.of(creature);
             }
         } catch (SQLException e) {
             logger.error("An error occurred when requesting a database",e);
             throw new DaoException("An error occurred when requesting a database",e);
         }
-        Optional<Creature> result = Optional.empty();
         return result;
     }
 }
