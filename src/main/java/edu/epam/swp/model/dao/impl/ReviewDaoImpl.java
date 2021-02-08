@@ -7,9 +7,8 @@ import edu.epam.swp.model.pool.ConnectionPool;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import java.sql.*;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -19,6 +18,12 @@ public class ReviewDaoImpl implements ReviewDao {
     private static final ConnectionPool pool = ConnectionPool.INSTANCE;
     private static final String INSERT_REVIEW = "INSERT INTO reviews(account_id,creature_id,review,time,rating) " +
             "VALUES(?,?,?,?,?)";
+    private static final String SELECT_REVIEW_BY_CREATURE_ID = "SELECT reviews.review_id,reviews.account_id," +
+            "reviews.review,reviews.time,reviews.rating,accounts.avatar,accounts.username FROM reviews INNER JOIN accounts " +
+            "ON reviews.account_id = accounts.account_id WHERE reviews.creature_id = ?";
+    private static final String SELECT_REVIEW_BY_USER_ID = "SELECT reviews.review_id,reviews.account_id," +
+            "reviews.review,reviews.time,reviews.rating,accounts.avatar,accounts.username FROM reviews INNER JOIN accounts " +
+            "ON reviews.account_id = accounts.account_id WHERE reviews.account_id = ?";
 
     private ReviewDaoImpl() {}
 
@@ -34,6 +39,64 @@ public class ReviewDaoImpl implements ReviewDao {
     @Override
     public Optional<Review> get(long id) throws DaoException {
         return null;
+    }
+
+    @Override
+    public List<Review> findReviewsByCreatureId(long id) throws DaoException {
+        try(Connection connection = pool.getConnection();
+            PreparedStatement statement = connection.prepareStatement(SELECT_REVIEW_BY_CREATURE_ID)) {
+            statement.setLong(1,id);
+            ResultSet resultSet = statement.executeQuery();
+            List<Review> reviews = new ArrayList<>();
+            while (resultSet.next()) {
+                long reviewId = resultSet.getLong(1);
+                long accountId = resultSet.getLong(2);
+                String text = resultSet.getString(3);
+                long time = resultSet.getLong(4);
+                int rating = resultSet.getInt(5);
+                String avatar = resultSet.getString(6);
+                String accountUsername = resultSet.getString(7);
+                Date date = new Date(time);
+                Review review = new Review(accountId,id,text,date,rating);
+                review.setReviewId(reviewId);
+                review.setAvatar(avatar);
+                review.setAccountName(accountUsername);
+                reviews.add(review);
+            }
+            return reviews;
+        } catch (SQLException e) {
+            logger.error("An error occurred when requesting a database",e);
+            throw new DaoException("An error occurred when requesting a database",e);
+        }
+    }
+
+    @Override
+    public List<Review> findReviewsByUserId(long id) throws DaoException {
+        try(Connection connection = pool.getConnection();
+            PreparedStatement statement = connection.prepareStatement(SELECT_REVIEW_BY_USER_ID)) {
+            statement.setLong(1,id);
+            ResultSet resultSet = statement.executeQuery();
+            List<Review> reviews = new ArrayList<>();
+            while (resultSet.next()) {
+                long reviewId = resultSet.getLong(1);
+                long accountId = resultSet.getLong(2);
+                String text = resultSet.getString(3);
+                long time = resultSet.getLong(4);
+                int rating = resultSet.getInt(5);
+                String avatar = resultSet.getString(6);
+                String accountUsername = resultSet.getString(7);
+                Date date = new Date(time);
+                Review review = new Review(accountId,id,text,date,rating);
+                review.setReviewId(reviewId);
+                review.setAvatar(avatar);
+                review.setAccountName(accountUsername);
+                reviews.add(review);
+            }
+            return reviews;
+        } catch (SQLException e) {
+            logger.error("An error occurred when requesting a database",e);
+            throw new DaoException("An error occurred when requesting a database",e);
+        }
     }
 
     @Override
@@ -53,4 +116,6 @@ public class ReviewDaoImpl implements ReviewDao {
         }
         return flag;
     }
+
+
 }

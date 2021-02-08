@@ -14,4 +14,6 @@ public class PagePath {
     public static final String CREATE_CREATURE = "/pages/createCreature.jsp";
     public static final String SERVLET_CATALOG = "/controller?command=catalog";
     public static final String CREATURE = "/pages/creature.jsp";
+    public static final String PROFILE = "/pages/profile.jsp";
+    public static final String SERVLET_PROFILE = "/controller?command=profile";
 }

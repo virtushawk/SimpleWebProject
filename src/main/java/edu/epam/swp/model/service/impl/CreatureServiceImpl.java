@@ -36,6 +36,18 @@ public class CreatureServiceImpl implements CreatureService {
     }
 
     @Override
+    public List<Creature> findPopularCreatures() throws ServiceException {
+        List<Creature> creatures;
+        try {
+            creatures = dao.findPopularCreatures();
+            return creatures;
+        } catch (DaoException e) {
+            logger.error("An error occurred when requesting a database");
+            throw new ServiceException("An error occurred when requesting a database",e);
+        }
+    }
+
+    @Override
     public boolean createCreature(Creature creature) throws ServiceException {
         boolean flag;
         try {

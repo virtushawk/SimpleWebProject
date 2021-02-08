@@ -12,7 +12,9 @@ public class AttributeName {
     public static final String REGISTRATION_MESSAGE_CONFIRMED = "confirmedMessage";
     public static final String REGISTRATION_MESSAGE_ERROR = "errorMessage";
     public static final String GENERAL_ERROR_MESSAGE = "errorMessage";
-    public static final String HOME_CREATURE_LIST = "creatureList";
+    public static final String HOME_NEW_CREATURE_LIST = "newCreatures";
+    public static final String HOME_POPULAR_CREATURE_LIST = "popularCreatures";
     public static final String CREATURE = "creature";
     public static final String USER = "user";
+    public static final String REVIEWS = "reviews";
 }

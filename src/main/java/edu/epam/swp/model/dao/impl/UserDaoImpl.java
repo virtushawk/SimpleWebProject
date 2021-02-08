@@ -2,6 +2,7 @@ package edu.epam.swp.model.dao.impl;
 
 import edu.epam.swp.model.dao.UserDao;
 import edu.epam.swp.model.entity.AccountRole;
+import edu.epam.swp.model.entity.Creature;
 import edu.epam.swp.model.entity.User;
 import edu.epam.swp.model.exception.DaoException;
 import edu.epam.swp.model.pool.ConnectionPool;
@@ -17,12 +18,16 @@ public class UserDaoImpl implements UserDao {
     private static final UserDaoImpl instance = new UserDaoImpl();
     private static final ConnectionPool pool = ConnectionPool.INSTANCE;
     private static final String ERROR_DUP_KEY = "23000";
-    public static final String INSERT_ACCOUNT = "INSERT INTO accounts(account_id,email,username,password,role_id) " +
+    private static final String INSERT_ACCOUNT = "INSERT INTO accounts(account_id,email,username,password,role_id) " +
             "VALUES(?,?,?,?,?)";
-    public static final String SELECT_ACCOUNT_BY_USERNAME_PASSWORD =
+    private static final String SELECT_ACCOUNT_BY_USERNAME_PASSWORD =
             "SELECT accounts.account_id,accounts.email,accounts.username,roles.role,accounts.avatar " +
                     "FROM accounts INNER JOIN roles ON accounts.role_id = roles.role_id " +
                     "WHERE accounts.username =? AND accounts.password =?";
+    private static final String SELECT_ACCOUNT_BY_ID = "SELECT email,username," +
+            "avatar FROM accounts WHERE account_id = ? ";
+    private static final String UPDATE_AVATAR = "UPDATE accounts SET avatar = ? WHERE account_id = ?";
+
 
     private UserDaoImpl() {}
 
@@ -37,7 +42,24 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public Optional<User> get(long id) throws DaoException {
-        throw new UnsupportedOperationException();
+        Optional<User> result = Optional.empty();
+        try(Connection connection = pool.getConnection();
+            PreparedStatement statement = connection.prepareStatement(SELECT_ACCOUNT_BY_ID)) {
+            statement.setLong(1,id);
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                String email = resultSet.getString(1);
+                String name = resultSet.getString(2);
+                String avatar = resultSet.getString(3);
+                User user = new User(email,name,avatar);
+                user.setId(id);
+                result = Optional.of(user);
+            }
+        } catch (SQLException e) {
+            logger.error("An error occurred when requesting a database",e);
+            throw new DaoException("An error occurred when requesting a database",e);
+        }
+        return result;
     }
 
     @Override
@@ -92,4 +114,20 @@ public class UserDaoImpl implements UserDao {
         }
         return flag;
     }
+
+    @Override
+    public boolean updateAvatarById(String avatar, long id) throws DaoException {
+        boolean flag;
+        try(Connection connection = pool.getConnection();
+            PreparedStatement statement = connection.prepareStatement(UPDATE_AVATAR)) {
+            statement.setString(1,avatar);
+            statement.setLong(2,id);
+            flag = statement.executeUpdate() > 0;
+        } catch (SQLException e) {
+            logger.error("An error occurred while requesting a database",e);
+            throw new DaoException("An error occurred while requesting a database",e);
+        }
+        return flag;
+    }
+
 }

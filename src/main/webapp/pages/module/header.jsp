@@ -5,7 +5,7 @@
 <!DOCTYPE html>
 <html lang="${sessionScope.lang}">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/header.css"/>
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm p-3 mb-5 bg-white rounded">
     <div class="collapse navbar-collapse" id="navbar">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item">
@@ -38,7 +38,7 @@
            <c:choose>
                <c:when test="${sessionScope.authorised}">
                    <li class="nav-item ">
-                       <a href="#" class="nav-link m-2 menu-item ">
+                       <a href="${pageContext.request.contextPath}/controller?command=profile&id=${sessionScope.user.id}" class="nav-link m-2 menu-item ">
                            ${sessionScope.user.username}
                        </a>
                    </li>

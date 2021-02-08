@@ -3,6 +3,7 @@ package edu.epam.swp.model.service.impl;
 import edu.epam.swp.model.dao.UserDao;
 import edu.epam.swp.model.dao.impl.UserDaoImpl;
 import edu.epam.swp.model.entity.AccountRole;
+import edu.epam.swp.model.entity.Creature;
 import edu.epam.swp.model.entity.User;
 import edu.epam.swp.model.exception.DaoException;
 import edu.epam.swp.model.exception.ServiceException;
@@ -57,6 +58,30 @@ public class UserServiceImpl implements UserService {
                 logger.error("An error occurred when requesting a database");
                 throw new ServiceException("An error occurred when requesting a database",e);
             }
+        }
+        return user;
+    }
+
+    @Override
+    public boolean changeAvatar(String avatar, long id) throws ServiceException {
+        boolean flag;
+        try {
+            flag = dao.updateAvatarById(avatar,id);
+        } catch (DaoException e) {
+            logger.error("An error occurred when requesting a database");
+            throw new ServiceException("An error occurred when requesting a database",e);
+        }
+        return flag;
+    }
+
+    @Override
+    public Optional<User> get(long id) throws ServiceException {
+        Optional<User> user;
+        try {
+            user = dao.get(id);
+        } catch (DaoException e) {
+            logger.error("An error occurred when requesting a database",e);
+            throw new ServiceException("An error occurred when requesting a database",e);
         }
         return user;
     }

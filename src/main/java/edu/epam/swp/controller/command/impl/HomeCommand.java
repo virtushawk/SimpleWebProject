@@ -20,8 +20,10 @@ public class HomeCommand implements Command {
     @Override
     public String execute(HttpServletRequest request) {
         try {
-            List<Creature> creatures = service.findNewCreatures();
-            request.setAttribute(AttributeName.HOME_CREATURE_LIST,creatures);
+            List<Creature> newCreatures = service.findNewCreatures();
+            List<Creature> popularCreatures = service.findPopularCreatures();
+            request.setAttribute(AttributeName.HOME_NEW_CREATURE_LIST,newCreatures);
+            request.setAttribute(AttributeName.HOME_POPULAR_CREATURE_LIST,popularCreatures);
         } catch (ServiceException e) {
             logger.error("Error occurred while connecting to database",e);
             request.setAttribute(AttributeName.DATABASE_ERROR_MESSAGE, true);

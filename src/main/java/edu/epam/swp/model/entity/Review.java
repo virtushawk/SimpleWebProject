@@ -1,9 +1,11 @@
 package edu.epam.swp.model.entity;
 
 import java.sql.Date;
-import java.time.LocalDateTime;
 
 public class Review {
+
+    String avatar;
+    String accountName;
     long reviewId;
     long accountId;
     long creatureId;
@@ -59,7 +61,23 @@ public class Review {
         this.rating = rating;
     }
 
-    public Review(long accountId, long creatureId, String text,Date time,int rating) {
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
+    }
+
+    public String getAccountName() {
+        return accountName;
+    }
+
+    public void setAccountName(String accountName) {
+        this.accountName = accountName;
+    }
+
+    public Review(long accountId, long creatureId, String text, Date time, int rating) {
         this.accountId = accountId;
         this.creatureId = creatureId;
         this.text = text;

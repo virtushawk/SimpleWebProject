@@ -66,6 +66,28 @@
     </form>
 </div>
 </c:if>
+<div class="container shadow p-3 mb-5 bg-white rounded w-50">
+    <div class="list-group">
+        <c:forEach var="review" items="${requestScope.reviews}">
+            <div class="row g-1">
+                <div class="col-md-3">
+                    <img src="${pageContext.request.contextPath}/uploadController?url=${review.avatar}" alt="..."  class="img-thumbnail" style="height: 100px; width: 100px">
+                    <p class="fs-3">
+                            ${review.accountName}
+                    </p>
+                </div>
+                <div class="col-md-6">
+                    <p class="text-break">${review.text}</p>
+                </div>
+                <div class="col-md-2 ms-2">
+                    <p class="fs-4">score</p>
+                    <p class="fs-2">${review.rating}</p>
+                </div>
+            </div>
+            <hr/>
+        </c:forEach>
+    </div>
+</div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
 </body>
 </html>

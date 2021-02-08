@@ -8,4 +8,5 @@ import java.util.List;
 public interface CreatureDao extends BaseDao<Creature> {
 
     List<Creature> findNewCreatures() throws DaoException;
+    List<Creature> findPopularCreatures() throws DaoException;
 }

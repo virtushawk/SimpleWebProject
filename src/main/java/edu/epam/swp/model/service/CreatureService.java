@@ -8,7 +8,8 @@ import java.util.Optional;
 
 public interface CreatureService {
 
-    public List<Creature> findNewCreatures() throws ServiceException;
-    public boolean createCreature(Creature creature) throws ServiceException;
-    public Optional<Creature> get(long id) throws ServiceException;
+    List<Creature> findNewCreatures() throws ServiceException;
+    List<Creature> findPopularCreatures() throws ServiceException;
+    boolean createCreature(Creature creature) throws ServiceException;
+    Optional<Creature> get(long id) throws ServiceException;
 }

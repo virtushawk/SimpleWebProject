@@ -11,7 +11,9 @@ public enum CommandType {
     CATALOG(new CatalogCommand()),
     CREATE_CREATURE(new CreateCreatureCommand()),
     CREATURE(new CreatureCommand()),
-    CREATE_REVIEW(new CreateReviewCommand());
+    CREATE_REVIEW(new CreateReviewCommand()),
+    PROFILE(new ProfileCommand()),
+    CHANGE_AVATAR(new ChangeAvatarCommand());
 
     private final Command command;
 

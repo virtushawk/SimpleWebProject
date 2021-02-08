@@ -16,7 +16,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 
 @WebServlet(name = "uploadController", urlPatterns = "/uploadController")
-public class UploadServlet extends HttpServlet {
+public class  UploadServlet extends HttpServlet {
 
     //todo fix and clean
     @Override
