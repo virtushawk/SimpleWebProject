@@ -21,15 +21,15 @@ public class RegisterCommand implements Command {
         String username = request.getParameter(ParameterName.USERNAME);
         String password = request.getParameter(ParameterName.PASSWORD);
         String email = request.getParameter(ParameterName.EMAIL);
-        boolean flag;
+        long id;
         try {
-            flag = service.registerUser(email,username,password);
+            id = service.registerUser(email,username,password);
         } catch (ServiceException e) {
             logger.error("Error occurred while creating account!",e);
             request.getSession().setAttribute(AttributeName.DATABASE_ERROR_MESSAGE, true);
             return PagePath.REGISTER;
         }
-        if (flag) {
+        if (id > 0) {
             request.getSession().setAttribute(AttributeName.REGISTRATION_MESSAGE_CONFIRMED, true);
             return PagePath.SERVLET_HOME;
         } else {

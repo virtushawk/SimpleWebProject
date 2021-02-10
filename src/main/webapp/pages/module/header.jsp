@@ -18,6 +18,19 @@
                     <fmt:message key="header.catalog"/>
                 </a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">
+                    ${sessionScope.user.role}
+                </a>
+            </li>
+            <c:if test="${sessionScope.user.role.name().equals('ADMIN')}">
+                <li class="nav-item">
+                    <a class="nav-link" href="${pageContext.request.contextPath}/controller?command=admin_panel">
+                        Admin panel
+                    </a>
+                </li>
+            </c:if>
+
         </ul>
     </div>
     <div class="collapse navbar-collapse flex-grow-1 text-right" id="login">

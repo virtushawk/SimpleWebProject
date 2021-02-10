@@ -13,6 +13,21 @@ public class Review {
     int rating;
     Date time;
 
+    public Review(long accountId, long creatureId, String text, Date time, int rating) {
+        this.accountId = accountId;
+        this.creatureId = creatureId;
+        this.text = text;
+        this.time = time;
+        this.rating= rating;
+    }
+
+    public Review(long reviewId, String text, Date time, int rating) {
+        this.reviewId = reviewId;
+        this.text = text;
+        this.time = time;
+        this.rating= rating;
+    }
+
     public long getReviewId() {
         return reviewId;
     }
@@ -75,14 +90,6 @@ public class Review {
 
     public void setAccountName(String accountName) {
         this.accountName = accountName;
-    }
-
-    public Review(long accountId, long creatureId, String text, Date time, int rating) {
-        this.accountId = accountId;
-        this.creatureId = creatureId;
-        this.text = text;
-        this.time = time;
-        this.rating= rating;
     }
 
     @Override

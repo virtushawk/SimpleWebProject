@@ -24,6 +24,11 @@ public class ReviewDaoImpl implements ReviewDao {
     private static final String SELECT_REVIEW_BY_USER_ID = "SELECT reviews.review_id,reviews.account_id," +
             "reviews.review,reviews.time,reviews.rating,accounts.avatar,accounts.username FROM reviews INNER JOIN accounts " +
             "ON reviews.account_id = accounts.account_id WHERE reviews.account_id = ?";
+    private static final String SELECT_REVIEW = "SELECT reviews.creature_id,reviews.review_id,reviews.account_id,reviews.review,reviews.time," +
+            "reviews.rating,accounts.avatar,accounts.username FROM reviews INNER JOIN accounts ON " +
+            "reviews.account_id = accounts.account_id";
+    private static final String UPDATE_REVIEW = "UPDATE reviews SET review = ?,time = ?,rating = ? WHERE review_id = ?";
+    private static final String DELETE_REVIEW = "DELETE FROM reviews WHERE review_id = ?";
 
     private ReviewDaoImpl() {}
 
@@ -33,7 +38,31 @@ public class ReviewDaoImpl implements ReviewDao {
 
     @Override
     public List<Review> findAll() throws DaoException {
-        return null;
+        List<Review> reviews = new ArrayList<>();
+        try(Connection connection = pool.getConnection();
+            PreparedStatement statement = connection.prepareStatement(SELECT_REVIEW)) {
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                long creatureId = resultSet.getLong(1);
+                long reviewId = resultSet.getLong(2);
+                long accountId = resultSet.getLong(3);
+                String text = resultSet.getString(4);
+                long time = resultSet.getLong(5);
+                int rating = resultSet.getInt(6);
+                String avatar = resultSet.getString(7);
+                String accountUsername = resultSet.getString(8);
+                Date date = new Date(time);
+                Review review = new Review(accountId,creatureId,text,date,rating);
+                review.setReviewId(reviewId);
+                review.setAvatar(avatar);
+                review.setAccountName(accountUsername);
+                reviews.add(review);
+            }
+            return reviews;
+        } catch (SQLException e) {
+            logger.error("An error occurred when requesting a database",e);
+            throw new DaoException("An error occurred when requesting a database",e);
+        }
     }
 
     @Override
@@ -117,5 +146,35 @@ public class ReviewDaoImpl implements ReviewDao {
         return flag;
     }
 
+    @Override
+    public boolean update(Review review) throws DaoException {
+        boolean flag;
+        try(Connection connection = pool.getConnection();
+            PreparedStatement statement = connection.prepareStatement(UPDATE_REVIEW)) {
+            statement.setString(1,review.getText());
+            statement.setLong(2,review.getTime().getTime());
+            statement.setInt(3,review.getRating());
+            statement.setLong(4,review.getReviewId());
+            flag = statement.executeUpdate() > 0;
+        } catch (SQLException e) {
+            logger.error("An error occurred when requesting a database",e);
+            throw new DaoException("An error occurred when requesting a database",e);
+        }
+        return flag;
+    }
+
+    @Override
+    public boolean delete(long id) throws DaoException {
+        boolean flag;
+        try(Connection connection = pool.getConnection();
+            PreparedStatement statement = connection.prepareStatement(DELETE_REVIEW)) {
+            statement.setLong(1,id);
+            flag = statement.executeUpdate() > 0;
+        } catch (SQLException e) {
+            logger.error("An error occurred while requesting a database",e);
+            throw new DaoException("An error occurred while requesting a database",e);
+        }
+        return flag;
+    }
 
 }

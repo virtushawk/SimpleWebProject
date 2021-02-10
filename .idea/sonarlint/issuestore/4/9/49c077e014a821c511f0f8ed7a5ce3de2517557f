@@ -1,7 +1,7 @@
 
-\
-java:S1128"?Remove this unused import 'edu.epam.swp.model.entity.Creature'.(áÓ¿¥8­Ğ¼÷.
 ]
-java:S2789'"@Methods with an "Optional" return type should never return null.(¥¹ï8Şû½¼÷.
+java:S2789)"@Methods with an "Optional" return type should never return null.(¥¹ï8Şû½¼÷.
+
+java:S1192D"mDefine a constant instead of duplicating this literal "An error occurred when requesting a database" 4 times.(ê¯Õëşÿÿÿÿ8íüô‰ø.
 H
-java:S1168""+Return an empty collection instead of null.(¥¹ï8Şû½¼÷.
+java:S1168$"+Return an empty collection instead of null.(¥¹ï8Şû½¼÷.

@@ -57,4 +57,40 @@ public class ReviewServiceImpl implements ReviewService {
             throw new ServiceException("An error occurred when requesting a database",e);
         }
     }
+
+    @Override
+    public List<Review> findAll() throws ServiceException {
+        List<Review> reviews;
+        try {
+            reviews = dao.findAll();
+            return reviews;
+        } catch (DaoException e) {
+            logger.error("An error occurred when requesting a database");
+            throw new ServiceException("An error occurred when requesting a database",e);
+        }
+    }
+
+    @Override
+    public boolean editReview(Review review) throws ServiceException {
+        boolean flag;
+        try {
+            flag = dao.update(review);
+        } catch (DaoException e) {
+            logger.error("Error occurred while updating review",e);
+            throw new ServiceException("Error occurred while creating review",e);
+        }
+        return flag;
+    }
+
+    @Override
+    public boolean delete(long id) throws ServiceException {
+        boolean flag;
+        try {
+            flag = dao.delete(id);
+        } catch (DaoException e) {
+            logger.error("Error occurred while deleting review",e);
+            throw new ServiceException("Error occurred while deleting review",e);
+        }
+        return flag;
+    }
 }

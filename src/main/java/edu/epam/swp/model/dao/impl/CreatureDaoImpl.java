@@ -108,6 +108,16 @@ public class CreatureDaoImpl implements CreatureDao {
     }
 
     @Override
+    public boolean update(Creature creature) throws DaoException {
+        return false;
+    }
+
+    @Override
+    public boolean delete(long id) throws DaoException {
+        return false;
+    }
+
+    @Override
     public Optional<Creature> get(long id) throws DaoException {
         Optional<Creature> result = Optional.empty();
         try(Connection connection = pool.getConnection();

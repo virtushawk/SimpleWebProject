@@ -17,4 +17,6 @@ public class AttributeName {
     public static final String CREATURE = "creature";
     public static final String USER = "user";
     public static final String REVIEWS = "reviews";
+    public static final String EMAIL_CONFIRMATION_MESSAGE = "emailConfirmed";
+    public static final String USERS = "users";
 }

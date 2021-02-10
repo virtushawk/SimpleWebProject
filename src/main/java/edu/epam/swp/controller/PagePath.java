@@ -16,4 +16,6 @@ public class PagePath {
     public static final String CREATURE = "/pages/creature.jsp";
     public static final String PROFILE = "/pages/profile.jsp";
     public static final String SERVLET_PROFILE = "/controller?command=profile";
+    public static final String ADMIN_PANEL = "/pages/adminPanel.jsp";
+    public static final String SERVLET_ADMIN_PAGE = "/controller?command=admin_panel";
 }

@@ -31,8 +31,6 @@ f
 6src/main/java/edu/epam/swp/controller/MainServlet.java,0\9\09e2c05c033352abbd9c1b1fa3e76c97b4f23bbb
 s
 Csrc/main/java/edu/epam/swp/controller/command/impl/HomeCommand.java,9\5\959b43dd033ec96c6746a67c734373249d94a045
-O
-src/main/webapp/pages/image.jsp,2\9\2983f773db086304903af0cba46075c6dc9fb877
 R
 "src/main/webapp/pages/register.jsp,1\0\106d036f90177a601daf026083638d839c6243d8
 P
@@ -147,3 +145,11 @@ l
 <src/main/java/edu/epam/swp/model/dao/impl/ReviewDaoImpl.java,4\9\49c077e014a821c511f0f8ed7a5ce3de2517557f
 {
 Ksrc/main/java/edu/epam/swp/controller/command/impl/CreateReviewCommand.java,0\e\0e00356263ed7872b27426fc884c4196d2f5d230
+O
+src/main/webapp/css/profile.css,d\8\d8ce10fe49118b7be286793b05a4aba6dc563278
+Q
+!src/main/webapp/pages/profile.jsp,d\9\d9acd5a8a007517eae7d3b52c98fefc65aae31e1
+v
+Fsrc/main/java/edu/epam/swp/controller/command/impl/ProfileCommand.java,2\1\21ecddb7d202561c5c52f278c62aa3ed552fdac1
+{
+Ksrc/main/java/edu/epam/swp/controller/command/impl/ChangeAvatarCommand.java,3\7\3783671bce359a5420ccd8fc7f5726348b8622ed

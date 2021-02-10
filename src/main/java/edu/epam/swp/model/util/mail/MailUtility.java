@@ -9,7 +9,7 @@ import java.util.Properties;
 
 public class MailUtility {
     private static final Logger logger = LogManager.getLogger(MailUtility.class);
-    private static final String MESSAGE_TEXT = "confirmation link";
+    private static final String MESSAGE_TEXT = "confirmation link : http://localhost:8080/SWP_war_exploded/controller?command=confirm_email&id=%d";
     private static final String MESSAGE_SUBJECT = "Email confirmation";
     private static final String MAIL_PROPERTIES = "property/mail.properties";
 
@@ -17,14 +17,16 @@ public class MailUtility {
 
     }
 
-    public static void sendConfirmMessage(String email) {
+    public static void sendConfirmMessage(String email,long id) {
         PropertyReader propertyReader = new PropertyReader();
         try {
             Properties properties = propertyReader.readProperty(MAIL_PROPERTIES);
-            MailSender sender = new MailSender(email,MESSAGE_SUBJECT,MESSAGE_TEXT,properties);
+            String messageText = String.format(MESSAGE_TEXT,id);
+            MailSender sender = new MailSender(email,MESSAGE_SUBJECT,messageText,properties);
             sender.send();
         } catch (PropertyReaderException e) {
             logger.error("Error while reading email properties",e);
         }
     }
+
 }

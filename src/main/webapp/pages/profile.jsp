@@ -25,9 +25,11 @@
                         <div class="d-flex flex-column align-items-center text-center">
                             <img src="${pageContext.request.contextPath}/uploadController?url=${requestScope.user.avatar}" alt="Admin" class="rounded-circle" width="150" height="150">
                             <!-- Button trigger modal -->
-                            <button type="button" class="btn btn-outline-primary mt-1" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                                Change avatar
-                            </button>
+                            <c:if test="${sessionScope.user.id == requestScope.user.id}">
+                                <button type="button" class="btn btn-outline-primary mt-1" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                    Change avatar
+                                </button>
+                            </c:if>
 
                             <!-- Modal -->
                             <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
