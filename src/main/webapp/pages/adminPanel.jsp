@@ -24,8 +24,145 @@
             <li class="nav-item" role="presentation">
                 <a class="nav-link" id="profile-tab" data-bs-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Reviews</a>
             </li>
+            <li class="nav-item" role="presentation">
+                <a class="nav-link" id="creatures-tab" data-bs-toggle="tab" href="#creatures" role="tab" aria-controls="creature" aria-selected="false">Creatures</a>
+            </li>
+            <li class="nav-item" role="presentation">
+                <a class="nav-link" id="userCreatures-tab" data-bs-toggle="tab" href="#userCreatures" role="tab" aria-controls="userCreatures" aria-selected="false">User's creatures</a>
+            </li>
+            <li class="nav-item" role="presentation">
+                <a class="nav-link" id="userCorrections-tab" data-bs-toggle="tab" href="#userCorrections" role="tab" aria-controls="userCorrections" aria-selected="false">User's corrections</a>
+            </li>
         </ul>
         <div class="tab-content" id="myTabContent">
+            <div class="tab-pane fade " id="userCorrections" role="tabpanel" aria-labelledby="creatures-tab">
+                <ul class="list-group">
+                    <c:forEach var="correction" items="${requestScope.corrections}">
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <div class="card mb-3">
+                                <div class="row g-4" style="width: 500px">
+                                    <div class="col-md-8">
+                                        <div class="card-body">
+                                            <button type="button" class="btn btn-outline-primary mt-1" data-bs-toggle="modal" data-bs-target="#creatureModal${correction.correctionId}">
+                                                    ${correction.name}
+                                            </button>
+                                            <div class="modal fade" id="creatureModal${correction.correctionId}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                <div class="modal-dialog modal-xl">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title">Correction</h5>
+                                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <div class="card mb-3 mx-auto shadow p-3 mb-5 bg-white rounded">
+                                                                <div class="row g-0">
+                                                                    <div class="col-md-8">
+                                                                        <div class="card-body">
+                                                                            <h5 class="card-title">
+                                                                                    ${correction.name}
+                                                                            </h5>
+                                                                            <p class="card-text">
+                                                                                    ${correction.text}
+                                                                            </p>
+                                                                            <p class="card-text"><small class="text-muted">
+                                                                                    ${correction.date}
+                                                                            </small></p>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <p class="card-text text-truncate">${correction.text}</p>
+                                            <p class="card-text"><small class="text-muted">${correction.date}</small></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="d-flex justify-content-end">
+                                <a class="btn btn-outline-success mt-1" href="${pageContext.request.contextPath}/controller?command=approve_correction&id=${correction.correctionId}">
+                                    Approve
+                                </a>
+                                <a class="btn btn-outline-danger mt-1" href="${pageContext.request.contextPath}/controller?command=delete_correction&id=${correction.correctionId}">
+                                    delete
+                                </a>
+                            </div>
+                        </li>
+                    </c:forEach>
+                </ul>
+            </div>
+            <div class="tab-pane fade " id="userCreatures" role="tabpanel" aria-labelledby="creatures-tab">
+                <ul class="list-group">
+                    <c:forEach var="creature" items="${requestScope.uncheckedCreatures}">
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <div class="card mb-3">
+                                <div class="row g-4" style="width: 500px">
+                                    <div class="col-md-4">
+                                        <img src="${pageContext.request.contextPath}/uploadController?url=${creature.picture}" alt="..." height="150" width="150">
+                                    </div>
+                                    <div class="col-md-8">
+                                        <div class="card-body">
+                                            <button type="button" class="btn btn-outline-primary mt-1" data-bs-toggle="modal" data-bs-target="#creatureModal${creature.id}">
+                                                ${creature.name}
+                                            </button>
+                                            <div class="modal fade" id="creatureModal${creature.id}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                <div class="modal-dialog modal-xl">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title">Creature</h5>
+                                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <div class="card mb-3 mx-auto shadow p-3 mb-5 bg-white rounded">
+                                                                <div class="row g-0">
+                                                                    <div class="col-md-4">
+                                                                        <img src="${pageContext.request.contextPath}/uploadController?url=${creature.picture}" alt="..." style=" width: 100%;object-fit: cover;height: 15vw">
+                                                                    </div>
+                                                                    <div class="col-md-8">
+                                                                        <div class="card-body">
+                                                                            <h5 class="card-title">
+                                                                                    ${creature.name}
+                                                                            </h5>
+                                                                            <p class="card-text">
+                                                                                    ${creature.description}
+                                                                            </p>
+                                                                            <p class="card-text"><small class="text-muted">
+                                                                                <fmt:message key="home.creature.lastUpdated"/> ${creature.lastUpdated}
+                                                                            </small></p>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <p class="card-text text-truncate">${creature.description}</p>
+                                            <p class="card-text"><small class="text-muted">${creature.lastUpdated}</small></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="d-flex justify-content-end">
+                                <a class="btn btn-outline-success mt-1" href="${pageContext.request.contextPath}/controller?command=approve_creature&id=${creature.id}">
+                                        Approve
+                                </a>
+                                <a class="btn btn-outline-danger mt-1" href="${pageContext.request.contextPath}/controller?command=delete_creature&id=${creature.id}">
+                                    delete
+                                </a>
+                            </div>
+                        </li>
+                    </c:forEach>
+                </ul>
+            </div>
             <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
                 <ul class="list-group">
                     <c:forEach var="user" items="${requestScope.users}">
@@ -47,15 +184,15 @@
                             <div class="d-flex justify-content-end">
                                 <c:choose>
                                     <c:when test="${user.role.name().equals('INACTIVE')}">
-                                        <a class="d-flex ms-2" href="${pageContext.request.contextPath}/controller?command=unblock_user&id=${user.id}">
+                                        <a class="d-flex ms-2 btn btn-outline-primary mt-1" href="${pageContext.request.contextPath}/controller?command=unblock_user&id=${user.id}">
                                             unblock
                                         </a>
                                     </c:when>
                                     <c:otherwise>
-                                        <a class="d-flex ms-2" href="${pageContext.request.contextPath}/controller?command=block_user&id=${user.id}">
+                                        <a class="d-flex ms-2 btn btn-outline-danger mt-1" href="${pageContext.request.contextPath}/controller?command=block_user&id=${user.id}">
                                             block
                                         </a>
-                                        <a class="d-flex ms-2" href="${pageContext.request.contextPath}/controller?command=make_admin&id=${user.id}">
+                                        <a class="d-flex ms-2 btn btn-outline-primary mt-1" href="${pageContext.request.contextPath}/controller?command=make_admin&id=${user.id}">
                                             make admin
                                         </a>
                                     </c:otherwise>
@@ -101,7 +238,7 @@
                                     </a>
                                 </div>
                                 <div class="modal fade" id="exampleModal${review.reviewId}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                    <div class="modal-dialog">
+                                    <div class="modal-dialog modal-lg">
                                         <form class="modal-content needs-validation" action="${pageContext.request.contextPath}/controller?command=edit_review&id=${review.reviewId}" method="post" novalidate>
                                             <div class="modal-header">
                                                 <h5 class="modal-title" id="exampleModalLabel">Edit review</h5>
@@ -145,6 +282,100 @@
                                             </div>
                                         </form>
                                     </div>
+                                </div>
+                            </div>
+                        </li>
+                    </c:forEach>
+                </ul>
+            </div>
+            <div class="tab-pane fade " id="creatures" role="tabpanel" aria-labelledby="creatures-tab">
+                <ul class="list-group">
+                    <c:forEach var="creature" items="${requestScope.creatures}">
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <div class="card mb-3">
+                                <div class="row g-4" style="width: 500px">
+                                    <div class="col-md-4">
+                                        <img src="${pageContext.request.contextPath}/uploadController?url=${creature.picture}" alt="..." height="150" width="150">
+                                    </div>
+                                    <div class="col-md-8">
+                                        <div class="card-body">
+                                            <a href="${pageContext.request.contextPath}/controller?command=creature&id=${creature.id}" class="text-decoration-none stretched-link">
+                                                    ${creature.name}
+                                            </a>
+                                            <p class="card-text text-truncate">${creature.description}</p>
+                                            <p class="card-text"><small class="text-muted">${creature.lastUpdated}</small></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="d-flex justify-content-end">
+                                <button type="button" class="btn btn-outline-primary mt-1" data-bs-toggle="modal" data-bs-target="#imageModal${creature.id}">
+                                    Change image
+                                </button>
+                                <button type="button" class="btn btn-outline-primary mt-1" data-bs-toggle="modal" data-bs-target="#bodyModal${creature.id}">
+                                    Edit
+                                </button>
+                                <a class="btn btn-outline-danger mt-1" href="${pageContext.request.contextPath}/controller?command=delete_creature&id=${creature.id}">
+                                    delete
+                                </a>
+                            </div>
+                            <div class="modal fade" id="imageModal${creature.id}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <form class="modal-content needs-validation" action="${pageContext.request.contextPath}/controller?command=change_image&id=${creature.id}" method="post" enctype="multipart/form-data" novalidate>
+                                        <div class="modal-header">
+                                            <h5 class="modal-title">Change image</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <input type="file" name="image" class="form-control" id="image"  accept="image/png,image/jpeg,image/jpg" required/>
+                                            <div class="valid-feedback">
+                                                <fmt:message key="createCreature.valid"/>
+                                            </div>
+                                            <div class="invalid-feedback">
+                                                <fmt:message key="createCreature.image.invalid"/>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                            <button type="submit" class="btn btn-primary">Save changes</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                            <div class="modal fade" id="bodyModal${creature.id}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog modal-xl">
+                                    <form class="modal-content needs-validation" action="${pageContext.request.contextPath}/controller?command=edit_creature&id=${creature.id}" method="post" novalidate>
+                                        <div class="modal-header">
+                                            <h5 class="modal-title">Edit Creature</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <label for="name" class="form-label">
+                                                <fmt:message key="createCreature.name.label"/>
+                                            </label>
+                                            <input type="text" name="name" class="form-control" id="name" value="${creature.name}" required>
+                                            <div class="valid-feedback">
+                                                <fmt:message key="createCreature.valid"/>
+                                            </div>
+                                            <div class="invalid-feedback">
+                                                <fmt:message key="createCreature.name.invalid"/>
+                                            </div>
+                                            <label for="description" class="form-label">
+                                                <fmt:message key="createCreature.description.label"/>
+                                            </label>
+                                            <textarea class="form-control" name="description" id="description" rows="3" required>${creature.description}</textarea>
+                                            <div class="valid-feedback">
+                                                <fmt:message key="createCreature.valid"/>
+                                            </div>
+                                            <div class="invalid-feedback">
+                                                <fmt:message key="createCreature.description.invalid"/>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                            <button type="submit" class="btn btn-primary">Save changes</button>
+                                        </div>
+                                    </form>
                                 </div>
                             </div>
                         </li>

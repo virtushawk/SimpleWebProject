@@ -11,6 +11,11 @@ public class User implements Serializable {
 
     //todo builder
 
+
+    public User(AccountRole accountRole) {
+        this.role = accountRole;
+    }
+
     public User(String email,String username,String avatar) {
         this.email = email;
         this.username = username;

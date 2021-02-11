@@ -4,6 +4,7 @@ import edu.epam.swp.controller.PagePath;
 import edu.epam.swp.controller.ParameterName;
 import edu.epam.swp.controller.command.AttributeName;
 import edu.epam.swp.controller.command.Command;
+import edu.epam.swp.model.entity.Creature;
 import edu.epam.swp.model.entity.Review;
 import edu.epam.swp.model.entity.User;
 import edu.epam.swp.model.exception.ServiceException;
@@ -31,9 +32,11 @@ public class ProfileCommand implements Command {
         long id = Long.parseLong(request.getParameter(ParameterName.ID));
         Optional<User> user;
         List<Review> reviews;
+        List<Creature> creatures;
         try {
             user = userService.get(id);
             reviews = reviewService.findReviewsUser(id);
+            creatures = creatureService.findUserCreatures(id);
         } catch (ServiceException e) {
             logger.error("Error occurred while finding user",e);
             request.getSession().setAttribute(AttributeName.DATABASE_ERROR_MESSAGE, true);
@@ -42,6 +45,7 @@ public class ProfileCommand implements Command {
         if (user.isPresent()) {
             request.setAttribute(AttributeName.USER,user.get());
             request.setAttribute(AttributeName.REVIEWS,reviews);
+            request.setAttribute(AttributeName.CREATURES,creatures);
             return PagePath.PROFILE;
         } else {
             return PagePath.ERROR;

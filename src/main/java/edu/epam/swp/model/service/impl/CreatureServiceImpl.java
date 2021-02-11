@@ -70,4 +70,88 @@ public class CreatureServiceImpl implements CreatureService {
         }
         return creature;
     }
+
+    @Override
+    public List<Creature> findAll() throws ServiceException {
+        List<Creature> creatures;
+        try {
+            creatures = dao.findAll();
+            return creatures;
+        } catch (DaoException e) {
+            logger.error("An error occurred when requesting a database");
+            throw new ServiceException("An error occurred when requesting a database",e);
+        }
+    }
+
+    @Override
+    public boolean changeImage(long id, String image) throws ServiceException {
+        boolean flag;
+        try {
+            flag = dao.updateImageById(id,image);
+        } catch (DaoException e) {
+            logger.error("An error occurred when requesting a database");
+            throw new ServiceException("An error occurred when requesting a database",e);
+        }
+        return flag;
+    }
+
+    @Override
+    public boolean editCreature(Creature creature) throws ServiceException {
+        boolean flag;
+        try {
+            flag = dao.update(creature);
+        } catch (DaoException e) {
+            logger.error("An error occurred when requesting a database");
+            throw new ServiceException("An error occurred when requesting a database",e);
+        }
+        return flag;
+    }
+
+    @Override
+    public boolean delete(long id) throws ServiceException {
+        boolean flag;
+        try {
+            flag = dao.delete(id);
+        } catch (DaoException e) {
+            logger.error("An error occurred when requesting a database");
+            throw new ServiceException("An error occurred when requesting a database",e);
+        }
+        return flag;
+    }
+
+    @Override
+    public List<Creature> findUserCreatures(long id) throws ServiceException {
+        List<Creature> creatures;
+        try {
+            creatures = dao.findCreaturesById(id);
+        } catch (DaoException e) {
+            logger.error("An error occurred when requesting a database");
+            throw new ServiceException("An error occurred when requesting a database",e);
+        }
+        return creatures;
+    }
+
+    @Override
+    public List<Creature> findUncheckedCreatures() throws ServiceException {
+        List<Creature> creatures;
+        try {
+            creatures = dao.findUncheckedCreatures();
+        } catch (DaoException e) {
+            logger.error("An error occurred when requesting a database");
+            throw new ServiceException("An error occurred when requesting a database",e);
+        }
+        return creatures;
+    }
+
+    @Override
+    public boolean approveCreature(long id) throws ServiceException {
+        boolean flag;
+        try {
+            flag = dao.approveCreature(id);
+        } catch (DaoException e) {
+            logger.error("An error occurred when requesting a database");
+            throw new ServiceException("An error occurred when requesting a database",e);
+        }
+        return flag;
+    }
 }

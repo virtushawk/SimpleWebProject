@@ -31,11 +31,52 @@
                 <p class="card-text"><small class="text-muted">
                     <fmt:message key="home.creature.lastUpdated"/> ${requestScope.creature.lastUpdated}
                 </small></p>
+                <c:if  test="${sessionScope.user.role.name().equals('USER') || sessionScope.user.role.name().equals('ADMIN')}">
+                    <button type="button" class="btn btn-outline-primary mt-1" data-bs-toggle="modal" data-bs-target="#bodyModal">
+                        Edit
+                    </button>
+                </c:if>
+                <div class="modal fade" id="bodyModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-xl">
+                        <form class="modal-content needs-validation" action="${pageContext.request.contextPath}/controller?command=suggest_correction&id=${requestScope.creature.id}" method="post" novalidate>
+                            <div class="modal-header">
+                                <h5 class="modal-title">Edit Creature</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <label for="name" class="form-label">
+                                    <fmt:message key="createCreature.name.label"/>
+                                </label>
+                                <input type="text" name="name" class="form-control" id="name" value="${requestScope.creature.name}" required>
+                                <div class="valid-feedback">
+                                    <fmt:message key="createCreature.valid"/>
+                                </div>
+                                <div class="invalid-feedback">
+                                    <fmt:message key="createCreature.name.invalid"/>
+                                </div>
+                                <label for="description" class="form-label">
+                                    <fmt:message key="createCreature.description.label"/>
+                                </label>
+                                <textarea class="form-control" name="description" id="description" rows="3" required>${requestScope.creature.description}</textarea>
+                                <div class="valid-feedback">
+                                    <fmt:message key="createCreature.valid"/>
+                                </div>
+                                <div class="invalid-feedback">
+                                    <fmt:message key="createCreature.description.invalid"/>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <button type="submit" class="btn btn-primary">Save changes</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 </div>
-<c:if test="${sessionScope.authorised}" >
+<c:if test="${sessionScope.user.role.name().equals('USER') || sessionScope.user.role.name().equals('ADMIN')}" >
 <div class="container-sm shadow p-3 mb-5 bg-white rounded w-50">
     <form class="row g-1" action="${pageContext.request.contextPath}/controller?command=create_review&id=${requestScope.creature.id}" method="post">
         <div class="col-md-3">
@@ -73,7 +114,9 @@
                 <div class="col-md-3">
                     <img src="${pageContext.request.contextPath}/uploadController?url=${review.avatar}" alt="..."  class="img-thumbnail" style="height: 100px; width: 100px">
                     <p class="fs-3">
-                            ${review.accountName}
+                        <a href="${pageContext.request.contextPath}/controller?command=profile&id=${review.accountId}" class="text-decoration-none">
+                                ${review.accountName}
+                        </a>
                     </p>
                 </div>
                 <div class="col-md-6">

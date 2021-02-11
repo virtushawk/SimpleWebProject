@@ -7,7 +7,6 @@ public enum CommandType {
     REGISTER(new RegisterCommand()),
     LOGIN(new LoginCommand()),
     LOGOUT(new LogoutCommand()),
-    IMAGE(new ImageCommand()),
     CATALOG(new CatalogCommand()),
     CREATE_CREATURE(new CreateCreatureCommand()),
     CREATURE(new CreatureCommand()),
@@ -20,7 +19,14 @@ public enum CommandType {
     UNBLOCK_USER(new UnblockUserCommand()),
     MAKE_ADMIN(new MakeAdminCommand()),
     EDIT_REVIEW(new EditReviewCommand()),
-    DELETE_REVIEW(new DeleteReviewCommand());
+    DELETE_REVIEW(new DeleteReviewCommand()),
+    CHANGE_IMAGE(new ChangeImageCommand()),
+    EDIT_CREATURE(new EditCreatureCommand()),
+    DELETE_CREATURE(new DeleteCreatureCommand()),
+    APPROVE_CREATURE(new ApproveCreatureCommand()),
+    SUGGEST_CORRECTION(new SuggestCorrectionCommand()),
+    APPROVE_CORRECTION(new ApproveCorrectionCommand()),
+    DELETE_CORRECTION(new DeleteCorrectionCommand());
 
     private final Command command;
 

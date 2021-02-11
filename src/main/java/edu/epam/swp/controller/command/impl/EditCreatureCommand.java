@@ -1,6 +1,7 @@
 package edu.epam.swp.controller.command.impl;
 
 import edu.epam.swp.controller.PagePath;
+import edu.epam.swp.controller.ParameterName;
 import edu.epam.swp.controller.command.AttributeName;
 import edu.epam.swp.controller.command.Command;
 import edu.epam.swp.model.entity.Creature;
@@ -11,23 +12,28 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.List;
+import java.sql.Date;
 
-public class CatalogCommand implements Command {
-    private static final Logger logger = LogManager.getLogger(CatalogCommand.class);
+public class EditCreatureCommand implements Command {
+    private static final Logger logger = LogManager.getLogger(EditCreatureCommand.class);
     private static final CreatureService service = CreatureServiceImpl.getInstance();
 
     @Override
     public String execute(HttpServletRequest request) {
-        List<Creature> creatures;
+        String text = request.getParameter(ParameterName.DESCRIPTION);
+        String name = request.getParameter(ParameterName.NAME);
+        long id = Long.parseLong(request.getParameter(ParameterName.ID));
+        long time = System.currentTimeMillis();
+        Date date = new Date(time);
+        Creature creature = new Creature(id,name,text,date);
+        boolean flag;
         try {
-            creatures = service.findAll();
-            request.setAttribute(AttributeName.CREATURES,creatures);
+            flag = service.editCreature(creature);
         } catch (ServiceException e) {
             logger.error("Error occurred while accessing database",e);
-            request.setAttribute(AttributeName.DATABASE_ERROR_MESSAGE,true);
+            request.getSession().setAttribute(AttributeName.DATABASE_ERROR_MESSAGE,true);
+            return PagePath.SERVLET_HOME;
         }
-        String page = PagePath.CATALOG;
-        return page;
+        return PagePath.SERVLET_ADMIN_PAGE;
     }
 }

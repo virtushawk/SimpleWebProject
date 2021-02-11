@@ -119,24 +119,27 @@
                             </c:forEach>
                         </div>
                         <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
-                            <div class="row g-0">
-                                <div class="col-md-4">
-                                    <img src="${pageContext.request.contextPath}/uploadController?url=${sessionScope.user.avatar}" alt="..." class="rounded-circle" height="150" width="150">
-                                </div>
-                                <div class="col-md-8">
-                                    <div class="card-body">
-                                        <h5 class="card-title">
-                                            ${sessionScope.user.username}
-                                        </h5>
-                                        <p class="card-text">
-                                            no
-                                        </p>
-                                        <p class="card-text"><small class="text-muted">
-                                            <fmt:message key="home.creature.lastUpdated"/> 14.55
-                                        </small></p>
+                            <c:forEach var="creature" items="${requestScope.creatures}">
+                                <div class="row g-0">
+                                    <div class="col-md-4">
+                                        <img src="${pageContext.request.contextPath}/uploadController?url=${creature.picture}" alt="..." height="150" width="150">
+                                    </div>
+                                    <div class="col-md-8">
+                                        <div class="card-body">
+                                            <h5 class="card-title">
+                                                    ${creature.name}
+                                            </h5>
+                                            <p class="card-text text-truncate">
+                                                ${creature.description}
+                                            </p>
+                                            <p class="card-text"><small class="text-muted">
+                                                <fmt:message key="home.creature.lastUpdated"/> ${creature.lastUpdated}
+                                            </small></p>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
+                                <hr>
+                            </c:forEach>
                         </div>
                     </div>
                 </div>

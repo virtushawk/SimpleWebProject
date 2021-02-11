@@ -1,6 +1,7 @@
 package edu.epam.swp.model.service;
 
 import edu.epam.swp.model.entity.Creature;
+import edu.epam.swp.model.entity.CreatureStatus;
 import edu.epam.swp.model.exception.ServiceException;
 
 import java.util.List;
@@ -12,4 +13,11 @@ public interface CreatureService {
     List<Creature> findPopularCreatures() throws ServiceException;
     boolean createCreature(Creature creature) throws ServiceException;
     Optional<Creature> get(long id) throws ServiceException;
+    List<Creature> findAll() throws ServiceException;
+    boolean changeImage(long id,String image) throws ServiceException;
+    boolean editCreature(Creature creature) throws ServiceException;
+    boolean delete(long id) throws ServiceException;
+    List<Creature> findUserCreatures(long id) throws ServiceException;
+    List<Creature> findUncheckedCreatures() throws ServiceException;
+    boolean approveCreature(long id) throws ServiceException;
 }

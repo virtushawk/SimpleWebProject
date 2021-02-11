@@ -7,7 +7,6 @@ public class PagePath {
     public static final String HOME = "/pages/home.jsp";
     public static final String LOGIN = "/pages/login.jsp";
     public static final String ERROR = "/pages/error_404.jsp";
-    public static final String IMAGE = "/pages/image.jsp";
     public static final String REGISTER = "/pages/register.jsp";
     public static final String SERVLET_HOME = "/controller?command=home";
     public static final String CATALOG = "/pages/catalog.jsp";
@@ -18,4 +17,6 @@ public class PagePath {
     public static final String SERVLET_PROFILE = "/controller?command=profile";
     public static final String ADMIN_PANEL = "/pages/adminPanel.jsp";
     public static final String SERVLET_ADMIN_PAGE = "/controller?command=admin_panel";
+    public static final String ERROR_403 = "/pages/error_403.jsp";
+    public static final String SERVLET_CREATURE = "/controller?command=creature";
 }
