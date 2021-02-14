@@ -26,7 +26,12 @@ public enum CommandType {
     APPROVE_CREATURE(new ApproveCreatureCommand()),
     SUGGEST_CORRECTION(new SuggestCorrectionCommand()),
     APPROVE_CORRECTION(new ApproveCorrectionCommand()),
-    DELETE_CORRECTION(new DeleteCorrectionCommand());
+    DELETE_CORRECTION(new DeleteCorrectionCommand()),
+    SEARCH(new SearchCommand()),
+    EDIT_NAME(new EditNameCommand()),
+    EDIT_EMAIL(new EditEmailCommand()),
+    CHANGE_PASSWORD(new ChangePasswordCommand()),
+    FORGOT_PASSWORD(new ForgotPasswordCommand());
 
     private final Command command;
 

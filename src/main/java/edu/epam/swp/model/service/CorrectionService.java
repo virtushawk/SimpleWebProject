@@ -1,7 +1,7 @@
 package edu.epam.swp.model.service;
 
 import edu.epam.swp.model.entity.Correction;
-import edu.epam.swp.model.exception.ServiceException;
+import edu.epam.swp.exception.ServiceException;
 
 import java.util.List;
 

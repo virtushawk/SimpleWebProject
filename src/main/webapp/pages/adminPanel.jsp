@@ -1,8 +1,51 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@taglib prefix="custom" uri="/WEB-INF/tld/custom.tld"%>
 <fmt:setLocale value="${sessionScope.lang}"/>
 <fmt:setBundle basename="property.text"/>
+<c:set var="users" value="${requestScope.users}"/>
+<c:set var="reviews" value="${requestScope.reviews}"/>
+<c:set var="creatures" value="${requestScope.creatures}"/>
+<c:set var="usersCreatures" value="${requestScope.uncheckedCreatures}"/>
+<c:set var="corrections" value="${requestScope.corrections}"/>
+<c:if test="${not empty param.filter}">
+    <c:choose>
+        <c:when test="${param.filter == 'username'}">
+            <c:set var="users" value="${custom:sortByUsername(users)}"/>
+        </c:when>
+        <c:when test="${param.filter == 'role'}">
+            <c:set var="users" value="${custom:sortByRole(users)}"/>
+        </c:when>
+        <c:when test="${param.filter == 'user'}">
+            <c:set var="reviews" value="${custom:sortByUser(reviews)}"/>
+        </c:when>
+        <c:when test="${param.filter == 'rate'}">
+            <c:set var="reviews" value="${custom:sortByRate(reviews)}"/>
+        </c:when>
+        <c:when test="${param.filter == 'name'}">
+            <c:set var="creatures" value="${custom:sortByName(creatures)}"/>
+        </c:when>
+        <c:when test="${param.filter == 'date'}">
+            <c:set var="creatures" value="${custom:sortByDate(creatures)}"/>
+        </c:when>
+        <c:when test="${param.filter == 'rating'}">
+            <c:set var="creatures" value="${custom:sortByRating(creatures)}"/>
+        </c:when>
+        <c:when test="${param.filter == 'usersName'}">
+            <c:set var="creatures" value="${custom:sortByName(usersCreatures)}"/>
+        </c:when>
+        <c:when test="${param.filter == 'usersDate'}">
+            <c:set var="creatures" value="${custom:sortByDate(usersCreatures)}"/>
+        </c:when>
+        <c:when test="${param.filter == 'correctionName'}">
+            <c:set var="creatures" value="${custom:sortByCorrectionName(corrections)}"/>
+        </c:when>
+        <c:when test="${param.filter == 'correctionDate'}">
+            <c:set var="creatures" value="${custom:sortByCorrectionDate(corrections)}"/>
+        </c:when>
+    </c:choose>
+</c:if>
 <!DOCTYPE html>
 <html lang="${sessionScope.lang}">
 <meta charset="utf-8">
@@ -36,8 +79,18 @@
         </ul>
         <div class="tab-content" id="myTabContent">
             <div class="tab-pane fade " id="userCorrections" role="tabpanel" aria-labelledby="creatures-tab">
+                <div class="container">
+                    <form class="d-flex justify-content-end g-1 me-5" action="${pageContext.request.contextPath}/controller?command=${param.command}">
+                        <input type="hidden" name="command" value="${param.command}"/>
+                        <select name="filter">
+                            <option value="correctionName">By name</option>
+                            <option value="correctionDate" selected>By date</option>
+                        </select>
+                        <button type="submit" class="btn btn-primary">Filter</button>
+                    </form>
+                </div>
                 <ul class="list-group">
-                    <c:forEach var="correction" items="${requestScope.corrections}">
+                    <c:forEach var="correction" items="${corrections}">
                         <li class="list-group-item d-flex justify-content-between align-items-center">
                             <div class="card mb-3">
                                 <div class="row g-4" style="width: 500px">
@@ -97,8 +150,18 @@
                 </ul>
             </div>
             <div class="tab-pane fade " id="userCreatures" role="tabpanel" aria-labelledby="creatures-tab">
+                <div class="container">
+                    <form class="d-flex justify-content-end g-1 me-5" action="${pageContext.request.contextPath}/controller">
+                        <input type="hidden" name="command" value="admin_panel"/>
+                        <select name="filter">
+                            <option value="usersName">By name</option>
+                            <option value="usersDate" selected>By date</option>
+                        </select>
+                        <button type="submit" class="btn btn-primary">Filter</button>
+                    </form>
+                </div>
                 <ul class="list-group">
-                    <c:forEach var="creature" items="${requestScope.uncheckedCreatures}">
+                    <c:forEach var="creature" items="${usersCreatures}">
                         <li class="list-group-item d-flex justify-content-between align-items-center">
                             <div class="card mb-3">
                                 <div class="row g-4" style="width: 500px">
@@ -164,8 +227,18 @@
                 </ul>
             </div>
             <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                <div class="container">
+                    <form class="d-flex justify-content-end g-1 me-5" action="${pageContext.request.contextPath}/controller?command=admin_panel">
+                        <input type="hidden" name="command" value="admin_panel"/>
+                        <select name="filter">
+                            <option value="username">By name</option>
+                            <option value="role">By role</option>
+                        </select>
+                        <button type="submit" class="btn btn-primary">Filter</button>
+                    </form>
+                </div>
                 <ul class="list-group">
-                    <c:forEach var="user" items="${requestScope.users}">
+                    <c:forEach var="user" items="${users}">
                         <li class="list-group-item d-flex justify-content-between align-items-center">
                             <div class="d-flex justify-content-start align-items-center">
                                 <img src="${pageContext.request.contextPath}/uploadController?url=${user.avatar}" class="rounded-circle" height="150" width="150">
@@ -201,10 +274,22 @@
                         </li>
                     </c:forEach>
                 </ul>
+                <div class="text-center">
+                </div>
             </div>
             <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                <div class="container">
+                    <form class="d-flex justify-content-end g-1 me-5" action="${pageContext.request.contextPath}/controller?command=admin_panel">
+                        <input type="hidden" name="command" value="admin_panel"/>
+                        <select name="filter">
+                            <option value="user">By User</option>
+                            <option value="rate">By rating</option>
+                        </select>
+                        <button type="submit" class="btn btn-primary">Filter</button>
+                    </form>
+                </div>
                 <ul class="list-group">
-                    <c:forEach var="review" items="${requestScope.reviews}">
+                    <c:forEach var="review" items="${reviews}">
                         <li class="list-group-item">
                             <div class="row g-0">
                                 <div class="col-md-4">
@@ -289,8 +374,19 @@
                 </ul>
             </div>
             <div class="tab-pane fade " id="creatures" role="tabpanel" aria-labelledby="creatures-tab">
+                <div class="container">
+                    <form class="d-flex justify-content-end g-1 me-5" action="${pageContext.request.contextPath}/controller">
+                        <input type="hidden" name="command" value="admin_panel"/>
+                        <select name="filter">
+                            <option value="name">By name</option>
+                            <option value="date" selected>By date</option>
+                            <option value="rating">By rating</option>
+                        </select>
+                        <button type="submit" class="btn btn-primary">Filter</button>
+                    </form>
+                </div>
                 <ul class="list-group">
-                    <c:forEach var="creature" items="${requestScope.creatures}">
+                    <c:forEach var="creature" items="${creatures}">
                         <li class="list-group-item d-flex justify-content-between align-items-center">
                             <div class="card mb-3">
                                 <div class="row g-4" style="width: 500px">
@@ -387,5 +483,17 @@
 </div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
 <script src="${pageContext.request.contextPath}/js/form-validation.js"></script>
+<script src="${pageContext.request.contextPath}/js/jquery-3.5.1.min.js"></script>
+<script>
+    $(document).ready(function(){
+        $('a[data-bs-toggle="tab"]').on('show.bs.tab', function(e) {
+            localStorage.setItem('activeTab', $(e.target).attr('href'));
+        });
+        var activeTab = localStorage.getItem('activeTab');
+        if(activeTab){
+            $('#myTab a[href="' + activeTab + '"]').tab('show');
+        }
+    });
+</script>
 </body>
 </html>

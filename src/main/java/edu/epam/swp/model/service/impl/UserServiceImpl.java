@@ -4,9 +4,10 @@ import edu.epam.swp.model.dao.UserDao;
 import edu.epam.swp.model.dao.impl.UserDaoImpl;
 import edu.epam.swp.model.entity.AccountRole;
 import edu.epam.swp.model.entity.User;
-import edu.epam.swp.model.exception.DaoException;
-import edu.epam.swp.model.exception.ServiceException;
+import edu.epam.swp.exception.DaoException;
+import edu.epam.swp.exception.ServiceException;
 import edu.epam.swp.model.service.UserService;
+import edu.epam.swp.model.util.PasswordGenerator;
 import edu.epam.swp.model.util.PasswordHash;
 import edu.epam.swp.model.util.mail.MailUtility;
 import edu.epam.swp.model.validation.UserValidator;
@@ -77,6 +78,29 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public boolean restorePassword(String username) throws ServiceException {
+        Optional<User> user;
+        boolean flag = false;
+        if (UserValidator.isUsername(username)) {
+            try {
+                user = dao.findUserByUsername(username);
+                if(user.isPresent()) {
+                    String password = PasswordGenerator.generatePassword();
+                    String enctyptedPassword = PasswordHash.createHash(password);
+                    flag = dao.updatePassword(enctyptedPassword,user.get().getId());
+                    if (flag) {
+                        MailUtility.sendRestoreMessage(user.get().getEmail(),password);
+                    }
+                }
+            } catch (DaoException e) {
+                logger.error("An error occurred when requesting a database");
+                throw new ServiceException("An error occurred when requesting a database",e);
+            }
+        }
+        return flag;
+    }
+
+    @Override
     public boolean changeAvatar(String avatar, long id) throws ServiceException {
         boolean flag;
         try {
@@ -141,6 +165,43 @@ public class UserServiceImpl implements UserService {
         boolean flag;
         try {
             flag = dao.makeAdmin(id);
+        } catch (DaoException e) {
+            logger.error("An error occurred when requesting a database");
+            throw new ServiceException("An error occurred when requesting a database",e);
+        }
+        return flag;
+    }
+
+    @Override
+    public boolean changeName(String name, long id) throws ServiceException {
+        boolean flag;
+        try {
+            flag = dao.updateName(name,id);
+        } catch (DaoException e) {
+            logger.error("An error occurred when requesting a database");
+            throw new ServiceException("An error occurred when requesting a database",e);
+        }
+        return flag;
+    }
+
+    @Override
+    public boolean changeEmail(String email, long id) throws ServiceException {
+        boolean flag;
+        try {
+            flag = dao.updateEmail(email,id);
+        } catch (DaoException e) {
+            logger.error("An error occurred when requesting a database");
+            throw new ServiceException("An error occurred when requesting a database",e);
+        }
+        return flag;
+    }
+
+    @Override
+    public boolean changePassword(String password, long id) throws ServiceException {
+        boolean flag;
+        String encryptedPassword = PasswordHash.createHash(password);
+        try {
+            flag = dao.updatePassword(encryptedPassword,id);
         } catch (DaoException e) {
             logger.error("An error occurred when requesting a database");
             throw new ServiceException("An error occurred when requesting a database",e);

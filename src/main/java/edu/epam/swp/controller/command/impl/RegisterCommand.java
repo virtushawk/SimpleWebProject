@@ -4,7 +4,7 @@ import edu.epam.swp.controller.PagePath;
 import edu.epam.swp.controller.command.AttributeName;
 import edu.epam.swp.controller.command.Command;
 import edu.epam.swp.controller.ParameterName;
-import edu.epam.swp.model.exception.ServiceException;
+import edu.epam.swp.exception.ServiceException;
 import edu.epam.swp.model.service.UserService;
 import edu.epam.swp.model.service.impl.UserServiceImpl;
 import org.apache.logging.log4j.LogManager;

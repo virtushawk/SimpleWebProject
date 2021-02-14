@@ -1,6 +1,6 @@
 package edu.epam.swp.model.pool;
 
-import edu.epam.swp.model.exception.PropertyReaderException;
+import edu.epam.swp.exception.PropertyReaderException;
 import edu.epam.swp.model.reader.PropertyReader;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

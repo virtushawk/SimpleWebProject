@@ -2,7 +2,7 @@ package edu.epam.swp.model.dao.impl;
 
 import edu.epam.swp.model.dao.CorrectionDao;
 import edu.epam.swp.model.entity.Correction;
-import edu.epam.swp.model.exception.DaoException;
+import edu.epam.swp.exception.DaoException;
 import edu.epam.swp.model.pool.ConnectionPool;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

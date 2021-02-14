@@ -8,6 +8,7 @@ public class User implements Serializable {
     private String username;
     private String avatar;
     private AccountRole role;
+    private String name;
 
     //todo builder
 
@@ -75,13 +76,21 @@ public class User implements Serializable {
         this.avatar = avatar;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
         return email.equals(user.email) && username.equals(user.username) &&
-                role.equals(user.role) && avatar.equals(user.avatar);
+                role.equals(user.role) && avatar.equals(user.avatar) && name.equals(user.name);
     }
 
     @Override
@@ -90,6 +99,7 @@ public class User implements Serializable {
         hash = hash * 31 + username.hashCode();
         hash = hash * 31 + role.hashCode();
         hash = hash * 31 + avatar.hashCode();
+        hash = hash * 31 + name.hashCode();
         return hash;
     }
 

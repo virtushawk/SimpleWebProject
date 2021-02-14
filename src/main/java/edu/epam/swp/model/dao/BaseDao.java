@@ -1,6 +1,6 @@
 package edu.epam.swp.model.dao;
 
-import edu.epam.swp.model.exception.DaoException;
+import edu.epam.swp.exception.DaoException;
 
 import java.util.List;
 import java.util.Optional;

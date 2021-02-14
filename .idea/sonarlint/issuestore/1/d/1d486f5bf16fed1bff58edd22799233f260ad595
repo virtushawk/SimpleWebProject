@@ -1,7 +1,9 @@
 
-{
-java:S1488["^Immediately return this expression instead of assigning it to the temporary variable "result".(á¯ÙÆ8şŸã†ğ.
 
-java:S1192;"mDefine a constant instead of duplicating this literal "An error occurred when requesting a database" 4 times.(ê¯Õëşÿÿÿÿ8ß¿À‰ø.
-\
-java:S1128"?Remove this unused import 'edu.epam.swp.model.entity.Creature'.(áÓ¿¥8ığÌ‰ø.
+java:S1192:"mDefine a constant instead of duplicating this literal "An error occurred when requesting a database" 6 times.(ê¯Õëşÿÿÿÿ8ß¿À‰ø.
+{
+java:S1488z"^Immediately return this expression instead of assigning it to the temporary variable "result".(á¯ÙÆ8şŸã†ğ.
+
+java:S1192¡"oDefine a constant instead of duplicating this literal "An error occurred while requesting a database" 10 times.(Æ•ÔÄ8Ïª†×ø.
+{
+java:S4144È"]Update this method so that its implementation is not identical to "confirmEmail" on line 168.(¾œãÒ8Ïª†×ø.

@@ -1,4 +1,4 @@
-package edu.epam.swp.model.exception;
+package edu.epam.swp.exception;
 
 public class ServiceException extends Exception {
     public ServiceException() {

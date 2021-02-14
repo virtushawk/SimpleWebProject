@@ -3,7 +3,7 @@ package edu.epam.swp.model.dao.impl;
 import edu.epam.swp.model.dao.CreatureDao;
 import edu.epam.swp.model.entity.Creature;
 import edu.epam.swp.model.entity.CreatureStatus;
-import edu.epam.swp.model.exception.DaoException;
+import edu.epam.swp.exception.DaoException;
 import edu.epam.swp.model.pool.ConnectionPool;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -27,8 +27,9 @@ public class CreatureDaoImpl implements CreatureDao {
             "VALUES(?,?,?,?,?,?)";
     private static final String SELECT_CREATURE_BY_ID = "SELECT creatures.name,creatures.picture," +
             "creatures.description,creatures.last_updated FROM creatures WHERE creatures.creature_id = ?";
-    private static final String SELECT_CREATURE = "SELECT creature_id,name,picture,description,last_updated FROM creatures " +
-            "WHERE status_id = 1";
+    private static final String SELECT_CREATURE = "SELECT creatures.creature_id,creatures.name,creatures.picture,creatures.description,creatures.last_updated,AVG(reviews.rating) AS rate " +
+            "FROM creatures LEFT JOIN reviews ON creatures.creature_id = reviews.creature_id WHERE creatures.status_id = 1 GROUP BY creatures.creature_id " +
+            "ORDER BY creatures.last_updated DESC";
     private static final String UPDATE_PICTURE = "UPDATE creatures SET picture = ? WHERE creature_id = ?";
     private static final String UPDATE_CREATURE = "UPDATE creatures SET name = ?,description = ?,last_updated = ? WHERE creature_id = ?";
     private static final String DELETE_CREATURE = "DELETE FROM creatures WHERE creature_id = ?";
@@ -38,6 +39,8 @@ public class CreatureDaoImpl implements CreatureDao {
     private static final String SELECT_CREATURE_BY_STATUS_ID = "SELECT creature_id,name,picture,description,last_updated FROM creatures " +
             "WHERE status_id = 2";
     private static final String UPDATE_CREATURE_STATUS_ID = "UPDATE creatures SET status_id = ? WHERE creature_id = ?";
+    private static final String SELECT_CREATURE_BY_NAME_LIKE = "SELECT creature_id,name,picture,description,last_updated FROM creatures " +
+            "WHERE name LIKE ? AND status_id = 1";
 
     private CreatureDaoImpl() {}
 
@@ -57,9 +60,11 @@ public class CreatureDaoImpl implements CreatureDao {
                 String picture = resultSet.getString(3);
                 String description = resultSet.getString(4);
                 long lastUpdated = resultSet.getLong(5);
+                double averageRating = resultSet.getDouble(6);
                 Date date = new Date(lastUpdated);
                 Creature creature = new Creature(name,picture,description,date);
                 creature.setId(id);
+                creature.setAverageRating(averageRating);
                 creatures.add(creature);
             }
             return creatures;
@@ -197,6 +202,32 @@ public class CreatureDaoImpl implements CreatureDao {
             throw new DaoException("An error occurred while requesting a database",e);
         }
         return flag;
+    }
+
+    @Override
+    public List<Creature> search(String name) throws DaoException {
+        List<Creature> creatures = new ArrayList<>();
+        try (Connection connection = pool.getConnection();
+             PreparedStatement statement = connection.prepareStatement(SELECT_CREATURE_BY_NAME_LIKE)) {
+            String parameter = '%' + name + '%';
+            statement.setString(1,parameter);
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                long id = resultSet.getLong(1);
+                String creatureName = resultSet.getString(2);
+                String picture = resultSet.getString(3);
+                String description = resultSet.getString(4);
+                long lastUpdated = resultSet.getLong(5);
+                Date date = new Date(lastUpdated);
+                Creature creature = new Creature(creatureName,picture,description,date);
+                creature.setId(id);
+                creatures.add(creature);
+            }
+        } catch (SQLException e) {
+            logger.error("Error occurred while searching creatures.",e);
+            throw new DaoException("Error occurred while searching creatures",e);
+        }
+        return creatures;
     }
 
     @Override

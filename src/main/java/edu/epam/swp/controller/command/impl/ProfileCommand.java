@@ -7,7 +7,7 @@ import edu.epam.swp.controller.command.Command;
 import edu.epam.swp.model.entity.Creature;
 import edu.epam.swp.model.entity.Review;
 import edu.epam.swp.model.entity.User;
-import edu.epam.swp.model.exception.ServiceException;
+import edu.epam.swp.exception.ServiceException;
 import edu.epam.swp.model.service.CreatureService;
 import edu.epam.swp.model.service.ReviewService;
 import edu.epam.swp.model.service.UserService;

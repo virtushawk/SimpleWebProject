@@ -1,7 +1,5 @@
 package edu.epam.swp.controller.command;
 
-import javax.xml.crypto.dsig.spec.XSLTTransformParameterSpec;
-
 public class AttributeName {
 
     private AttributeName() {}
@@ -24,4 +22,5 @@ public class AttributeName {
     public static final String CREATURES = "creatures";
     public static final String UNCHECKED_CREATURES = "uncheckedCreatures";
     public static final String CORRECTIONS = "corrections";
+    public static final String ID = "id";
 }

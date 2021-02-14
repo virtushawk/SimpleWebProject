@@ -6,7 +6,7 @@ import edu.epam.swp.controller.command.AttributeName;
 import edu.epam.swp.controller.command.Command;
 import edu.epam.swp.model.entity.Correction;
 import edu.epam.swp.model.entity.User;
-import edu.epam.swp.model.exception.ServiceException;
+import edu.epam.swp.exception.ServiceException;
 import edu.epam.swp.model.service.CorrectionService;
 import edu.epam.swp.model.service.impl.CorrectionServiceImpl;
 import org.apache.logging.log4j.LogManager;

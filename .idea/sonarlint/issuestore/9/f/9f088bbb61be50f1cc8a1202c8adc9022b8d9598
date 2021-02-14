@@ -1,9 +1,14 @@
 
-H
-java:S1168&"+Return an empty collection instead of null.(¥¹ï8‹ğ‘¿÷.
-
-java:S1192="mDefine a constant instead of duplicating this literal "An error occurred when requesting a database" 6 times.(ê¯Õëşÿÿÿÿ8‹ğ‘¿÷.
+
+java:S1192C"nDefine a constant instead of duplicating this literal "An error occurred when requesting a database" 12 times.(ê¯Õëşÿÿÿÿ8İ—‹ßø.
+W
+java:S1143‘"4Remove this throw statement from this finally block.(Õ´Ìûÿÿÿÿ8ÏÆÉàø.
+`
+java:S1163‘"=Refactor this code to not throw exceptions in finally blocks.(Õ´Ìûÿÿÿÿ8ÏÆÉàø.
+
+java:S1192ƒ"oDefine a constant instead of duplicating this literal "An error occurred while requesting a database" 10 times.(Æ•ÔÄ8İ—‹ßø.
 O
-java:S1135)"2Complete the task associated to this TODO comment.(ö“æŠ8‹ğ‘¿÷.
+java:S1135H"2Complete the task associated to this TODO comment.(ö“æŠ8İ—‹ßø.
+Y	java:S125¿"<This block of commented-out lines of code should be removed.(¢ÊĞî8¾úÉ‚ù.
 L
-java:S1481J"*Remove this unused "count" local variable.(½ÓŞÿÿÿÿÿ8ó·ïŞ÷.
+java:S1481i"*Remove this unused "count" local variable.(½ÓŞÿÿÿÿÿ8İ—‹ßø.

@@ -3,7 +3,7 @@ package edu.epam.swp.model.dao.impl;
 import edu.epam.swp.model.dao.UserDao;
 import edu.epam.swp.model.entity.AccountRole;
 import edu.epam.swp.model.entity.User;
-import edu.epam.swp.model.exception.DaoException;
+import edu.epam.swp.exception.DaoException;
 import edu.epam.swp.model.pool.ConnectionPool;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -25,11 +25,17 @@ public class UserDaoImpl implements UserDao {
                     "FROM accounts INNER JOIN roles ON accounts.role_id = roles.role_id " +
                     "WHERE accounts.username =? AND accounts.password =?";
     private static final String SELECT_ACCOUNT_BY_ID = "SELECT email,username," +
-            "avatar FROM accounts WHERE account_id = ? ";
+            "avatar,name FROM accounts WHERE account_id = ? ";
     private static final String UPDATE_AVATAR = "UPDATE accounts SET avatar = ? WHERE account_id = ?";
     private static final String UPDATE_ROLE = "UPDATE accounts SET role_id = ? WHERE account_id = ?";
     private static final String SELECT_ACCOUNT = "SELECT accounts.account_id,accounts.email,accounts.username," +
             "accounts.avatar,roles.role FROM accounts INNER JOIN roles ON accounts.role_id = roles.role_id ";
+    private static final String UPDATE_NAME = "UPDATE accounts SET name = ? WHERE account_id = ?";
+    private static final String UPDATE_EMAIL = "UPDATE accounts SET email = ? WHERE account_id = ?";
+    private static final String UPDATE_PASSWORD = "UPDATE accounts SET password = ? WHERE account_id = ?";
+    private static final String SELECT_USER_BY_USERNAME = "SELECT accounts.account_id,accounts.email,accounts.username,roles.role,accounts.avatar " +
+            "FROM accounts INNER JOIN roles ON accounts.role_id = roles.role_id " +
+            "WHERE accounts.username =?";
 
 
     private UserDaoImpl() {}
@@ -70,10 +76,12 @@ public class UserDaoImpl implements UserDao {
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
                 String email = resultSet.getString(1);
-                String name = resultSet.getString(2);
+                String username = resultSet.getString(2);
                 String avatar = resultSet.getString(3);
-                User user = new User(email,name,avatar);
+                String name = resultSet.getString(4);
+                User user = new User(email,username,avatar);
                 user.setId(id);
+                user.setName(name);
                 result = Optional.of(user);
             }
         } catch (SQLException e) {
@@ -118,6 +126,30 @@ public class UserDaoImpl implements UserDao {
         } catch (SQLException e) {
            logger.error("An error occurred when requesting a database",e);
            throw new DaoException("An error occurred when requesting a database",e);
+        }
+        Optional<User> result = Optional.empty();
+        return result;
+    }
+
+    @Override
+    public Optional<User> findUserByUsername(String username) throws DaoException {
+        try(Connection connection = pool.getConnection();
+            PreparedStatement statement = connection.prepareStatement(SELECT_USER_BY_USERNAME)) {
+            statement.setString(1,username);
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                long id = resultSet.getLong(1);
+                String userEmail = resultSet.getString(2);
+                String userName = resultSet.getString(3);
+                AccountRole role = AccountRole.valueOf(resultSet.getString(4));
+                String avatar = resultSet.getString(5);
+                User user = new User(userEmail,userName,role,avatar);
+                user.setId(id);
+                return Optional.of(user);
+            }
+        } catch (SQLException e) {
+            logger.error("An error occurred when requesting a database",e);
+            throw new DaoException("An error occurred when requesting a database",e);
         }
         Optional<User> result = Optional.empty();
         return result;
@@ -219,6 +251,51 @@ public class UserDaoImpl implements UserDao {
             PreparedStatement statement = connection.prepareStatement(UPDATE_ROLE)) {
             int roleUser = 2; // 2 = ADMIN
             statement.setLong(1,roleUser);
+            statement.setLong(2,id);
+            flag = statement.executeUpdate() > 0;
+        } catch (SQLException e) {
+            logger.error("An error occurred while requesting a database",e);
+            throw new DaoException("An error occurred while requesting a database",e);
+        }
+        return flag;
+    }
+
+    @Override
+    public boolean updateName(String name,long id) throws DaoException {
+        boolean flag;
+        try(Connection connection = pool.getConnection();
+            PreparedStatement statement = connection.prepareStatement(UPDATE_NAME)) {
+            statement.setString(1,name);
+            statement.setLong(2,id);
+            flag = statement.executeUpdate() > 0;
+        } catch (SQLException e) {
+            logger.error("An error occurred while requesting a database",e);
+            throw new DaoException("An error occurred while requesting a database",e);
+        }
+        return flag;
+    }
+
+    @Override
+    public boolean updateEmail(String email, long id) throws DaoException {
+        boolean flag;
+        try(Connection connection = pool.getConnection();
+            PreparedStatement statement = connection.prepareStatement(UPDATE_EMAIL)) {
+            statement.setString(1,email);
+            statement.setLong(2,id);
+            flag = statement.executeUpdate() > 0;
+        } catch (SQLException e) {
+            logger.error("An error occurred while requesting a database",e);
+            throw new DaoException("An error occurred while requesting a database",e);
+        }
+        return flag;
+    }
+
+    @Override
+    public boolean updatePassword(String password, long id) throws DaoException {
+        boolean flag;
+        try(Connection connection = pool.getConnection();
+            PreparedStatement statement = connection.prepareStatement(UPDATE_PASSWORD)) {
+            statement.setString(1,password);
             statement.setLong(2,id);
             flag = statement.executeUpdate() > 0;
         } catch (SQLException e) {

@@ -11,6 +11,7 @@ public class Creature {
     private String picture;
     private String description;
     private Date lastUpdated;
+    private double averageRating;
 
     public Creature(String name, String picture, String description, Date lastUpdated) {
         this.name = name;
@@ -74,6 +75,14 @@ public class Creature {
         this.accountId = accountId;
     }
 
+    public double getAverageRating() {
+        return averageRating;
+    }
+
+    public void setAverageRating(double averageRating) {
+        this.averageRating = averageRating;
+    }
+
     public CreatureStatus getCreatureStatus() {
         return creatureStatus;
     }
@@ -89,7 +98,7 @@ public class Creature {
         Creature creature = (Creature) o;
         return  lastUpdated.equals(creature.lastUpdated) && id == creature.id && accountId == creature.accountId
                 && name.equals(creature.name) && picture.equals(creature.picture) && creatureStatus.equals(creature.creatureStatus)
-                && description.equals(creature.description);
+                && description.equals(creature.description) && averageRating == creature.averageRating;
     }
 
     @Override
@@ -101,6 +110,7 @@ public class Creature {
         hashcode = hashcode * 31 + description.hashCode();
         hashcode = hashcode * 31 + lastUpdated.hashCode();
         hashcode = hashcode * 31 + creatureStatus.hashCode();
+        hashcode = hashcode * 31 + Double.hashCode(averageRating);
         return hashcode;
     }
 }

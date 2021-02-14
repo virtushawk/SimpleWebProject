@@ -16,4 +16,5 @@ public class ParameterName {
     public static final String RATING = "rating";
     public static final String IMAGE = "image";
     public static final String KEY = "key";
+    public static final String TEXT = "text";
 }

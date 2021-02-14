@@ -33,6 +33,20 @@
 
         </ul>
     </div>
+    <div class="collapse navbar-collapse text-center ms-5">
+        <ul class="navbar-nav">
+            <li class="nav-item">
+                <form action="${pageContext.request.contextPath}/controller" method="get">
+                    <div class="input-group">
+                        <input type="hidden" name="command" value="search" />
+                        <input type="search" class="form-control rounded" placeholder="Search" aria-label="Search" name="text"
+                               aria-describedby="search-addon" style="width: 300px;">
+                        <button type="submit" class="btn btn-outline-primary">search</button>
+                </div>
+                </form>
+            </li>
+        </ul>
+    </div>
     <div class="collapse navbar-collapse flex-grow-1 text-right" id="login">
         <ul class="navbar-nav ms-auto flex-nowrap">
             <li class="nav-item dropdown dropstart" id="language">
@@ -40,10 +54,10 @@
                     <fmt:message key="header.language"/>
                 </button>
                 <div class="dropdown-menu " aria-labelledby="navbarDropdown">
-                    <a class="dropdown-item" href="${requestScope['javax.servlet.forward.request_url']}?sessionLocale=en_US&command=${param.command}&id=${param.id}">
+                    <a class="dropdown-item" href="${requestScope['javax.servlet.forward.request_url']}?sessionLocale=en_US&command=${param.command}&id=${param.id}&text=${param.text}">
                         <fmt:message key="header.language.en"/>
                     </a>
-                    <a class="dropdown-item" href="${requestScope['javax.servlet.forward.request_url']}?sessionLocale=ru_RU&command=${param.command}&id=${param.id}">
+                    <a class="dropdown-item" href="${requestScope['javax.servlet.forward.request_url']}?sessionLocale=ru_RU&command=${param.command}&id=${param.id}&text=${param.text}">
                         <fmt:message key="header.language.ru"/>
                     </a>
                 </div>

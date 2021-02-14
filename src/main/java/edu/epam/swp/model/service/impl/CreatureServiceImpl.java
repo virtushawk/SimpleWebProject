@@ -3,8 +3,8 @@ package edu.epam.swp.model.service.impl;
 import edu.epam.swp.model.dao.CreatureDao;
 import edu.epam.swp.model.dao.impl.CreatureDaoImpl;
 import edu.epam.swp.model.entity.Creature;
-import edu.epam.swp.model.exception.DaoException;
-import edu.epam.swp.model.exception.ServiceException;
+import edu.epam.swp.exception.DaoException;
+import edu.epam.swp.exception.ServiceException;
 import edu.epam.swp.model.service.CreatureService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -153,5 +153,17 @@ public class CreatureServiceImpl implements CreatureService {
             throw new ServiceException("An error occurred when requesting a database",e);
         }
         return flag;
+    }
+
+    @Override
+    public List<Creature> search(String text) throws ServiceException {
+        List<Creature> creatures;
+        try {
+            creatures = dao.search(text);
+        } catch (DaoException e) {
+            logger.error("An error occurred when requesting a database");
+            throw new ServiceException("An error occurred when requesting a database",e);
+        }
+        return creatures;
     }
 }

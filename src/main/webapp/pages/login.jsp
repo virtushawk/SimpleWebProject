@@ -41,6 +41,40 @@
             <fmt:message key="login.register"/>
         </a>
     </div>
+    <div id="formFooter">
+        <button type="button" class="btn btn-outline-primary mt-1" data-bs-toggle="modal" data-bs-target="#exampleModal">
+            Forgot password?
+        </button>
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <form class="modal-content needs-validation" action="${pageContext.request.contextPath}/controller?command=forgot_password" method="post" novalidate>
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Forgot password</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <label for="name">
+                            Enter your username
+                        </label>
+                        <input type="text" name="name" class="form-control" id="name" required/>
+                        <div class="valid-feedback">
+                            <fmt:message key="createCreature.valid"/>
+                        </div>
+                        <div class="invalid-feedback">
+                            <fmt:message key="createCreature.image.invalid"/>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Save changes</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="mt-3">
+            <h4>${requestScope.user.username}</h4>
+        </div>
+    </div>
     <c:if test="${sessionScope.errorMessage}">
     <div id="error" class="p-3 mb-2 bg-danger text-white">
         <fmt:message key="login.errorMessage"/>
