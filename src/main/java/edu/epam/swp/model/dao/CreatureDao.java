@@ -14,4 +14,5 @@ public interface CreatureDao extends BaseDao<Creature> {
     List<Creature> findUncheckedCreatures() throws DaoException;
     boolean approveCreature(long id) throws DaoException;
     List<Creature> search(String name) throws DaoException;
+    List<Creature> findUserUncheckedCreatures(long id) throws DaoException;
 }

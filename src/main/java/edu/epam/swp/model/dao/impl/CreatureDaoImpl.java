@@ -41,6 +41,8 @@ public class CreatureDaoImpl implements CreatureDao {
     private static final String UPDATE_CREATURE_STATUS_ID = "UPDATE creatures SET status_id = ? WHERE creature_id = ?";
     private static final String SELECT_CREATURE_BY_NAME_LIKE = "SELECT creature_id,name,picture,description,last_updated FROM creatures " +
             "WHERE name LIKE ? AND status_id = 1";
+    private static final String SELECT_CREATURE_BY_STATUS_ID_USER_ID = "SELECT creature_id,name,picture,description,last_updated " +
+            "From creatures WHERE status_id = 2 AND account_id = ?";
 
     private CreatureDaoImpl() {}
 
@@ -228,6 +230,31 @@ public class CreatureDaoImpl implements CreatureDao {
             throw new DaoException("Error occurred while searching creatures",e);
         }
         return creatures;
+    }
+
+    @Override
+    public List<Creature> findUserUncheckedCreatures(long id) throws DaoException {
+        try(Connection connection = pool.getConnection();
+            PreparedStatement statement = connection.prepareStatement(SELECT_CREATURE_BY_STATUS_ID_USER_ID)) {
+            statement.setLong(1,id);
+            ResultSet resultSet = statement.executeQuery();
+            List<Creature> creatures = new ArrayList<>();
+            while (resultSet.next()) {
+                long creatureId = resultSet.getLong(1);
+                String name = resultSet.getString(2);
+                String picture = resultSet.getString(3);
+                String description = resultSet.getString(4);
+                long lastUpdated = resultSet.getLong(5);
+                Date date = new Date(lastUpdated);
+                Creature creature = new Creature(name,picture,description,date);
+                creature.setId(creatureId);
+                creatures.add(creature);
+            }
+            return creatures;
+        } catch (SQLException e) {
+            logger.error("An error occurred when requesting a database",e);
+            throw new DaoException("An error occurred when requesting a database",e);
+        }
     }
 
     @Override

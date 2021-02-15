@@ -20,4 +20,5 @@ public interface CreatureService {
     List<Creature> findUncheckedCreatures() throws ServiceException;
     boolean approveCreature(long id) throws ServiceException;
     List<Creature> search(String text) throws ServiceException;
+    List<Creature> findUserSuggestedCreatures(long id) throws ServiceException;
 }

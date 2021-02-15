@@ -40,6 +40,7 @@
             <div class="nav flex-column nav-pills me-3" id="v-pills-tab" role="tablist" aria-orientation="vertical">
                 <button class="btn btn-outline-primary active" id="v-pills-profile-tab" data-bs-toggle="pill" data-bs-target="#v-pills-profile" type="button" role="tab" aria-controls="v-pills-profile" aria-selected="true">profile</button>
                 <button class="btn btn-outline-primary" id="v-pills-settings-tab" data-bs-toggle="pill" data-bs-target="#v-pills-settings" type="button" role="tab" aria-controls="v-pills-settings" aria-selected="false">Settings</button>
+                <button class="btn btn-outline-primary" id="v-pills-userCreatures-tab" data-bs-toggle="pill" data-bs-target="#v-pills-userCreatures" type="button" role="tab" aria-controls="v-pills-userCreatures" aria-selected="false">My creatures</button>
             </div>
         </div>
     </c:if>
@@ -283,6 +284,35 @@
                             </div>
                         </form>
                     </div>
+                </div>
+            </div>
+        </div>
+        <div class="tab-pane fade" id="v-pills-userCreatures" role="tabpanel" aria-labelledby="v-pills-userCreatures-tab">
+            <div class="container shadow-sm p-3 mb-5 bg-white rounded">
+                <div class="row row-cols-1 row-cols-md-5 g-4 mx-auto shadow p-3 mb-5 bg-white rounded mt-0" style="width: 75rem;">
+                    <c:forEach var="creature" items="${requestScope.uncheckedCreatures}">
+                        <div class="col">
+                            <div class="card h-100 border-0">
+                                <img src="${pageContext.request.contextPath}/uploadController?url=${creature.picture}" class="card-img-top" alt="..." style=" width: 100%;object-fit: cover;height: 15vw">
+                                <div class="card-body">
+                                    <a href="${pageContext.request.contextPath}/controller?command=creature&id=${creature.id}" class="text-decoration-none stretched-link">
+                                            ${creature.name}
+                                    </a>
+                                    <p class="card-text text-truncate">
+                                            ${creature.description}
+                                    </p>
+                                    <p class="card-text">
+                                        rating : <fmt:formatNumber type="number" maxFractionDigits="1" value="${creature.averageRating}" />
+                                    </p>
+                                </div>
+                                <div class="card-footer border-0">
+                                    <small class="text-muted">
+                                        <fmt:message key="home.creature.lastUpdated"/> ${creature.lastUpdated.toString()}
+                                    </small>
+                                </div>
+                            </div>
+                        </div>
+                    </c:forEach>
                 </div>
             </div>
         </div>

@@ -33,10 +33,12 @@ public class ProfileCommand implements Command {
         Optional<User> user;
         List<Review> reviews;
         List<Creature> creatures;
+        List<Creature> suggestedCreatures;
         try {
             user = userService.get(id);
             reviews = reviewService.findReviewsUser(id);
             creatures = creatureService.findUserCreatures(id);
+            suggestedCreatures = creatureService.findUserSuggestedCreatures(id);
         } catch (ServiceException e) {
             logger.error("Error occurred while finding user",e);
             request.getSession().setAttribute(AttributeName.DATABASE_ERROR_MESSAGE, true);
@@ -46,6 +48,7 @@ public class ProfileCommand implements Command {
             request.setAttribute(AttributeName.USER,user.get());
             request.setAttribute(AttributeName.REVIEWS,reviews);
             request.setAttribute(AttributeName.CREATURES,creatures);
+            request.setAttribute(AttributeName.UNCHECKED_CREATURES,suggestedCreatures);
             return PagePath.PROFILE;
         } else {
             return PagePath.ERROR;
