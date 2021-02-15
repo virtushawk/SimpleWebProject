@@ -301,7 +301,6 @@ public class CreatureDaoImpl implements CreatureDao {
                 connection.close();
             } catch (SQLException e) {
                 logger.error("An error occurred while requesting a database",e);
-                throw new DaoException("An error occurred while requesting a database",e);
             }
         }
         return flag;
