@@ -6,6 +6,7 @@ public class Review {
 
     String avatar;
     String accountName;
+    String creatureName;
     long reviewId;
     long accountId;
     long creatureId;
@@ -92,13 +93,22 @@ public class Review {
         this.accountName = accountName;
     }
 
+    public String getCreatureName() {
+        return creatureName;
+    }
+
+    public void setCreatureName(String creatureName) {
+        this.creatureName = creatureName;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Review review = (Review) o;
         return reviewId == review.reviewId && accountId == review.accountId && creatureId == review.creatureId &&
-                text.equals(review.text) && time.equals(review.time) && rating == review.rating;
+                text.equals(review.text) && time.equals(review.time) && rating == review.rating &&
+                accountName.equals(review.accountName) && creatureName.equals(review.creatureName);
     }
 
     @Override
@@ -109,6 +119,8 @@ public class Review {
         hash = hash * 31 + text.hashCode();
         hash = hash * 31 + time.hashCode();
         hash = hash * 31 + rating;
+        hash = hash * 31 + accountName.hashCode();
+        hash = hash * 31 + creatureName.hashCode();
         return hash;
     }
 

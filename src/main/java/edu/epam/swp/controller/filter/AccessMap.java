@@ -24,7 +24,8 @@ class AccessMap {
         COMMAND_MAP.put(AccountRole.USER,Arrays.asList(CommandType.HOME,CommandType.CONFIRM_EMAIL,CommandType.LOGIN,
                 CommandType.CATALOG,CommandType.CREATURE,CommandType.REGISTER,CommandType.EDIT_CREATURE,CommandType.PROFILE,
                 CommandType.CHANGE_AVATAR,CommandType.CREATE_CREATURE,CommandType.CREATE_REVIEW,CommandType.LOGOUT,CommandType.SUGGEST_CORRECTION,
-                CommandType.SEARCH,CommandType.EDIT_NAME,CommandType.EDIT_EMAIL,CommandType.CHANGE_PASSWORD,CommandType.FORGOT_PASSWORD));
+                CommandType.SEARCH,CommandType.EDIT_NAME,CommandType.EDIT_EMAIL,CommandType.CHANGE_PASSWORD,CommandType.FORGOT_PASSWORD,
+                CommandType.EDIT_REVIEW));
     }
 
     private AccessMap() {}

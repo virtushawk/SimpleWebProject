@@ -298,7 +298,9 @@
                                 <div class="col-md-4">
                                     <div class="card-body">
                                         <h5 class="card-title">
-                                                ${review.accountName}
+                                            Review to : <a href="${pageContext.request.contextPath}/controller?command=creature&id=${review.creatureId}" class="text-decoration-none">
+                                                ${review.creatureName}
+                                        </a>
                                         </h5>
                                         <p class="card-text">
                                             ${review.text}
@@ -324,7 +326,9 @@
                                 </div>
                                 <div class="modal fade" id="exampleModal${review.reviewId}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                     <div class="modal-dialog modal-lg">
-                                        <form class="modal-content needs-validation" action="${pageContext.request.contextPath}/controller?command=edit_review&id=${review.reviewId}" method="post" novalidate>
+                                        <form class="modal-content needs-validation" action="${pageContext.request.contextPath}/controller?command=edit_review" method="post" novalidate>
+                                            <input type="hidden" name="id" value="${review.reviewId}">
+                                            <input type="hidden" name="creature" value="${review.creatureId}">
                                             <div class="modal-header">
                                                 <h5 class="modal-title" id="exampleModalLabel">Edit review</h5>
                                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>

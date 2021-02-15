@@ -4,6 +4,7 @@ import edu.epam.swp.model.entity.Review;
 import edu.epam.swp.exception.ServiceException;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface ReviewService {
 
@@ -13,4 +14,5 @@ public interface ReviewService {
     List<Review> findAll() throws ServiceException;
     boolean editReview(Review review) throws ServiceException;
     boolean delete(long id) throws ServiceException;
+    Optional<Review> findUserReview(long userId,long creatureId) throws ServiceException;
 }

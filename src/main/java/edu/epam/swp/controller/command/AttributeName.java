@@ -23,4 +23,5 @@ public class AttributeName {
     public static final String UNCHECKED_CREATURES = "uncheckedCreatures";
     public static final String CORRECTIONS = "corrections";
     public static final String ID = "id";
+    public static final String USER_REVIEW = "userReview";
 }

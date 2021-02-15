@@ -10,6 +10,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.util.List;
+import java.util.Optional;
 
 public class ReviewServiceImpl implements ReviewService {
     private static final Logger logger = LogManager.getLogger(ReviewServiceImpl.class);
@@ -92,5 +93,18 @@ public class ReviewServiceImpl implements ReviewService {
             throw new ServiceException("Error occurred while deleting review",e);
         }
         return flag;
+    }
+
+    @Override
+    public Optional<Review> findUserReview(long userId,long creatureId) throws ServiceException {
+
+        Optional<Review> review;
+        try {
+            review = dao.findReviewByUserIdCreatureId(userId,creatureId);
+        } catch (DaoException e) {
+            logger.error("Error occurred while deleting review",e);
+            throw new ServiceException("Error occurred while deleting review",e);
+        }
+        return review;
     }
 }

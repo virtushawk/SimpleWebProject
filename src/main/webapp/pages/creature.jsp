@@ -3,6 +3,16 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <fmt:setLocale value="${sessionScope.lang}"/>
 <fmt:setBundle basename="property.text"/>
+<c:set var="userReview" value="${requestScope.userReview}"/>
+<c:set var="totalCount" scope="session" value="${requestScope.reviews.size()}"/>
+<c:set var="perPage" scope="session" value="${5}"/>
+<c:set var="pageStart" value="${param.start}"/>
+<c:if test="${empty pageStart or pageStart < 0}">
+    <c:set var="pageStart" value="0"/>
+</c:if>
+<c:if test="${totalCount < pageStart}">
+    <c:set var="pageStart" value="${pageStart - perPage}"/>
+</c:if>
 <!DOCTYPE html>
 <html lang="${sessionScope.lang}">
 <meta charset="utf-8">
@@ -76,40 +86,115 @@
         </div>
     </div>
 </div>
-<c:if test="${sessionScope.user.role.name().equals('USER') || sessionScope.user.role.name().equals('ADMIN')}" >
-<div class="container-sm shadow p-3 mb-5 bg-white rounded w-50">
-    <form class="row g-1" action="${pageContext.request.contextPath}/controller?command=create_review&id=${requestScope.creature.id}" method="post">
-        <div class="col-md-3">
-            <img src="${pageContext.request.contextPath}/uploadController?url=${sessionScope.user.avatar}" alt="..."  class="img-thumbnail" style="height: 100px; width: 100px">
-            <p class="fs-3">
-                    ${sessionScope.user.username}
-            </p>
+<c:choose>
+    <c:when test="${(sessionScope.user.role.name().equals('USER') || sessionScope.user.role.name().equals('ADMIN')) && (empty requestScope.userReview)}">
+        <div class="container-sm shadow p-3 mb-5 bg-white rounded w-50">
+            <form class="row g-1" action="${pageContext.request.contextPath}/controller?command=create_review&id=${requestScope.creature.id}" method="post">
+                <div class="col-md-3">
+                    <img src="${pageContext.request.contextPath}/uploadController?url=${sessionScope.user.avatar}" alt="..."  class="img-thumbnail" style="height: 100px; width: 100px">
+                    <p class="fs-3">
+                            ${sessionScope.user.name}
+                    </p>
+                </div>
+                <div class="col-md-6">
+                    <label for="exampleFormControlTextarea1" class="form-label">
+                        Description
+                    </label>
+                    <textarea class="form-control" name="review" id="exampleFormControlTextarea1" rows="3"></textarea>
+                </div>
+                <div class="col-md-2 ms-2">
+                    <p class="fs-4">score</p>
+                    <select class="form-select" aria-label="Default select example" name="rating">
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                    </select>
+                </div>
+                <div class="col-12">
+                    <button type="submit" class="btn btn-primary">Publish</button>
+                </div>
+            </form>
         </div>
-        <div class="col-md-6">
-            <label for="exampleFormControlTextarea1" class="form-label">
-                Description
-            </label>
-            <textarea class="form-control" name="review" id="exampleFormControlTextarea1" rows="3"></textarea>
+    </c:when>
+    <c:when test="${(sessionScope.user.role.name().equals('USER') || sessionScope.user.role.name().equals('ADMIN')) && (not empty requestScope.userReview)}">
+        <div class="container-sm shadow p-3 mb-5 bg-white rounded w-50">
+            <div class="row g-1">
+                <div class="col-md-3">
+                    <img src="${pageContext.request.contextPath}/uploadController?url=${userReview.avatar}" alt="..."  class="img-thumbnail" style="height: 100px; width: 100px">
+                    <p class="fs-3">
+                            ${userReview.accountName}
+                    </p>
+                </div>
+                <div class="col-md-6">
+                    <p class="text-break">${userReview.text}</p>
+                </div>
+                <div class="col-md-2 ms-2">
+                    <p class="fs-4">score</p>
+                    <p class="fs-2">${userReview.rating}</p>
+                    <button type="button" class="btn btn-outline-primary mt-1" data-bs-toggle="modal" data-bs-target="#reviewModal">
+                        Edit
+                    </button>
+                    <a class="btn btn-outline-danger mt-1" href="${pageContext.request.contextPath}/controller?command=delete_review&id=${userReview.reviewId}">
+                        delete
+                    </a>
+                    <div class="modal fade" id="reviewModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-xl">
+                            <form class="modal-content needs-validation" action="${pageContext.request.contextPath}/controller?command=edit_review" method="post" novalidate>
+                                <input type="hidden" name="id" value="${userReview.reviewId}">
+                                <input type="hidden" name="creature" value="${userReview.creatureId}">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Edit review</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="row g-1">
+                                        <div class="col-md-3">
+                                            <img src="${pageContext.request.contextPath}/uploadController?url=${userReview.avatar}" alt="..."  class="img-thumbnail" style="height: 100px; width: 100px">
+                                            <p class="fs-3">
+                                                    ${userReview.accountName}
+                                            </p>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label for="exampleFormControlTextarea1" class="form-label">
+                                                Review
+                                            </label>
+                                            <textarea class="form-control" name="review" rows="3" required>${userReview.text}</textarea>
+                                            <div class="valid-feedback">
+                                                <fmt:message key="createCreature.valid"/>
+                                            </div>
+                                            <div class="invalid-feedback">
+                                                <fmt:message key="createCreature.description.invalid"/>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2 ms-2">
+                                            <p class="fs-4">score</p>
+                                            <select class="form-select" aria-label="Default select example" name="rating" required>
+                                                <option value="1">1</option>
+                                                <option value="2">2</option>
+                                                <option value="3">3</option>
+                                                <option value="4">4</option>
+                                                <option value="5">5</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                    <button type="submit" class="btn btn-primary">Save changes</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="col-md-2 ms-2">
-            <p class="fs-4">score</p>
-            <select class="form-select" aria-label="Default select example" name="rating">
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-                <option value="4">4</option>
-                <option value="5">5</option>
-            </select>
-        </div>
-        <div class="col-12">
-            <button type="submit" class="btn btn-primary">Publish</button>
-        </div>
-    </form>
-</div>
-</c:if>
+    </c:when>
+</c:choose>
 <div class="container shadow p-3 mb-5 bg-white rounded w-50">
     <div class="list-group">
-        <c:forEach var="review" items="${requestScope.reviews}">
+        <c:forEach var="review" items="${requestScope.reviews}" begin="${pageStart}" end="${pageStart + perPage - 1}">
             <div class="row g-1">
                 <div class="col-md-3">
                     <img src="${pageContext.request.contextPath}/uploadController?url=${review.avatar}" alt="..."  class="img-thumbnail" style="height: 100px; width: 100px">
@@ -129,6 +214,10 @@
             </div>
             <hr/>
         </c:forEach>
+    </div>
+    <div class="container text-center">
+        <a href="${pageContext.request.contextPath}/controller?command=${param.command}&id=${requestScope.creature.id}&start=${pageStart - perPage}"><<</a>${pageStart + 1} - ${pageStart + perPage}
+        <a href="${pageContext.request.contextPath}/controller?command=${param.command}&id=${requestScope.creature.id}&start=${pageStart + perPage}">>></a>
     </div>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>

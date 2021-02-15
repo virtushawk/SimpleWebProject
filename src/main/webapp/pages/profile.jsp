@@ -163,7 +163,9 @@
                                                 <div class="col-md-8">
                                                     <div class="card-body">
                                                         <h5 class="card-title">
-                                                                ${requestScope.user.username}
+                                                                Review to : <a href="${pageContext.request.contextPath}/controller?command=creature&id=${review.creatureId}" class="text-decoration-none">
+                                                                ${review.creatureName}
+                                                            </a>
                                                         </h5>
                                                         <p class="card-text">
                                                                 ${review.text}

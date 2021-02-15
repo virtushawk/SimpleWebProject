@@ -6,6 +6,7 @@ import edu.epam.swp.controller.command.Command;
 import edu.epam.swp.model.entity.Creature;
 import edu.epam.swp.model.entity.Review;
 import edu.epam.swp.exception.ServiceException;
+import edu.epam.swp.model.entity.User;
 import edu.epam.swp.model.service.CreatureService;
 import edu.epam.swp.model.service.ReviewService;
 import edu.epam.swp.model.service.impl.CreatureServiceImpl;
@@ -21,15 +22,20 @@ public class CreatureCommand implements Command {
     private static final Logger logger = LogManager.getLogger(CreatureCommand.class);
     private static final CreatureService creatureService = CreatureServiceImpl.getInstance();
     private static final ReviewService reviewService = ReviewServiceImpl.getInstance();
+
     //todo : check and clean
     @Override
     public String execute(HttpServletRequest request) {
-        long id = Long.parseLong(request.getParameter(ParameterName.ID));
+        long creatureId = Long.parseLong(request.getParameter(ParameterName.ID));
+        User user = (User) request.getSession().getAttribute(AttributeName.USER);
+        long accountId = user.getId();
         Optional<Creature> creature;
         List<Review> reviews;
+        Optional<Review> userReview;
         try {
-            creature = creatureService.get(id);
-            reviews = reviewService.findReviewsCreature(id);
+            creature = creatureService.get(creatureId);
+            reviews = reviewService.findReviewsCreature(creatureId);
+            userReview = reviewService.findUserReview(accountId,creatureId);
         } catch (ServiceException e) {
             logger.error("Error occurred while finding creature",e);
             request.getSession().setAttribute(AttributeName.DATABASE_ERROR_MESSAGE, true);
@@ -38,6 +44,7 @@ public class CreatureCommand implements Command {
         if (creature.isPresent()) {
             request.setAttribute(AttributeName.CREATURE,creature.get());
             request.setAttribute(AttributeName.REVIEWS,reviews);
+            userReview.ifPresent(review -> request.setAttribute(AttributeName.USER_REVIEW,review));
             return PagePath.CREATURE;
         } else {
             return PagePath.ERROR;
