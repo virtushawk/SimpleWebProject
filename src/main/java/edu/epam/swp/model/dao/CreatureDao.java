@@ -10,6 +10,8 @@ public interface CreatureDao extends BaseDao<Creature> {
     List<Creature> findNewCreatures() throws DaoException;
     List<Creature> findPopularCreatures() throws DaoException;
     boolean updateImageById(long id,String image) throws DaoException;
+    boolean updateUncheckedImageById(long id,long accountId,String image) throws DaoException;
+    boolean updateUncheckedCreature(long accountId,Creature creature) throws DaoException;
     List<Creature> findCreaturesById(long id) throws DaoException;
     List<Creature> findUncheckedCreatures() throws DaoException;
     boolean approveCreature(long id) throws DaoException;

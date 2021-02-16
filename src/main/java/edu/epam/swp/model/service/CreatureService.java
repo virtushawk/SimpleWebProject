@@ -14,7 +14,9 @@ public interface CreatureService {
     Optional<Creature> get(long id) throws ServiceException;
     List<Creature> findAll() throws ServiceException;
     boolean changeImage(long id,String image) throws ServiceException;
+    boolean changeUncheckedImage(long id,long accountId,String image) throws ServiceException;
     boolean editCreature(Creature creature) throws ServiceException;
+    boolean editUncheckedCreature(long accountId,Creature creature) throws ServiceException;
     boolean delete(long id) throws ServiceException;
     List<Creature> findUserCreatures(long id) throws ServiceException;
     List<Creature> findUncheckedCreatures() throws ServiceException;

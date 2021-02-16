@@ -31,7 +31,9 @@ public enum CommandType {
     EDIT_NAME(new EditNameCommand()),
     EDIT_EMAIL(new EditEmailCommand()),
     CHANGE_PASSWORD(new ChangePasswordCommand()),
-    FORGOT_PASSWORD(new ForgotPasswordCommand());
+    FORGOT_PASSWORD(new ForgotPasswordCommand()),
+    CHANGE_UNCHECKED_IMAGE(new ChangeUncheckedImageCommand()),
+    EDIT_UNCHECKED_CREATURE(new EditUncheckedCreatureCommand());
 
     private final Command command;
 

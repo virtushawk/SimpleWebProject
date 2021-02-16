@@ -288,22 +288,119 @@
             </div>
         </div>
         <div class="tab-pane fade" id="v-pills-userCreatures" role="tabpanel" aria-labelledby="v-pills-userCreatures-tab">
-            <div class="container shadow-sm p-3 mb-5 bg-white rounded">
+            <div class="container">
                 <div class="row row-cols-1 row-cols-md-5 g-4 mx-auto shadow p-3 mb-5 bg-white rounded mt-0" style="width: 75rem;">
                     <c:forEach var="creature" items="${requestScope.uncheckedCreatures}">
                         <div class="col">
                             <div class="card h-100 border-0">
                                 <img src="${pageContext.request.contextPath}/uploadController?url=${creature.picture}" class="card-img-top" alt="..." style=" width: 100%;object-fit: cover;height: 15vw">
                                 <div class="card-body">
-                                    <a href="${pageContext.request.contextPath}/controller?command=creature&id=${creature.id}" class="text-decoration-none stretched-link">
+                                    <button type="button" class="btn btn-outline-primary mt-1" data-bs-toggle="modal" data-bs-target="#creatureModal${creature.id}">
                                             ${creature.name}
-                                    </a>
+                                    </button>
+                                    <div class="modal fade" id="creatureModal${creature.id}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog modal-xl">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title">Creature</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <div class="card mb-3 mx-auto shadow p-3 mb-5 bg-white rounded">
+                                                        <div class="row g-0">
+                                                            <div class="col-md-4">
+                                                                <img src="${pageContext.request.contextPath}/uploadController?url=${creature.picture}" alt="..." style=" width: 100%;object-fit: cover;height: 15vw">
+                                                            </div>
+                                                            <div class="col-md-8">
+                                                                <div class="card-body">
+                                                                    <h5 class="card-title">
+                                                                            ${creature.name}
+                                                                    </h5>
+                                                                    <p class="card-text">
+                                                                            ${creature.description}
+                                                                    </p>
+                                                                    <p class="card-text"><small class="text-muted">
+                                                                        <fmt:message key="home.creature.lastUpdated"/> ${creature.lastUpdated}
+                                                                    </small></p>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                     <p class="card-text text-truncate">
                                             ${creature.description}
                                     </p>
-                                    <p class="card-text">
-                                        rating : <fmt:formatNumber type="number" maxFractionDigits="1" value="${creature.averageRating}" />
-                                    </p>
+                                    <button type="button" class="btn btn-outline-primary mt-1" data-bs-toggle="modal" data-bs-target="#imageModal${creature.id}">
+                                        Change image
+                                    </button>
+                                    <button type="button" class="btn btn-outline-primary mt-1" data-bs-toggle="modal" data-bs-target="#editModal${creature.id}">
+                                        Edit
+                                    </button>
+                                </div>
+                                <div class="modal fade" id="imageModal${creature.id}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <form class="modal-content needs-validation" action="${pageContext.request.contextPath}/controller?command=change_unchecked_image&id=${creature.id}" method="post" enctype="multipart/form-data" novalidate>
+                                            <div class="modal-header">
+                                                <h5 class="modal-title">Change image</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <input type="file" name="image" class="form-control" accept="image/png,image/jpeg,image/jpg" required/>
+                                                <div class="valid-feedback">
+                                                    <fmt:message key="createCreature.valid"/>
+                                                </div>
+                                                <div class="invalid-feedback">
+                                                    <fmt:message key="createCreature.image.invalid"/>
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                <button type="submit" class="btn btn-primary">Save changes</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                                <div class="modal fade" id="editModal${creature.id}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog modal-xl">
+                                        <form class="modal-content needs-validation" action="${pageContext.request.contextPath}/controller?command=edit_unchecked_creature&id=${creature.id}" method="post" novalidate>
+                                            <div class="modal-header">
+                                                <h5 class="modal-title">Edit Creature</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <label for="name" class="form-label">
+                                                    <fmt:message key="createCreature.name.label"/>
+                                                </label>
+                                                <input type="text" name="name" class="form-control" id="name" value="${creature.name}" required>
+                                                <div class="valid-feedback">
+                                                    <fmt:message key="createCreature.valid"/>
+                                                </div>
+                                                <div class="invalid-feedback">
+                                                    <fmt:message key="createCreature.name.invalid"/>
+                                                </div>
+                                                <label for="description" class="form-label">
+                                                    <fmt:message key="createCreature.description.label"/>
+                                                </label>
+                                                <textarea class="form-control" name="description" id="description" rows="3" required>${creature.description}</textarea>
+                                                <div class="valid-feedback">
+                                                    <fmt:message key="createCreature.valid"/>
+                                                </div>
+                                                <div class="invalid-feedback">
+                                                    <fmt:message key="createCreature.description.invalid"/>
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                <button type="submit" class="btn btn-primary">Save changes</button>
+                                            </div>
+                                        </form>
+                                    </div>
                                 </div>
                                 <div class="card-footer border-0">
                                     <small class="text-muted">

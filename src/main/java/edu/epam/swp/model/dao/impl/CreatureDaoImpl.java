@@ -26,7 +26,7 @@ public class CreatureDaoImpl implements CreatureDao {
     private static final String INSERT_CREATURE = "INSERT INTO creatures(account_id,name,picture,description,status_id,last_updated) " +
             "VALUES(?,?,?,?,?,?)";
     private static final String SELECT_CREATURE_BY_ID = "SELECT creatures.name,creatures.picture," +
-            "creatures.description,creatures.last_updated FROM creatures WHERE creatures.creature_id = ?";
+            "creatures.description,creatures.last_updated FROM creatures WHERE creatures.creature_id = ? AND creatures.status_id = 1";
     private static final String SELECT_CREATURE = "SELECT creatures.creature_id,creatures.name,creatures.picture,creatures.description,creatures.last_updated,AVG(reviews.rating) AS rate " +
             "FROM creatures LEFT JOIN reviews ON creatures.creature_id = reviews.creature_id WHERE creatures.status_id = 1 GROUP BY creatures.creature_id " +
             "ORDER BY creatures.last_updated DESC";
@@ -43,6 +43,9 @@ public class CreatureDaoImpl implements CreatureDao {
             "WHERE name LIKE ? AND status_id = 1";
     private static final String SELECT_CREATURE_BY_STATUS_ID_USER_ID = "SELECT creature_id,name,picture,description,last_updated " +
             "From creatures WHERE status_id = 2 AND account_id = ?";
+    private static final String UPDATE_IMAGE_BY_USER_ID = "UPDATE creatures SET picture = ? WHERE creature_id = ? AND account_id = ?";
+    private static final String UPDATE_CREATURE_BY_USER_ID_STATUS_ID = "UPDATE creatures SET name = ?,description = ?,last_updated = ? " +
+            "WHERE creature_id = ? AND account_id = ?";
 
     private CreatureDaoImpl() {}
 
@@ -133,6 +136,40 @@ public class CreatureDaoImpl implements CreatureDao {
             PreparedStatement statement = connection.prepareStatement(UPDATE_PICTURE)) {
             statement.setString(1,image);
             statement.setLong(2,id);
+            flag = statement.executeUpdate() > 0;
+        } catch (SQLException e) {
+            logger.error("An error occurred while requesting a database",e);
+            throw new DaoException("An error occurred while requesting a database",e);
+        }
+        return flag;
+    }
+
+    @Override
+    public boolean updateUncheckedImageById(long id, long accountId, String image) throws DaoException {
+        boolean flag;
+        try(Connection connection = pool.getConnection();
+            PreparedStatement statement = connection.prepareStatement(UPDATE_IMAGE_BY_USER_ID)) {
+            statement.setString(1,image);
+            statement.setLong(2,id);
+            statement.setLong(3,accountId);
+            flag = statement.executeUpdate() > 0;
+        } catch (SQLException e) {
+            logger.error("An error occurred while requesting a database",e);
+            throw new DaoException("An error occurred while requesting a database",e);
+        }
+        return flag;
+    }
+
+    @Override
+    public boolean updateUncheckedCreature(long accountId, Creature creature) throws DaoException {
+        boolean flag;
+        try(Connection connection = pool.getConnection();
+            PreparedStatement statement = connection.prepareStatement(UPDATE_CREATURE_BY_USER_ID_STATUS_ID)) {
+            statement.setString(1,creature.getName());
+            statement.setString(2,creature.getDescription());
+            statement.setLong(3,creature.getLastUpdated().getTime());
+            statement.setLong(4,creature.getId());
+            statement.setLong(5,accountId);
             flag = statement.executeUpdate() > 0;
         } catch (SQLException e) {
             logger.error("An error occurred while requesting a database",e);

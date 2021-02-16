@@ -13,6 +13,8 @@ public interface ReviewService {
     List<Review> findReviewsUser(long id) throws ServiceException;
     List<Review> findAll() throws ServiceException;
     boolean editReview(Review review) throws ServiceException;
+    boolean editReview(long accountId,Review review) throws ServiceException;
     boolean delete(long id) throws ServiceException;
+    boolean delete(long reviewId,long accountId) throws ServiceException;
     Optional<Review> findUserReview(long userId,long creatureId) throws ServiceException;
 }

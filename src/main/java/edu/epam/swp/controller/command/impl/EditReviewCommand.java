@@ -26,22 +26,30 @@ public class EditReviewCommand implements Command {
         int rating = Integer.parseInt(request.getParameter(ParameterName.RATING));
         long id = Long.parseLong(request.getParameter(ParameterName.ID));
         User user = (User) request.getSession().getAttribute(AttributeName.USER);
-        long creatureId = Long.parseLong(request.getParameter(ParameterName.CREATURE));
         long time = System.currentTimeMillis();
         Date date = new Date(time);
         Review review = new Review(id,text,date,rating);
         boolean flag;
-        try {
-            flag = service.editReview(review);
-        } catch (ServiceException e) {
-            logger.error("Error occurred while accessing database",e);
-            request.getSession().setAttribute(AttributeName.DATABASE_ERROR_MESSAGE,true);
-            return PagePath.SERVLET_HOME;
-        }
-        if(user.getRole().equals(AccountRole.ADMIN)) {
-            return PagePath.SERVLET_ADMIN_PAGE;
+        String page;
+        if (user.getRole().equals(AccountRole.ADMIN)) {
+            try {
+                flag = service.editReview(review);
+            } catch (ServiceException e) {
+                logger.error("Error occurred while accessing database",e);
+                request.getSession().setAttribute(AttributeName.DATABASE_ERROR_MESSAGE,true);
+            }
+            page = PagePath.SERVLET_ADMIN_PAGE;
         } else {
-            return PagePath.SERVLET_CREATURE + "&id=" + creatureId;
+            try {
+                long accountId = user.getId();
+                flag = service.editReview(accountId,review);
+            } catch (ServiceException e) {
+                logger.error("Error occurred while accessing database",e);
+                request.getSession().setAttribute(AttributeName.DATABASE_ERROR_MESSAGE,true);
+            }
+            long creatureId = Long.parseLong(request.getParameter(ParameterName.CREATURE));
+            page = PagePath.SERVLET_CREATURE + "&id=" + creatureId;
         }
+        return page;
     }
 }

@@ -96,10 +96,34 @@ public class CreatureServiceImpl implements CreatureService {
     }
 
     @Override
+    public boolean changeUncheckedImage(long id, long accountId, String image) throws ServiceException {
+        boolean flag;
+        try {
+            flag = dao.updateUncheckedImageById(id,accountId,image);
+        } catch (DaoException e) {
+            logger.error("An error occurred when requesting a database");
+            throw new ServiceException("An error occurred when requesting a database",e);
+        }
+        return flag;
+    }
+
+    @Override
     public boolean editCreature(Creature creature) throws ServiceException {
         boolean flag;
         try {
             flag = dao.update(creature);
+        } catch (DaoException e) {
+            logger.error("An error occurred when requesting a database");
+            throw new ServiceException("An error occurred when requesting a database",e);
+        }
+        return flag;
+    }
+
+    @Override
+    public boolean editUncheckedCreature(long accountId, Creature creature) throws ServiceException {
+        boolean flag;
+        try {
+            flag = dao.updateUncheckedCreature(accountId,creature);
         } catch (DaoException e) {
             logger.error("An error occurred when requesting a database");
             throw new ServiceException("An error occurred when requesting a database",e);

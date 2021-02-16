@@ -31,9 +31,12 @@ public class ReviewDaoImpl implements ReviewDao {
             "reviews.account_id = accounts.account_id INNER JOIN creatures ON creatures.creature_id = reviews.creature_id";
     private static final String UPDATE_REVIEW = "UPDATE reviews SET review = ?,time = ?,rating = ? WHERE review_id = ?";
     private static final String DELETE_REVIEW = "DELETE FROM reviews WHERE review_id = ?";
+    private static final String DELETE_REVIEW_BY_USER_ID = "DELETE FROM reviews WHERE review_id = ? AND account_id = ?";
     private static final String SELECT_REVIEW_BY_USER_ID_CREATURE_ID = "SELECT reviews.review_id," +
             "reviews.review,reviews.time,reviews.rating,accounts.avatar,accounts.username FROM reviews INNER JOIN accounts " +
             "ON reviews.account_id = accounts.account_id WHERE reviews.account_id = ? AND reviews.creature_id = ?";
+    private static final String UPDATE_REVIEW_BY_USER_ID = "UPDATE reviews SET review = ?,time = ?,rating = ? WHERE " +
+            "review_id = ? AND account_id = ?";
 
     private ReviewDaoImpl() {}
 
@@ -184,6 +187,39 @@ public class ReviewDaoImpl implements ReviewDao {
             throw new DaoException("An error occurred when requesting a database",e);
         }
         return result;
+    }
+
+    @Override
+    public boolean delete(long reviewId, long accountId) throws DaoException {
+        boolean flag;
+        try(Connection connection = pool.getConnection();
+            PreparedStatement statement = connection.prepareStatement(DELETE_REVIEW_BY_USER_ID)) {
+            statement.setLong(1,reviewId);
+            statement.setLong(2,accountId);
+            flag = statement.executeUpdate() > 0;
+        } catch (SQLException e) {
+            logger.error("An error occurred while requesting a database",e);
+            throw new DaoException("An error occurred while requesting a database",e);
+        }
+        return flag;
+    }
+
+    @Override
+    public boolean update(long accountId, Review review) throws DaoException {
+        boolean flag;
+        try(Connection connection = pool.getConnection();
+            PreparedStatement statement = connection.prepareStatement(UPDATE_REVIEW_BY_USER_ID)) {
+            statement.setString(1,review.getText());
+            statement.setLong(2,review.getTime().getTime());
+            statement.setInt(3,review.getRating());
+            statement.setLong(4,review.getReviewId());
+            statement.setLong(5,accountId);
+            flag = statement.executeUpdate() > 0;
+        } catch (SQLException e) {
+            logger.error("An error occurred when requesting a database",e);
+            throw new DaoException("An error occurred when requesting a database",e);
+        }
+        return flag;
     }
 
     @Override

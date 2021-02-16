@@ -136,11 +136,14 @@
                     <button type="button" class="btn btn-outline-primary mt-1" data-bs-toggle="modal" data-bs-target="#reviewModal">
                         Edit
                     </button>
+                    <a class="btn btn-outline-danger mt-1" href="${pageContext.request.contextPath}/controller?command=delete_review&id=${userReview.reviewId}&creature=${requestScope.creature.id}">
+                        delete
+                    </a>
                     <div class="modal fade" id="reviewModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                         <div class="modal-dialog modal-xl">
                             <form class="modal-content needs-validation" action="${pageContext.request.contextPath}/controller?command=edit_review" method="post" novalidate>
                                 <input type="hidden" name="id" value="${userReview.reviewId}">
-                                <input type="hidden" name="creature" value="${userReview.creatureId}">
+                                <input type="hidden" name="creature" value="${requestScope.creature.id}">
                                 <div class="modal-header">
                                     <h5 class="modal-title" id="exampleModalLabel">Edit review</h5>
                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>

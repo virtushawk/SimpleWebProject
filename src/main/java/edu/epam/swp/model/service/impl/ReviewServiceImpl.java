@@ -84,10 +84,34 @@ public class ReviewServiceImpl implements ReviewService {
     }
 
     @Override
+    public boolean editReview(long accountId, Review review) throws ServiceException {
+        boolean flag;
+        try {
+            flag = dao.update(accountId,review);
+        } catch (DaoException e) {
+            logger.error("Error occurred while updating review",e);
+            throw new ServiceException("Error occurred while creating review",e);
+        }
+        return flag;
+    }
+
+    @Override
     public boolean delete(long id) throws ServiceException {
         boolean flag;
         try {
             flag = dao.delete(id);
+        } catch (DaoException e) {
+            logger.error("Error occurred while deleting review",e);
+            throw new ServiceException("Error occurred while deleting review",e);
+        }
+        return flag;
+    }
+
+    @Override
+    public boolean delete(long reviewId, long accountId) throws ServiceException {
+        boolean flag;
+        try {
+            flag = dao.delete(reviewId,accountId);
         } catch (DaoException e) {
             logger.error("Error occurred while deleting review",e);
             throw new ServiceException("Error occurred while deleting review",e);

@@ -10,6 +10,7 @@ public interface ReviewDao extends BaseDao<Review>{
 
     List<Review> findReviewsByCreatureId(long id) throws DaoException;
     List<Review> findReviewsByUserId(long id) throws DaoException;
-    boolean create(Review review) throws DaoException;
     Optional<Review> findReviewByUserIdCreatureId(long userId,long creatureId) throws DaoException;
+    boolean delete(long reviewId,long accountId) throws DaoException;
+    boolean update(long accountId,Review review) throws DaoException;
 }
