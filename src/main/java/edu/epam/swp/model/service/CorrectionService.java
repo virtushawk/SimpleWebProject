@@ -11,4 +11,7 @@ public interface CorrectionService {
     List<Correction> findAll() throws ServiceException;
     boolean approveCorrection(long id) throws ServiceException;
     boolean delete(long id) throws ServiceException;
+    boolean delete(long accountId,long correctionId) throws ServiceException;
+    List<Correction> findUserCorrections(long id) throws ServiceException;
+    boolean editCorrection(long accountId,Correction correction) throws ServiceException;
 }

@@ -18,6 +18,7 @@ public interface CreatureService {
     boolean editCreature(Creature creature) throws ServiceException;
     boolean editUncheckedCreature(long accountId,Creature creature) throws ServiceException;
     boolean delete(long id) throws ServiceException;
+    boolean delete(long accountId,long creatureId) throws ServiceException;
     List<Creature> findUserCreatures(long id) throws ServiceException;
     List<Creature> findUncheckedCreatures() throws ServiceException;
     boolean approveCreature(long id) throws ServiceException;

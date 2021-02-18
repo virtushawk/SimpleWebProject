@@ -4,13 +4,16 @@ import edu.epam.swp.controller.PagePath;
 import edu.epam.swp.controller.ParameterName;
 import edu.epam.swp.controller.command.AttributeName;
 import edu.epam.swp.controller.command.Command;
+import edu.epam.swp.model.entity.Correction;
 import edu.epam.swp.model.entity.Creature;
 import edu.epam.swp.model.entity.Review;
 import edu.epam.swp.model.entity.User;
 import edu.epam.swp.exception.ServiceException;
+import edu.epam.swp.model.service.CorrectionService;
 import edu.epam.swp.model.service.CreatureService;
 import edu.epam.swp.model.service.ReviewService;
 import edu.epam.swp.model.service.UserService;
+import edu.epam.swp.model.service.impl.CorrectionServiceImpl;
 import edu.epam.swp.model.service.impl.CreatureServiceImpl;
 import edu.epam.swp.model.service.impl.ReviewServiceImpl;
 import edu.epam.swp.model.service.impl.UserServiceImpl;
@@ -26,6 +29,7 @@ public class ProfileCommand implements Command {
     private static final CreatureService creatureService = CreatureServiceImpl.getInstance();
     private static final UserService userService = UserServiceImpl.getInstance();
     private static final ReviewService reviewService = ReviewServiceImpl.getInstance();
+    private static final CorrectionService correctionService = CorrectionServiceImpl.getInstance();
 
     @Override
     public String execute(HttpServletRequest request) {
@@ -34,11 +38,13 @@ public class ProfileCommand implements Command {
         List<Review> reviews;
         List<Creature> creatures;
         List<Creature> suggestedCreatures;
+        List<Correction> corrections;
         try {
             user = userService.get(id);
             reviews = reviewService.findReviewsUser(id);
             creatures = creatureService.findUserCreatures(id);
             suggestedCreatures = creatureService.findUserSuggestedCreatures(id);
+            corrections = correctionService.findUserCorrections(id);
         } catch (ServiceException e) {
             logger.error("Error occurred while finding user",e);
             request.getSession().setAttribute(AttributeName.DATABASE_ERROR_MESSAGE, true);
@@ -49,6 +55,7 @@ public class ProfileCommand implements Command {
             request.setAttribute(AttributeName.REVIEWS,reviews);
             request.setAttribute(AttributeName.CREATURES,creatures);
             request.setAttribute(AttributeName.UNCHECKED_CREATURES,suggestedCreatures);
+            request.setAttribute(AttributeName.CORRECTIONS,corrections);
             return PagePath.PROFILE;
         } else {
             return PagePath.ERROR;

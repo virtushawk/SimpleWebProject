@@ -46,6 +46,8 @@ public class CreatureDaoImpl implements CreatureDao {
     private static final String UPDATE_IMAGE_BY_USER_ID = "UPDATE creatures SET picture = ? WHERE creature_id = ? AND account_id = ?";
     private static final String UPDATE_CREATURE_BY_USER_ID_STATUS_ID = "UPDATE creatures SET name = ?,description = ?,last_updated = ? " +
             "WHERE creature_id = ? AND account_id = ?";
+    private static final String DELETE_CREATURE_BY_USER_ID = "DELETE FROM creatures WHERE creature_id = ? AND account_id = ? " +
+            "AND status_id = 2";
 
     private CreatureDaoImpl() {}
 
@@ -292,6 +294,21 @@ public class CreatureDaoImpl implements CreatureDao {
             logger.error("An error occurred when requesting a database",e);
             throw new DaoException("An error occurred when requesting a database",e);
         }
+    }
+
+    @Override
+    public boolean delete(long accountId, long creatureId) throws DaoException {
+        boolean flag;
+        try (Connection connection = pool.getConnection();
+             PreparedStatement creatureStatement = connection.prepareStatement(DELETE_CREATURE_BY_USER_ID)) {
+            creatureStatement.setLong(1,creatureId);
+            creatureStatement.setLong(2,accountId);
+            flag = creatureStatement.executeUpdate() > 0;
+        } catch (SQLException e) {
+            logger.error("An error occurred while requesting a database",e);
+            throw new DaoException("An error occurred while requesting a database",e);
+        }
+        return flag;
     }
 
     @Override

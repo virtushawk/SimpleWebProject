@@ -41,6 +41,7 @@
                 <button class="btn btn-outline-primary active" id="v-pills-profile-tab" data-bs-toggle="pill" data-bs-target="#v-pills-profile" type="button" role="tab" aria-controls="v-pills-profile" aria-selected="true">profile</button>
                 <button class="btn btn-outline-primary" id="v-pills-settings-tab" data-bs-toggle="pill" data-bs-target="#v-pills-settings" type="button" role="tab" aria-controls="v-pills-settings" aria-selected="false">Settings</button>
                 <button class="btn btn-outline-primary" id="v-pills-userCreatures-tab" data-bs-toggle="pill" data-bs-target="#v-pills-userCreatures" type="button" role="tab" aria-controls="v-pills-userCreatures" aria-selected="false">My creatures</button>
+                <button class="btn btn-outline-primary" id="v-pills-userCorrections-tab" data-bs-toggle="pill" data-bs-target="#v-pills-userCorrections" type="button" role="tab" aria-controls="v-pills-userCorrections" aria-selected="false">My Corrections</button>
             </div>
         </div>
     </c:if>
@@ -342,6 +343,9 @@
                                     <button type="button" class="btn btn-outline-primary mt-1" data-bs-toggle="modal" data-bs-target="#editModal${creature.id}">
                                         Edit
                                     </button>
+                                    <a class="btn btn-outline-danger mt-1" href="${pageContext.request.contextPath}/controller?command=delete_creature&id=${creature.id}">
+                                        delete
+                                    </a>
                                 </div>
                                 <div class="modal fade" id="imageModal${creature.id}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                     <div class="modal-dialog">
@@ -405,6 +409,105 @@
                                 <div class="card-footer border-0">
                                     <small class="text-muted">
                                         <fmt:message key="home.creature.lastUpdated"/> ${creature.lastUpdated.toString()}
+                                    </small>
+                                </div>
+                            </div>
+                        </div>
+                    </c:forEach>
+                </div>
+            </div>
+        </div>
+        <div class="tab-pane fade" id="v-pills-userCorrections" role="tabpanel" aria-labelledby="v-pills-userCorrections-tab">
+            <div class="container">
+                <div class="row row-cols-1 row-cols-md-5 g-4 mx-auto shadow p-3 mb-5 bg-white rounded mt-0" style="width: 75rem;">
+                    <c:forEach var="correction" items="${requestScope.corrections}">
+                        <div class="col">
+                            <div class="card h-100 border-0">
+                                <div class="card-body">
+                                    <button type="button" class="btn btn-outline-primary mt-1" data-bs-toggle="modal" data-bs-target="#correctionModal${correction.correctionId}">
+                                            ${correction.name}
+                                    </button>
+                                    <div class="modal fade" id="correctionModal${correction.correctionId}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog modal-xl">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title">Correction</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <div class="card mb-3 mx-auto shadow p-3 mb-5 bg-white rounded">
+                                                        <div class="row g-0">
+                                                            <div class="col-md-8">
+                                                                <div class="card-body">
+                                                                    <h5 class="card-title">
+                                                                            ${correction.name}
+                                                                    </h5>
+                                                                    <p class="card-text">
+                                                                            ${correction.text}
+                                                                    </p>
+                                                                    <p class="card-text"><small class="text-muted">
+                                                                            ${correction.date}
+                                                                    </small></p>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <p class="card-text text-truncate">
+                                            ${correction.text}
+                                    </p>
+                                    <button type="button" class="btn btn-outline-primary mt-1" data-bs-toggle="modal" data-bs-target="#editCorrectionModal${correction.correctionId}">
+                                        Edit
+                                    </button>
+                                    <a class="btn btn-outline-danger mt-1" href="${pageContext.request.contextPath}/controller?command=delete_correction&id=${correction.correctionId}">
+                                        delete
+                                    </a>
+                                </div>
+                                <div class="modal fade" id="editCorrectionModal${correction.correctionId}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog modal-xl">
+                                        <form class="modal-content needs-validation" action="${pageContext.request.contextPath}/controller?command=edit_correction&id=${correction.correctionId}" method="post" novalidate>
+                                            <div class="modal-header">
+                                                <h5 class="modal-title">Edit Correction</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <label for="name" class="form-label">
+                                                    <fmt:message key="createCreature.name.label"/>
+                                                </label>
+                                                <input type="text" name="name" class="form-control" value="${correction.name}" required>
+                                                <div class="valid-feedback">
+                                                    <fmt:message key="createCreature.valid"/>
+                                                </div>
+                                                <div class="invalid-feedback">
+                                                    <fmt:message key="createCreature.name.invalid"/>
+                                                </div>
+                                                <label for="description" class="form-label">
+                                                    <fmt:message key="createCreature.description.label"/>
+                                                </label>
+                                                <textarea class="form-control" name="description" rows="3" required>${correction.text}</textarea>
+                                                <div class="valid-feedback">
+                                                    <fmt:message key="createCreature.valid"/>
+                                                </div>
+                                                <div class="invalid-feedback">
+                                                    <fmt:message key="createCreature.description.invalid"/>
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                <button type="submit" class="btn btn-primary">Save changes</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                                <div class="card-footer border-0">
+                                    <small class="text-muted">
+                                            ${correction.date}
                                     </small>
                                 </div>
                             </div>

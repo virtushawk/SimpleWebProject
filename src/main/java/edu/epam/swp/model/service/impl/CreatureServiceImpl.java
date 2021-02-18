@@ -144,6 +144,18 @@ public class CreatureServiceImpl implements CreatureService {
     }
 
     @Override
+    public boolean delete(long accountId, long creatureId) throws ServiceException {
+        boolean flag;
+        try {
+            flag = dao.delete(accountId,creatureId);
+        } catch (DaoException e) {
+            logger.error("An error occurred when requesting a database");
+            throw new ServiceException("An error occurred when requesting a database",e);
+        }
+        return flag;
+    }
+
+    @Override
     public List<Creature> findUserCreatures(long id) throws ServiceException {
         List<Creature> creatures;
         try {

@@ -33,7 +33,8 @@ public enum CommandType {
     CHANGE_PASSWORD(new ChangePasswordCommand()),
     FORGOT_PASSWORD(new ForgotPasswordCommand()),
     CHANGE_UNCHECKED_IMAGE(new ChangeUncheckedImageCommand()),
-    EDIT_UNCHECKED_CREATURE(new EditUncheckedCreatureCommand());
+    EDIT_UNCHECKED_CREATURE(new EditUncheckedCreatureCommand()),
+    EDIT_CORRECTION(new EditCorrectionCommand());
 
     private final Command command;
 

@@ -30,6 +30,12 @@ public class Correction {
         this.date = date;
     }
 
+    public Correction(String text, String name, Date date) {
+        this.text = text;
+        this.name = name;
+        this.date = date;
+    }
+
     public long getCorrectionId() {
         return correctionId;
     }

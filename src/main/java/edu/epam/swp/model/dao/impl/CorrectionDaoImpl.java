@@ -25,6 +25,11 @@ public class CorrectionDaoImpl implements CorrectionDao {
     private static final String SELECT_CORRECTION_BY_ID = "SELECT creature_id,account_id,description,name,date FROM corrections WHERE " +
             "correction_id = ?";
     private static final String DELETE_CORRECTION = "DELETE FROM corrections WHERE correction_id = ?";
+    private static final String SELECT_CORRECTION_BY_ACCOUNT_ID = "SELECT correction_id,creature_id,account_id,description," +
+            "name,date FROM corrections WHERE account_id = ?";
+    private static final String UPDATE_CORRECTION_BY_ACCOUNT_ID = "UPDATE corrections SET name = ?,description = ?,date = ? " +
+            "WHERE correction_id = ? AND account_id = ?";
+    private static final String DELETE_CORRECTION_BY_ACCOUNT_ID = "DELETE FROM corrections WHERE correction_id = ? AND account_id = ?";
 
     private CorrectionDaoImpl() {}
 
@@ -121,6 +126,64 @@ public class CorrectionDaoImpl implements CorrectionDao {
         } catch (SQLException e) {
             logger.error("Error occurred while approving correction",e);
             throw new DaoException("Error occurred while approving correction",e);
+        }
+        return flag;
+    }
+
+    @Override
+    public List<Correction> findCorrectionsByAccountId(long id) throws DaoException {
+        List<Correction> corrections = new ArrayList<>();
+        try(Connection connection = pool.getConnection();
+            PreparedStatement statement = connection.prepareStatement(SELECT_CORRECTION_BY_ACCOUNT_ID)) {
+            statement.setLong(1,id);
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                long correctionId = resultSet.getLong(1);
+                long creatureId = resultSet.getLong(2);
+                long accountId = resultSet.getLong(3);
+                String text = resultSet.getString(4);
+                String name = resultSet.getString(5);
+                long time = resultSet.getLong(6);
+                Date date = new Date(time);
+                Correction correction = new Correction(correctionId,accountId,creatureId,text,name,date);
+                corrections.add(correction);
+            }
+            return corrections;
+        } catch (SQLException e) {
+            logger.error("An error occurred when requesting a database",e);
+            throw new DaoException("An error occurred when requesting a database",e);
+        }
+    }
+
+    @Override
+    public boolean update(long accountId, Correction correction) throws DaoException {
+        boolean flag;
+        try(Connection connection = pool.getConnection();
+            PreparedStatement statement = connection.prepareStatement(UPDATE_CORRECTION_BY_ACCOUNT_ID)) {
+            statement.setString(1,correction.getName());
+            statement.setString(2,correction.getText());
+            statement.setLong(3,correction.getDate().getTime());
+            statement.setLong(4,correction.getCorrectionId());
+            statement.setLong(5,accountId);
+            flag = statement.executeUpdate() > 0;
+        } catch (SQLException e) {
+            logger.error("An error occurred when requesting a database",e);
+            throw new DaoException("An error occurred when requesting a database",e);
+        }
+        return flag;
+    }
+
+    @Override
+    public boolean delete(long accountId, long correctionId) throws DaoException {
+        boolean flag;
+        try(Connection connection = pool.getConnection();
+            PreparedStatement statement = connection.prepareStatement(DELETE_CORRECTION_BY_ACCOUNT_ID)) {
+            statement.setLong(1,correctionId);
+            statement.setLong(2,accountId);
+            flag = statement.executeUpdate() > 0;
+        } catch (SQLException e) {
+            logger.error("Error occurred while deleting correction",e);
+            throw new DaoException("Error occurred while deleting correction",e);
         }
         return flag;
     }

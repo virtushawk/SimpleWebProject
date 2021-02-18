@@ -26,7 +26,8 @@ class AccessMap {
                 CommandType.CATALOG,CommandType.CREATURE,CommandType.REGISTER,CommandType.EDIT_CREATURE,CommandType.PROFILE,
                 CommandType.CHANGE_AVATAR,CommandType.CREATE_CREATURE,CommandType.CREATE_REVIEW,CommandType.LOGOUT,CommandType.SUGGEST_CORRECTION,
                 CommandType.SEARCH,CommandType.EDIT_NAME,CommandType.EDIT_EMAIL,CommandType.CHANGE_PASSWORD,CommandType.FORGOT_PASSWORD,
-                CommandType.EDIT_REVIEW,CommandType.DELETE_REVIEW,CommandType.CHANGE_UNCHECKED_IMAGE,CommandType.EDIT_UNCHECKED_CREATURE));
+                CommandType.EDIT_REVIEW,CommandType.DELETE_REVIEW,CommandType.CHANGE_UNCHECKED_IMAGE,CommandType.EDIT_UNCHECKED_CREATURE,
+                CommandType.DELETE_CREATURE,CommandType.EDIT_CORRECTION,CommandType.DELETE_CORRECTION));
     }
 
     private AccessMap() {}

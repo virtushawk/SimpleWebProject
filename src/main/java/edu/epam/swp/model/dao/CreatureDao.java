@@ -17,4 +17,5 @@ public interface CreatureDao extends BaseDao<Creature> {
     boolean approveCreature(long id) throws DaoException;
     List<Creature> search(String name) throws DaoException;
     List<Creature> findUserUncheckedCreatures(long id) throws DaoException;
+    boolean delete(long accountId,long creatureId) throws DaoException;
 }

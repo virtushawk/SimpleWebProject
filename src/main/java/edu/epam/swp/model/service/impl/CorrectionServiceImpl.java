@@ -69,4 +69,40 @@ public class CorrectionServiceImpl implements CorrectionService {
         }
         return flag;
     }
+
+    @Override
+    public boolean delete(long accountId, long correctionId) throws ServiceException {
+        boolean flag;
+        try {
+            flag = dao.delete(accountId,correctionId);
+        } catch (DaoException e) {
+            logger.error("Error occurred while accessing database",e);
+            throw new ServiceException("Error occurred while accessing database",e);
+        }
+        return flag;
+    }
+
+    @Override
+    public List<Correction> findUserCorrections(long id) throws ServiceException {
+        List<Correction> corrections;
+        try {
+            corrections = dao.findCorrectionsByAccountId(id);
+        } catch (DaoException e) {
+            logger.error("Error occurred while accessing database",e);
+            throw new ServiceException("Error occurred while accessing database",e);
+        }
+        return corrections;
+    }
+
+    @Override
+    public boolean editCorrection(long accountId, Correction correction) throws ServiceException {
+        boolean flag;
+        try {
+            flag = dao.update(accountId,correction);
+        } catch (DaoException e) {
+            logger.error("Error occurred while accessing database",e);
+            throw new ServiceException("Error occurred while accessing database",e);
+        }
+        return flag;
+    }
 }
