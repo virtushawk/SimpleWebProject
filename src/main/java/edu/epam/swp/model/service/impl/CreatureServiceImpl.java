@@ -14,37 +14,37 @@ import java.util.Optional;
 
 public class CreatureServiceImpl implements CreatureService {
     private static final Logger logger = LogManager.getLogger(CreatureServiceImpl.class);
-    private static final CreatureServiceImpl instance = new CreatureServiceImpl();
+    private static final CreatureService instance = new CreatureServiceImpl();
     private static final CreatureDao dao = CreatureDaoImpl.getInstance();
 
     private CreatureServiceImpl() {}
 
-    public static CreatureServiceImpl getInstance() {
+    public static CreatureService getInstance() {
         return instance;
     }
 
     @Override
-    public List<Creature> findNewCreatures() throws ServiceException {
+    public List<Creature> findNewCreatures(int limit) throws ServiceException {
         List<Creature> creatures;
         try {
-            creatures = dao.findNewCreatures();
-            return creatures;
+            creatures = dao.findNewCreatures(limit);
         } catch (DaoException e) {
-            logger.error("An error occurred when requesting a database");
+            logger.error("An error occurred when requesting a database",e);
             throw new ServiceException("An error occurred when requesting a database",e);
         }
+        return creatures;
     }
 
     @Override
-    public List<Creature> findPopularCreatures() throws ServiceException {
+    public List<Creature> findPopularCreatures(int limit) throws ServiceException {
         List<Creature> creatures;
         try {
-            creatures = dao.findPopularCreatures();
-            return creatures;
+            creatures = dao.findPopularCreatures(limit);
         } catch (DaoException e) {
-            logger.error("An error occurred when requesting a database");
+            logger.error("An error occurred when requesting a database",e);
             throw new ServiceException("An error occurred when requesting a database",e);
         }
+        return creatures;
     }
 
     @Override

@@ -14,15 +14,15 @@ import java.util.List;
 import java.util.Optional;
 
 public class CreatureDaoImpl implements CreatureDao {
+
     private static final Logger logger = LogManager.getLogger(CreatureDaoImpl.class);
     private static final CreatureDao instance = new CreatureDaoImpl();
     private static final ConnectionPool pool = ConnectionPool.INSTANCE;
-    private static final String SELECT_CREATURE_BY_LAST_UPDATED_LIMIT = "SELECT creatures.creature_id,creatures.name," +
-            "creatures.picture,creatures.description,creatures.last_updated FROM creatures WHERE creatures.status_id = 1 " +
-            "ORDER BY creatures.last_updated DESC LIMIT 0,3";
+    private static final String SELECT_CREATURE_BY_LAST_UPDATED_LIMIT = "SELECT creature_id,name,picture,description," +
+            "last_updated FROM creatures WHERE status_id = 1 ORDER BY last_updated DESC LIMIT 0,?";
     private static final String SELECT_CREATURE_BY_RATING_LIMIT = "SELECT reviews.creature_id,count(reviews.rating) AS rate," +
             "creatures.name,creatures.picture,creatures.description,creatures.last_updated FROM reviews INNER JOIN creatures ON " +
-            "reviews.creature_id = creatures.creature_id WHERE creatures.status_id = 1 GROUP BY reviews.creature_id ORDER BY rate DESC LIMIT 0,3";
+            "reviews.creature_id = creatures.creature_id WHERE creatures.status_id = 1 GROUP BY reviews.creature_id ORDER BY rate DESC LIMIT 0,?";
     private static final String INSERT_CREATURE = "INSERT INTO creatures(account_id,name,picture,description,status_id,last_updated) " +
             "VALUES(?,?,?,?,?,?)";
     private static final String SELECT_CREATURE_BY_ID = "SELECT creatures.name,creatures.picture," +
@@ -83,11 +83,12 @@ public class CreatureDaoImpl implements CreatureDao {
 
     //todo check and clean
     @Override
-    public List<Creature> findNewCreatures() throws DaoException {
+    public List<Creature> findNewCreatures(int limit) throws DaoException {
+        List<Creature> creatures = new ArrayList<>();
         try(Connection connection = pool.getConnection();
             PreparedStatement statement = connection.prepareStatement(SELECT_CREATURE_BY_LAST_UPDATED_LIMIT)) {
+            statement.setLong(1,limit);
             ResultSet resultSet = statement.executeQuery();
-            List<Creature> creatures = new ArrayList<>();
             while (resultSet.next()) {
                 long id = resultSet.getLong(1);
                 String name = resultSet.getString(2);
@@ -99,17 +100,18 @@ public class CreatureDaoImpl implements CreatureDao {
                 creature.setId(id);
                 creatures.add(creature);
             }
-            return creatures;
         } catch (SQLException e) {
             logger.error("An error occurred when requesting a database",e);
             throw new DaoException("An error occurred when requesting a database",e);
         }
+        return creatures;
     }
 
     @Override
-    public List<Creature> findPopularCreatures() throws DaoException {
+    public List<Creature> findPopularCreatures(int limit) throws DaoException {
         try(Connection connection = pool.getConnection();
             PreparedStatement statement = connection.prepareStatement(SELECT_CREATURE_BY_RATING_LIMIT)) {
+            statement.setLong(1,limit);
             ResultSet resultSet = statement.executeQuery();
             List<Creature> creatures = new ArrayList<>();
             while (resultSet.next()) {

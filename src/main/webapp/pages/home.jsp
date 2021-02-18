@@ -9,7 +9,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <head>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/home.css"/>
     <title>
         <fmt:message key="home.title"/>
     </title>
@@ -17,7 +16,7 @@
 <body>
 <jsp:include page="/pages/module/header.jsp"/>
 <c:if test="${sessionScope.confirmedMessage}">
-    <div class="alert alert-success col-md-3 text-center mx-auto" role="alert">
+    <div class="alert alert-success col-md-3 text-center mx-auto">
         <h4 class="alert-heading">
             <fmt:message key="home.successMessage.label"/>
         </h4>
@@ -31,6 +30,13 @@
     </div>
     <c:remove var="confirmedMessage" scope="session"/>
 </c:if>
+<c:if test="${requestScope.errorMessageDB}">
+    <div class="container">
+        <div class="alert alert-danger text-center" role="alert">
+            <fmt:message key="home.errorMessageDB"/>
+        </div>
+    </div>
+</c:if>
 <p class="fs-1 text-center">
     <fmt:message key="home.label.new"/>
 </p>
@@ -38,7 +44,7 @@
     <c:forEach var="creature" items="${requestScope.newCreatures}">
         <div class="col">
             <div class="card h-100 border-0">
-                <img src="${pageContext.request.contextPath}/uploadController?url=${creature.picture}" class="card-img-top" alt="..." style=" width: 100%;object-fit: cover;height: 15vw">
+                <img src="${pageContext.request.contextPath}/uploadController?url=${creature.picture}" class="card-img-top" alt="<fmt:message key="home.image.alt"/>" style="width: 100%;object-fit: cover;height: 15vw">
                 <div class="card-body">
                     <a href="${pageContext.request.contextPath}/controller?command=creature&id=${creature.id}" class="text-decoration-none stretched-link">
                         ${creature.name}
@@ -49,7 +55,7 @@
                 </div>
                 <div class="card-footer border-0">
                     <small class="text-muted">
-                        <fmt:message key="home.creature.lastUpdated"/> ${creature.lastUpdated.toString()}
+                        <fmt:message key="home.creature.lastUpdated"/> ${creature.lastUpdated}
                     </small>
                 </div>
             </div>
@@ -63,7 +69,7 @@
     <c:forEach var="creature" items="${requestScope.popularCreatures}">
         <div class="col">
             <div class="card h-100 border-0">
-                <img src="${pageContext.request.contextPath}/uploadController?url=${creature.picture}" class="card-img-top" alt="..." style=" width: 100%;object-fit: cover;height: 15vw">
+                <img src="${pageContext.request.contextPath}/uploadController?url=${creature.picture}" class="card-img-top" alt="<fmt:message key="home.image.alt"/>" style="width: 100%;object-fit: cover;height: 15vw">
                 <div class="card-body">
                     <a href="${pageContext.request.contextPath}/controller?command=creature&id=${creature.id}" class="text-decoration-none stretched-link">
                             ${creature.name}
@@ -74,7 +80,7 @@
                 </div>
                 <div class="card-footer border-0">
                     <small class="text-muted">
-                        <fmt:message key="home.creature.lastUpdated"/> ${creature.lastUpdated.toString()}
+                        <fmt:message key="home.creature.lastUpdated"/> ${creature.lastUpdated}
                     </small>
                 </div>
             </div>

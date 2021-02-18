@@ -7,8 +7,8 @@ import java.util.List;
 
 public interface CreatureDao extends BaseDao<Creature> {
 
-    List<Creature> findNewCreatures() throws DaoException;
-    List<Creature> findPopularCreatures() throws DaoException;
+    List<Creature> findNewCreatures(int limit) throws DaoException;
+    List<Creature> findPopularCreatures(int limit) throws DaoException;
     boolean updateImageById(long id,String image) throws DaoException;
     boolean updateUncheckedImageById(long id,long accountId,String image) throws DaoException;
     boolean updateUncheckedCreature(long accountId,Creature creature) throws DaoException;

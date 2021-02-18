@@ -225,3 +225,9 @@ V
 Msrc/main/java/edu/epam/swp/controller/command/impl/ForgotPasswordCommand.java,a\0\a0e50da6369266d0645f2519194d032c87d912fc
 }
 Msrc/main/java/edu/epam/swp/controller/command/impl/ChangePasswordCommand.java,e\4\e4c670fabe67701454b2d31ffd9e4bc499ddd31a
+ƒ
+Ssrc/main/java/edu/epam/swp/controller/command/impl/ChangeUncheckedImageCommand.java,4\4\4493e6240795d8980cc507476e40a11f08981815
+„
+Tsrc/main/java/edu/epam/swp/controller/command/impl/EditUncheckedCreatureCommand.java,e\8\e846890d6f3255857492cd0e95045c2e4782bbb8
+}
+Msrc/main/java/edu/epam/swp/controller/command/impl/EditCorrectionCommand.java,9\e\9eb0f728bbef919f4ead9e0ac1f25b49c84b817a
