@@ -17,4 +17,5 @@ public class ParameterName {
     public static final String IMAGE = "image";
     public static final String KEY = "key";
     public static final String TEXT = "text";
+    public static final String URL = "url";
 }

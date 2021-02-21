@@ -27,17 +27,22 @@ public class EditCorrectionCommand implements Command {
         long time = System.currentTimeMillis();
         Date date = new Date(time);
         User user = (User) request.getSession().getAttribute(AttributeName.USER);
-        long accountId = user.getId();
-        Correction correction = new Correction(description,name,date);
-        correction.setCorrectionId(id);
+        long accountId = user.getAccountId();
+        Correction correction = new Correction.CorrectionBuilder().withText(description).withName(name).withDate(date)
+                .withCorrectionId(id).build();
         boolean flag;
         try {
             flag = service.editCorrection(accountId,correction);
+            if (flag) {
+                request.getSession().setAttribute(AttributeName.CORRECTION_EDIT_VALID,true);
+            } else {
+                request.getSession().setAttribute(AttributeName.CORRECTION_EDIT_ERROR,true);
+            }
         } catch (ServiceException e) {
             logger.error("Error occurred while accessing database",e);
             request.getSession().setAttribute(AttributeName.DATABASE_ERROR_MESSAGE,true);
-            return PagePath.SERVLET_HOME;
         }
-        return PagePath.SERVLET_PROFILE + "&id=" + accountId;
+        String page = String.format(PagePath.SERVLET_PROFILE_ID,accountId);
+        return page;
     }
 }

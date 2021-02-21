@@ -13,18 +13,72 @@ public class Creature {
     private Date lastUpdated;
     private double averageRating;
 
-    public Creature(String name, String picture, String description, Date lastUpdated) {
-        this.name = name;
-        this.picture = picture;
-        this.description = description;
-        this.lastUpdated = lastUpdated;
+    public static class CreatureBuilder {
+        private long creatureId;
+        private long accountId;
+        private CreatureStatus creatureStatus;
+        private String name;
+        private String picture;
+        private String description;
+        private Date lastUpdated;
+        private double averageRating;
+
+        public CreatureBuilder() {}
+
+        public CreatureBuilder withId(long id) {
+            this.creatureId = id;
+            return this;
+        }
+
+        public CreatureBuilder withAccountId(long accountId) {
+            this.accountId = accountId;
+            return this;
+        }
+
+        public CreatureBuilder withCreatureStatus(CreatureStatus creatureStatus) {
+            this.creatureStatus = creatureStatus;
+            return this;
+        }
+
+        public CreatureBuilder withName(String name) {
+            this.name = name;
+            return this;
+        }
+
+        public CreatureBuilder withPicture(String picture) {
+            this.picture = picture;
+            return this;
+        }
+
+        public CreatureBuilder withDescription(String description) {
+            this.description = description;
+            return this;
+        }
+
+        public CreatureBuilder withLastUpdated(Date lastUpdated) {
+            this.lastUpdated = lastUpdated;
+            return this;
+        }
+
+        public CreatureBuilder withAverageRating(double averageRating) {
+            this.averageRating = averageRating;
+            return this;
+        }
+
+        public Creature build() {
+            return new Creature(this);
+        }
     }
 
-    public Creature(long id,String name, String description, Date lastUpdated) {
-        this.id = id;
-        this.name = name;
-        this.description = description;
-        this.lastUpdated = lastUpdated;
+    private Creature(CreatureBuilder creatureBuilder) {
+        id = creatureBuilder.creatureId;
+        accountId = creatureBuilder.accountId;
+        creatureStatus = creatureBuilder.creatureStatus;
+        name = creatureBuilder.name;
+        picture = creatureBuilder.picture;
+        description = creatureBuilder.description;
+        lastUpdated = creatureBuilder.lastUpdated;
+        averageRating = creatureBuilder.averageRating;
     }
 
     public long getId() {
@@ -33,6 +87,22 @@ public class Creature {
 
     public void setId(long id) {
         this.id = id;
+    }
+
+    public long getAccountId() {
+        return accountId;
+    }
+
+    public void setAccountId(long accountId) {
+        this.accountId = accountId;
+    }
+
+    public CreatureStatus getCreatureStatus() {
+        return creatureStatus;
+    }
+
+    public void setCreatureStatus(CreatureStatus creatureStatus) {
+        this.creatureStatus = creatureStatus;
     }
 
     public String getName() {
@@ -67,28 +137,12 @@ public class Creature {
         this.lastUpdated = lastUpdated;
     }
 
-    public long getAccountId() {
-        return accountId;
-    }
-
-    public void setAccountId(long accountId) {
-        this.accountId = accountId;
-    }
-
     public double getAverageRating() {
         return averageRating;
     }
 
     public void setAverageRating(double averageRating) {
         this.averageRating = averageRating;
-    }
-
-    public CreatureStatus getCreatureStatus() {
-        return creatureStatus;
-    }
-
-    public void setCreatureStatus(CreatureStatus creatureStatus) {
-        this.creatureStatus = creatureStatus;
     }
 
     @Override
@@ -103,14 +157,29 @@ public class Creature {
 
     @Override
     public int hashCode() {
-        int hashcode = (int) id;
-        hashcode = hashcode * 31 + (int) accountId;
-        hashcode = hashcode * 31 + name.hashCode();
-        hashcode = hashcode * 31 + picture.hashCode();
-        hashcode = hashcode * 31 + description.hashCode();
-        hashcode = hashcode * 31 + lastUpdated.hashCode();
-        hashcode = hashcode * 31 + creatureStatus.hashCode();
+        int hashcode = Long.hashCode(id);
+        hashcode = hashcode * 31 + Long.hashCode(accountId);
+        hashcode = hashcode * 31 + (name == null ? 0 : name.hashCode());
+        hashcode = hashcode * 31 + (picture == null ? 0 : picture.hashCode());
+        hashcode = hashcode * 31 + (description == null ? 0 : description.hashCode());
+        hashcode = hashcode * 31 +(lastUpdated == null ? 0 : lastUpdated.hashCode());
+        hashcode = hashcode * 31 + (creatureStatus == null ? 0 : creatureStatus.hashCode());
         hashcode = hashcode * 31 + Double.hashCode(averageRating);
         return hashcode;
+    }
+
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder("Creature{");
+        sb.append("id=").append(id);
+        sb.append(", accountId=").append(accountId);
+        sb.append(", creatureStatus=").append(creatureStatus);
+        sb.append(", name='").append(name).append('\'');
+        sb.append(", picture='").append(picture).append('\'');
+        sb.append(", description='").append(description).append('\'');
+        sb.append(", lastUpdated=").append(lastUpdated);
+        sb.append(", averageRating=").append(averageRating);
+        sb.append('}');
+        return sb.toString();
     }
 }

@@ -15,8 +15,8 @@ import java.util.Optional;
 
 public class UserDaoImpl implements UserDao {
     private static final Logger logger = LogManager.getLogger(UserDaoImpl.class);
-    private static final UserDaoImpl instance = new UserDaoImpl();
-    private static final ConnectionPool pool = ConnectionPool.INSTANCE;
+    private static final UserDao instance = new UserDaoImpl();
+    private ConnectionPool pool = ConnectionPool.INSTANCE;
     private static final String ERROR_DUP_KEY = "23000";
     private static final String INSERT_ACCOUNT = "INSERT INTO accounts(account_id,email,username,password,role_id) " +
             "VALUES(?,?,?,?,?)";
@@ -40,7 +40,7 @@ public class UserDaoImpl implements UserDao {
 
     private UserDaoImpl() {}
 
-    public static UserDaoImpl getInstance() {
+    public static UserDao getInstance() {
         return instance;
     }
 
@@ -56,13 +56,13 @@ public class UserDaoImpl implements UserDao {
                 String name = resultSet.getString(3);
                 String avatar = resultSet.getString(4);
                 AccountRole role = AccountRole.valueOf(resultSet.getString(5));
-                User user = new User(email,name,role,avatar);
-                user.setId(id);
+                User user = new User.UserBuilder().withEmail(email).withUsername(name).withRole(role).withAvatar(avatar)
+                .withAccountId(id).build();
                 users.add(user);
             }
         } catch (SQLException e) {
-            logger.error("An error occurred when requesting a database",e);
-            throw new DaoException("An error occurred when requesting a database",e);
+            logger.error("An error occurred while finding all users",e);
+            throw new DaoException("An error occurred while finding all users",e);
         }
         return users;
     }
@@ -79,14 +79,13 @@ public class UserDaoImpl implements UserDao {
                 String username = resultSet.getString(2);
                 String avatar = resultSet.getString(3);
                 String name = resultSet.getString(4);
-                User user = new User(email,username,avatar);
-                user.setId(id);
-                user.setName(name);
+                User user = new User.UserBuilder().withEmail(email).withUsername(username).withAvatar(avatar)
+                        .withAccountId(id).withName(name).build();
                 result = Optional.of(user);
             }
         } catch (SQLException e) {
-            logger.error("An error occurred when requesting a database",e);
-            throw new DaoException("An error occurred when requesting a database",e);
+            logger.error("An error occurred while finding user",e);
+            throw new DaoException("An error occurred while finding user",e);
         }
         return result;
     }
@@ -108,6 +107,7 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public Optional<User> findUserByUsernamePassword(String username, String password) throws DaoException {
+        Optional<User> result = Optional.empty();
         try(Connection connection = pool.getConnection();
             PreparedStatement statement = connection.prepareStatement(SELECT_ACCOUNT_BY_USERNAME_PASSWORD)) {
             statement.setString(1,username);
@@ -119,15 +119,14 @@ public class UserDaoImpl implements UserDao {
                 String userName = resultSet.getString(3);
                 AccountRole role = AccountRole.valueOf(resultSet.getString(4));
                 String avatar = resultSet.getString(5);
-                User user = new User(userEmail,userName,role,avatar);
-                user.setId(id);
-                return Optional.of(user);
+                User user = new User.UserBuilder().withEmail(userEmail).withRole(role).withAvatar(avatar)
+                        .withAccountId(id).withUsername(userName).build();
+                result = Optional.of(user);
             }
         } catch (SQLException e) {
-           logger.error("An error occurred when requesting a database",e);
-           throw new DaoException("An error occurred when requesting a database",e);
+           logger.error("An error occurred while finding a user",e);
+           throw new DaoException("An error occurred while finding a user",e);
         }
-        Optional<User> result = Optional.empty();
         return result;
     }
 
@@ -143,8 +142,8 @@ public class UserDaoImpl implements UserDao {
                 String userName = resultSet.getString(3);
                 AccountRole role = AccountRole.valueOf(resultSet.getString(4));
                 String avatar = resultSet.getString(5);
-                User user = new User(userEmail,userName,role,avatar);
-                user.setId(id);
+                User user = new User.UserBuilder().withEmail(userEmail).withUsername(userName).withRole(role)
+                        .withAvatar(avatar).withAccountId(id).build();
                 return Optional.of(user);
             }
         } catch (SQLException e) {
@@ -160,7 +159,7 @@ public class UserDaoImpl implements UserDao {
         long id = 0;
         try(Connection connection = pool.getConnection();
             PreparedStatement statement = connection.prepareStatement(INSERT_ACCOUNT,Statement.RETURN_GENERATED_KEYS)) {
-            statement.setLong(1,user.getId());
+            statement.setLong(1,user.getAccountId());
             statement.setString(2,user.getEmail());
             statement.setString(3,user.getUsername());
             statement.setString(4,password);
@@ -182,16 +181,16 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public boolean updateAvatarById(String avatar, long id) throws DaoException {
+    public boolean updateAvatarById(String avatar, long accountId) throws DaoException {
         boolean flag;
         try(Connection connection = pool.getConnection();
             PreparedStatement statement = connection.prepareStatement(UPDATE_AVATAR)) {
             statement.setString(1,avatar);
-            statement.setLong(2,id);
+            statement.setLong(2,accountId);
             flag = statement.executeUpdate() > 0;
         } catch (SQLException e) {
-            logger.error("An error occurred while requesting a database",e);
-            throw new DaoException("An error occurred while requesting a database",e);
+            logger.error("An error occurred while updating avatar",e);
+            throw new DaoException("An error occurred while updating avatar",e);
         }
         return flag;
     }
@@ -261,16 +260,16 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public boolean updateName(String name,long id) throws DaoException {
+    public boolean updateName(String name,long accountId) throws DaoException {
         boolean flag;
         try(Connection connection = pool.getConnection();
             PreparedStatement statement = connection.prepareStatement(UPDATE_NAME)) {
             statement.setString(1,name);
-            statement.setLong(2,id);
+            statement.setLong(2,accountId);
             flag = statement.executeUpdate() > 0;
         } catch (SQLException e) {
-            logger.error("An error occurred while requesting a database",e);
-            throw new DaoException("An error occurred while requesting a database",e);
+            logger.error("An error occurred while updating name",e);
+            throw new DaoException("An error occurred while updating name",e);
         }
         return flag;
     }
@@ -284,8 +283,8 @@ public class UserDaoImpl implements UserDao {
             statement.setLong(2,id);
             flag = statement.executeUpdate() > 0;
         } catch (SQLException e) {
-            logger.error("An error occurred while requesting a database",e);
-            throw new DaoException("An error occurred while requesting a database",e);
+            logger.error("An error occurred while updating email",e);
+            throw new DaoException("An error occurred while updating email",e);
         }
         return flag;
     }
@@ -299,8 +298,8 @@ public class UserDaoImpl implements UserDao {
             statement.setLong(2,id);
             flag = statement.executeUpdate() > 0;
         } catch (SQLException e) {
-            logger.error("An error occurred while requesting a database",e);
-            throw new DaoException("An error occurred while requesting a database",e);
+            logger.error("An error occurred while updating password",e);
+            throw new DaoException("An error occurred while updating password",e);
         }
         return flag;
     }

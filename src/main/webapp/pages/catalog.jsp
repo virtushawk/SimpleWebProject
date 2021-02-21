@@ -27,7 +27,6 @@
         </c:when>
     </c:choose>
 </c:if>
-
 <!DOCTYPE html>
 <html lang="${sessionScope.lang}">
 <meta charset="utf-8">
@@ -40,16 +39,26 @@
 </head>
 <body>
 <jsp:include page="/pages/module/header.jsp"/>
+<c:if test="${requestScope.errorMessageDB or sessionScope.errorMessageDB}">
+    <div class="container">
+        <div class="alert alert-danger text-center" role="alert">
+            <fmt:message key="home.errorMessageDB"/>
+        </div>
+    </div>
+    <c:remove var="errorMessageDB" scope="session"/>
+</c:if>
 <c:if test="${sessionScope.user.role.name().equals('USER') || sessionScope.user.role.name().equals('ADMIN')}">
     <button type="button" class="btn btn-outline-primary mt-1 ms-2" data-bs-toggle="modal" data-bs-target="#createModal">
         <fmt:message key="catalog.button.create"/>
     </button>
-    <div class="modal fade" id="createModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="createModal" tabindex="-1">
         <div class="modal-dialog modal-xl">
             <form class="modal-content needs-validation" action="${pageContext.request.contextPath}/controller?command=create_creature" method="post" enctype="multipart/form-data" novalidate>
                 <div class="modal-header">
-                    <h5 class="modal-title">Create creature</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <h5 class="modal-title">
+                        <fmt:message key="catalog.button.create"/>
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
                 <div class="modal-body">
                     <div class="row g-3">
@@ -57,7 +66,7 @@
                             <label class="form-label" for="image">
                                 <fmt:message key="createCreature.image.label"/>
                             </label>
-                            <input type="file" name="image" class="form-control" id="image"  accept="image/png,image/jpeg,image/jpg" required/>
+                            <input type="file" name="image" class="form-control" id="image" accept="image/png,image/jpeg,image/jpg" required/>
                             <div class="valid-feedback">
                                 <fmt:message key="createCreature.valid"/>
                             </div>
@@ -92,8 +101,12 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary">Create</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                        <fmt:message key="catalog.creatureModal.button.close"/>
+                    </button>
+                    <button type="submit" class="btn btn-primary">
+                        <fmt:message key="catalog.creatureModal.button.add"/>
+                    </button>
                 </div>
             </form>
         </div>
@@ -106,11 +119,19 @@
             <input type="hidden" name="text" value="${param.text}"/>
         </c:if>
         <select name="filter">
-            <option value="name">By name</option>
-            <option value="date" selected>By date</option>
-            <option value="rating">By rating</option>
+            <option value="name">
+                <fmt:message key="catalog.filter.byName"/>
+            </option>
+            <option value="date" selected>
+                <fmt:message key="catalog.filter.byDate"/>
+            </option>
+            <option value="rating">
+                <fmt:message key="catalog.filter.byRating"/>
+            </option>
         </select>
-        <button type="submit" class="btn btn-primary">Filter</button>
+        <button type="submit" class="btn btn-primary">
+            <fmt:message key="catalog.filter.button"/>
+        </button>
     </form>
 </div>
 <div class="row row-cols-1 row-cols-md-5 g-4 mx-auto shadow p-3 mb-5 bg-white rounded mt-0" style="width: 75rem;">
@@ -126,12 +147,12 @@
                             ${creature.description}
                     </p>
                     <p class="card-text">
-                            rating : <fmt:formatNumber type="number" maxFractionDigits="1" value="${creature.averageRating}" />
+                            <fmt:message key="catalog.rating"/> <fmt:formatNumber type="number" maxFractionDigits="1" value="${creature.averageRating}"/>
                     </p>
                 </div>
                 <div class="card-footer border-0">
                     <small class="text-muted">
-                        <fmt:message key="home.creature.lastUpdated"/> ${creature.lastUpdated.toString()}
+                        <fmt:message key="home.creature.lastUpdated"/> ${creature.lastUpdated}
                     </small>
                 </div>
             </div>
@@ -139,8 +160,12 @@
     </c:forEach>
 </div>
 <div class="container text-center">
-    <a href="${pageContext.request.contextPath}/controller?command=${param.command}&start=${pageStart - perPage}<c:if test="${not empty param.text}">&text=${param.text}</c:if><c:if test="${not empty param.filter}">&filter=${param.filter}</c:if>"><<</a>${pageStart + 1} - ${pageStart + perPage}
-    <a href="${pageContext.request.contextPath}/controller?command=${param.command}&start=${pageStart + perPage}<c:if test="${not empty param.text}">&text=${param.text}</c:if><c:if test="${not empty param.filter}">&filter=${param.filter}</c:if>">>></a>
+    <a href="${pageContext.request.contextPath}/controller?command=${param.command}&start=${pageStart - perPage}<c:if test="${not empty param.text}">&text=${param.text}</c:if><c:if test="${not empty param.filter}">&filter=${param.filter}</c:if>">
+        <<
+    </a>${pageStart + 1} - ${pageStart + perPage}
+    <a href="${pageContext.request.contextPath}/controller?command=${param.command}&start=${pageStart + perPage}<c:if test="${not empty param.text}">&text=${param.text}</c:if><c:if test="${not empty param.filter}">&filter=${param.filter}</c:if>">
+        >>
+    </a>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
 <script src="${pageContext.request.contextPath}/js/form-validation.js"></script>

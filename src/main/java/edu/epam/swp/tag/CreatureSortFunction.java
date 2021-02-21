@@ -5,9 +5,9 @@ import edu.epam.swp.model.entity.Creature;
 import java.util.Comparator;
 import java.util.List;
 
-public class CreatureSortTag {
+public class CreatureSortFunction {
 
-    private CreatureSortTag() {}
+    private CreatureSortFunction() {}
 
     public static List<Creature> sortByName(List<Creature> creatures) {
         Comparator<Creature> byName = (o1,o2) -> String.CASE_INSENSITIVE_ORDER.compare(o1.getName(),o2.getName());

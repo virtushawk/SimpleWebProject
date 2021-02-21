@@ -28,12 +28,18 @@ public class EditReviewCommand implements Command {
         User user = (User) request.getSession().getAttribute(AttributeName.USER);
         long time = System.currentTimeMillis();
         Date date = new Date(time);
-        Review review = new Review(id,text,date,rating);
+        Review review = new Review.ReviewBuilder().withReviewId(id).
+                withText(text).withDate(date).withRating(rating).build();
         boolean flag;
         String page;
         if (user.getRole().equals(AccountRole.ADMIN)) {
             try {
                 flag = service.editReview(review);
+                if (flag) {
+                    request.getSession().setAttribute(AttributeName.REVIEW_MESSAGE_CREATED,true);
+                } else {
+                    request.getSession().setAttribute(AttributeName.REVIEW_MESSAGE_ERROR,true);
+                }
             } catch (ServiceException e) {
                 logger.error("Error occurred while accessing database",e);
                 request.getSession().setAttribute(AttributeName.DATABASE_ERROR_MESSAGE,true);
@@ -41,8 +47,13 @@ public class EditReviewCommand implements Command {
             page = PagePath.SERVLET_ADMIN_PAGE;
         } else {
             try {
-                long accountId = user.getId();
+                long accountId = user.getAccountId();
                 flag = service.editReview(accountId,review);
+                if (flag) {
+                    request.getSession().setAttribute(AttributeName.REVIEW_MESSAGE_CREATED,true);
+                } else {
+                    request.getSession().setAttribute(AttributeName.REVIEW_MESSAGE_ERROR,true);
+                }
             } catch (ServiceException e) {
                 logger.error("Error occurred while accessing database",e);
                 request.getSession().setAttribute(AttributeName.DATABASE_ERROR_MESSAGE,true);

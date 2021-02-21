@@ -17,7 +17,7 @@ public class CreatureDaoImpl implements CreatureDao {
 
     private static final Logger logger = LogManager.getLogger(CreatureDaoImpl.class);
     private static final CreatureDao instance = new CreatureDaoImpl();
-    private static final ConnectionPool pool = ConnectionPool.INSTANCE;
+    private ConnectionPool pool = ConnectionPool.INSTANCE;
     private static final String SELECT_CREATURE_BY_LAST_UPDATED_LIMIT = "SELECT creature_id,name,picture,description," +
             "last_updated FROM creatures WHERE status_id = 1 ORDER BY last_updated DESC LIMIT 0,?";
     private static final String SELECT_CREATURE_BY_RATING_LIMIT = "SELECT reviews.creature_id,count(reviews.rating) AS rate," +
@@ -25,8 +25,7 @@ public class CreatureDaoImpl implements CreatureDao {
             "reviews.creature_id = creatures.creature_id WHERE creatures.status_id = 1 GROUP BY reviews.creature_id ORDER BY rate DESC LIMIT 0,?";
     private static final String INSERT_CREATURE = "INSERT INTO creatures(account_id,name,picture,description,status_id,last_updated) " +
             "VALUES(?,?,?,?,?,?)";
-    private static final String SELECT_CREATURE_BY_ID = "SELECT creatures.name,creatures.picture," +
-            "creatures.description,creatures.last_updated FROM creatures WHERE creatures.creature_id = ? AND creatures.status_id = 1";
+    private static final String SELECT_CREATURE_BY_ID = "SELECT name,picture,description,last_updated FROM creatures WHERE creature_id = ? AND status_id = 1";
     private static final String SELECT_CREATURE = "SELECT creatures.creature_id,creatures.name,creatures.picture,creatures.description,creatures.last_updated,AVG(reviews.rating) AS rate " +
             "FROM creatures LEFT JOIN reviews ON creatures.creature_id = reviews.creature_id WHERE creatures.status_id = 1 GROUP BY creatures.creature_id " +
             "ORDER BY creatures.last_updated DESC";
@@ -35,7 +34,7 @@ public class CreatureDaoImpl implements CreatureDao {
     private static final String DELETE_CREATURE = "DELETE FROM creatures WHERE creature_id = ?";
     private static final String DELETE_REVIEW = "DELETE FROM reviews WHERE creature_id = ?";
     private static final String SELECT_CREATURE_BY_ACCOUNT_ID = "SELECT creature_id,name,picture,description,last_updated " +
-            "FROM creatures WHERE account_id = ? AND status_id = 1";
+            "FROM creatures WHERE account_id = ? AND status_id = 1 ORDER BY last_updated DESC";
     private static final String SELECT_CREATURE_BY_STATUS_ID = "SELECT creature_id,name,picture,description,last_updated FROM creatures " +
             "WHERE status_id = 2";
     private static final String UPDATE_CREATURE_STATUS_ID = "UPDATE creatures SET status_id = ? WHERE creature_id = ?";
@@ -57,10 +56,10 @@ public class CreatureDaoImpl implements CreatureDao {
 
     @Override
     public List<Creature> findAll() throws DaoException {
+        List<Creature> creatures = new ArrayList<>();
         try(Connection connection = pool.getConnection();
             PreparedStatement statement = connection.prepareStatement(SELECT_CREATURE)) {
             ResultSet resultSet = statement.executeQuery();
-            List<Creature> creatures = new ArrayList<>();
             while (resultSet.next()) {
                 long id = resultSet.getLong(1);
                 String name = resultSet.getString(2);
@@ -69,16 +68,16 @@ public class CreatureDaoImpl implements CreatureDao {
                 long lastUpdated = resultSet.getLong(5);
                 double averageRating = resultSet.getDouble(6);
                 Date date = new Date(lastUpdated);
-                Creature creature = new Creature(name,picture,description,date);
-                creature.setId(id);
-                creature.setAverageRating(averageRating);
+                Creature creature = new Creature.CreatureBuilder().withName(name).withPicture(picture).
+                        withDescription(description).withLastUpdated(date).withAverageRating(averageRating).
+                        withId(id).build();
                 creatures.add(creature);
             }
-            return creatures;
         } catch (SQLException e) {
-            logger.error("An error occurred when requesting a database",e);
-            throw new DaoException("An error occurred when requesting a database",e);
+            logger.error("An error occurred while finding all creatures",e);
+            throw new DaoException("An error occurred while finding all creatures",e);
         }
+        return creatures;
     }
 
     //todo check and clean
@@ -96,24 +95,24 @@ public class CreatureDaoImpl implements CreatureDao {
                 String description = resultSet.getString(4);
                 long lastUpdated = resultSet.getLong(5);
                 Date date = new Date(lastUpdated);
-                Creature creature = new Creature(name,picture,description,date);
-                creature.setId(id);
+                Creature creature = new Creature.CreatureBuilder().withName(name).withPicture(picture)
+                        .withDescription(description).withLastUpdated(date).withId(id).build();
                 creatures.add(creature);
             }
         } catch (SQLException e) {
-            logger.error("An error occurred when requesting a database",e);
-            throw new DaoException("An error occurred when requesting a database",e);
+            logger.error("An error occurred while finding new creatures",e);
+            throw new DaoException("An error occurred while finding new creatures",e);
         }
         return creatures;
     }
 
     @Override
     public List<Creature> findPopularCreatures(int limit) throws DaoException {
+        List<Creature> creatures = new ArrayList<>();
         try(Connection connection = pool.getConnection();
             PreparedStatement statement = connection.prepareStatement(SELECT_CREATURE_BY_RATING_LIMIT)) {
             statement.setLong(1,limit);
             ResultSet resultSet = statement.executeQuery();
-            List<Creature> creatures = new ArrayList<>();
             while (resultSet.next()) {
                 long id = resultSet.getLong(1);
                 int count = resultSet.getInt(2);
@@ -122,15 +121,15 @@ public class CreatureDaoImpl implements CreatureDao {
                 String description = resultSet.getString(5);
                 long lastUpdated = resultSet.getLong(6);
                 Date date = new Date(lastUpdated);
-                Creature creature = new Creature(name,picture,description,date);
-                creature.setId(id);
+                Creature creature = new Creature.CreatureBuilder().withName(name).withPicture(picture)
+                        .withDescription(description).withLastUpdated(date).withId(id).build();
                 creatures.add(creature);
             }
-            return creatures;
         } catch (SQLException e) {
-            logger.error("An error occurred when requesting a database",e);
-            throw new DaoException("An error occurred when requesting a database",e);
+            logger.error("An error occurred while finding popular creatures",e);
+            throw new DaoException("An error occurred while finding popular creatures",e);
         }
+        return creatures;
     }
 
     @Override
@@ -149,7 +148,7 @@ public class CreatureDaoImpl implements CreatureDao {
     }
 
     @Override
-    public boolean updateUncheckedImageById(long id, long accountId, String image) throws DaoException {
+    public boolean updateUncheckedImageByCreatureId(long id, long accountId, String image) throws DaoException {
         boolean flag;
         try(Connection connection = pool.getConnection();
             PreparedStatement statement = connection.prepareStatement(UPDATE_IMAGE_BY_USER_ID)) {
@@ -158,8 +157,8 @@ public class CreatureDaoImpl implements CreatureDao {
             statement.setLong(3,accountId);
             flag = statement.executeUpdate() > 0;
         } catch (SQLException e) {
-            logger.error("An error occurred while requesting a database",e);
-            throw new DaoException("An error occurred while requesting a database",e);
+            logger.error("An error occurred while updating unchecked image",e);
+            throw new DaoException("An error occurred while updating unchecked image",e);
         }
         return flag;
     }
@@ -176,19 +175,19 @@ public class CreatureDaoImpl implements CreatureDao {
             statement.setLong(5,accountId);
             flag = statement.executeUpdate() > 0;
         } catch (SQLException e) {
-            logger.error("An error occurred while requesting a database",e);
-            throw new DaoException("An error occurred while requesting a database",e);
+            logger.error("An error occurred while updating unchecked creature",e);
+            throw new DaoException("An error occurred while updating unchecked creature",e);
         }
         return flag;
     }
 
     @Override
-    public List<Creature> findCreaturesById(long id) throws DaoException {
+    public List<Creature> findCreaturesByAccountId(long accountId) throws DaoException {
+        List<Creature> creatures = new ArrayList<>();
         try(Connection connection = pool.getConnection();
             PreparedStatement statement = connection.prepareStatement(SELECT_CREATURE_BY_ACCOUNT_ID)) {
-            statement.setLong(1,id);
+            statement.setLong(1,accountId);
             ResultSet resultSet = statement.executeQuery();
-            List<Creature> creatures = new ArrayList<>();
             while (resultSet.next()) {
                 long creatureId = resultSet.getLong(1);
                 String name = resultSet.getString(2);
@@ -196,23 +195,23 @@ public class CreatureDaoImpl implements CreatureDao {
                 String description = resultSet.getString(4);
                 long lastUpdated = resultSet.getLong(5);
                 Date date = new Date(lastUpdated);
-                Creature creature = new Creature(name,picture,description,date);
-                creature.setId(creatureId);
+                Creature creature = new Creature.CreatureBuilder().withName(name).withPicture(picture)
+                        .withDescription(description).withLastUpdated(date).withId(creatureId).build();
                 creatures.add(creature);
             }
-            return creatures;
         } catch (SQLException e) {
-            logger.error("An error occurred when requesting a database",e);
-            throw new DaoException("An error occurred when requesting a database",e);
+            logger.error("An error occurred while finding user's creatures",e);
+            throw new DaoException("An error occurred while finding user's creatures",e);
         }
+        return creatures;
     }
 
     @Override
     public List<Creature> findUncheckedCreatures() throws DaoException {
+        List<Creature> creatures = new ArrayList<>();
         try(Connection connection = pool.getConnection();
             PreparedStatement statement = connection.prepareStatement(SELECT_CREATURE_BY_STATUS_ID)) {
             ResultSet resultSet = statement.executeQuery();
-            List<Creature> creatures = new ArrayList<>();
             while (resultSet.next()) {
                 long id = resultSet.getLong(1);
                 String name = resultSet.getString(2);
@@ -220,15 +219,15 @@ public class CreatureDaoImpl implements CreatureDao {
                 String description = resultSet.getString(4);
                 long lastUpdated = resultSet.getLong(5);
                 Date date = new Date(lastUpdated);
-                Creature creature = new Creature(name,picture,description,date);
-                creature.setId(id);
+                Creature creature = new Creature.CreatureBuilder().withName(name).withPicture(picture)
+                        .withDescription(description).withLastUpdated(date).withId(id).build();
                 creatures.add(creature);
             }
-            return creatures;
         } catch (SQLException e) {
-            logger.error("An error occurred when requesting a database",e);
-            throw new DaoException("An error occurred when requesting a database",e);
+            logger.error("An error occurred while finding unchecked creatures",e);
+            throw new DaoException("An error occurred while finding unchecked creatures",e);
         }
+        return creatures;
     }
 
     @Override
@@ -262,24 +261,24 @@ public class CreatureDaoImpl implements CreatureDao {
                 String description = resultSet.getString(4);
                 long lastUpdated = resultSet.getLong(5);
                 Date date = new Date(lastUpdated);
-                Creature creature = new Creature(creatureName,picture,description,date);
-                creature.setId(id);
+                Creature creature = new Creature.CreatureBuilder().withName(creatureName).withPicture(picture)
+                        .withDescription(description).withLastUpdated(date).withId(id).build();
                 creatures.add(creature);
             }
         } catch (SQLException e) {
-            logger.error("Error occurred while searching creatures.",e);
-            throw new DaoException("Error occurred while searching creatures",e);
+            logger.error("An error occurred while searching",e);
+            throw new DaoException("An error occurred while searching",e);
         }
         return creatures;
     }
 
     @Override
-    public List<Creature> findUserUncheckedCreatures(long id) throws DaoException {
+    public List<Creature> findUncheckedCreaturesByAccountId(long accountId) throws DaoException {
+        List<Creature> creatures = new ArrayList<>();
         try(Connection connection = pool.getConnection();
             PreparedStatement statement = connection.prepareStatement(SELECT_CREATURE_BY_STATUS_ID_USER_ID)) {
-            statement.setLong(1,id);
+            statement.setLong(1,accountId);
             ResultSet resultSet = statement.executeQuery();
-            List<Creature> creatures = new ArrayList<>();
             while (resultSet.next()) {
                 long creatureId = resultSet.getLong(1);
                 String name = resultSet.getString(2);
@@ -287,15 +286,15 @@ public class CreatureDaoImpl implements CreatureDao {
                 String description = resultSet.getString(4);
                 long lastUpdated = resultSet.getLong(5);
                 Date date = new Date(lastUpdated);
-                Creature creature = new Creature(name,picture,description,date);
-                creature.setId(creatureId);
+                Creature creature = new Creature.CreatureBuilder().withName(name).withPicture(picture)
+                        .withDescription(description).withLastUpdated(date).withId(creatureId).build();
                 creatures.add(creature);
             }
-            return creatures;
         } catch (SQLException e) {
-            logger.error("An error occurred when requesting a database",e);
-            throw new DaoException("An error occurred when requesting a database",e);
+            logger.error("An error occurred while finding user's suggested creatures",e);
+            throw new DaoException("An error occurred while finding user's suggested creatures",e);
         }
+        return creatures;
     }
 
     @Override
@@ -307,8 +306,8 @@ public class CreatureDaoImpl implements CreatureDao {
             creatureStatement.setLong(2,accountId);
             flag = creatureStatement.executeUpdate() > 0;
         } catch (SQLException e) {
-            logger.error("An error occurred while requesting a database",e);
-            throw new DaoException("An error occurred while requesting a database",e);
+            logger.error("An error occurred while deleting creature",e);
+            throw new DaoException("An error occurred while deleting creature",e);
         }
         return flag;
     }
@@ -376,8 +375,8 @@ public class CreatureDaoImpl implements CreatureDao {
                 logger.error("An error occurred while rolling back",e);
                 throw new DaoException("An error occurred while rolling back",e);
             }
-            logger.error("An error occurred while requesting a database",e);
-            throw new DaoException("An error occurred while requesting a database",e);
+            logger.error("An error occurred while deleting creature",e);
+            throw new DaoException("An error occurred while deleting creature",e);
         } finally {
             try {
                 connection.setAutoCommit(true);
@@ -402,13 +401,13 @@ public class CreatureDaoImpl implements CreatureDao {
                 String description = resultSet.getString(3);
                 long lastUpdated = resultSet.getLong(4);
                 Date date = new Date(lastUpdated);
-                Creature creature = new Creature(name,picture,description,date);
-                creature.setId(id);
+                Creature creature = new Creature.CreatureBuilder().withName(name).withPicture(picture)
+                        .withDescription(description).withLastUpdated(date).withId(id).build();
                 result = Optional.of(creature);
             }
         } catch (SQLException e) {
-            logger.error("An error occurred when requesting a database",e);
-            throw new DaoException("An error occurred when requesting a database",e);
+            logger.error("An error occurred while finding a creature",e);
+            throw new DaoException("An error occurred while finding a creature",e);
         }
         return result;
     }

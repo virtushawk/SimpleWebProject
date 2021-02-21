@@ -42,19 +42,21 @@
         </a>
     </div>
     <div id="formFooter">
-        <button type="button" class="btn btn-outline-primary mt-1" data-bs-toggle="modal" data-bs-target="#exampleModal">
-            Forgot password?
+        <button type="button" class="btn btn-outline-primary mt-1" data-bs-toggle="modal" data-bs-target="#passwordModal">
+            <fmt:message key="login.button.forgetPassword"/>
         </button>
-        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal fade" id="passwordModal" tabindex="-1">
             <div class="modal-dialog">
                 <form class="modal-content needs-validation" action="${pageContext.request.contextPath}/controller?command=forgot_password" method="post" novalidate>
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Forgot password</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        <h5 class="modal-title">
+                            <fmt:message key="login.forgotPasswordModal.title"/>
+                        </h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                     </div>
                     <div class="modal-body">
                         <label for="name">
-                            Enter your username
+                            <fmt:message key="login.forgetPassword.username"/>
                         </label>
                         <input type="text" name="name" class="form-control" id="name" required/>
                         <div class="valid-feedback">
@@ -65,14 +67,20 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary">Save changes</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                            <fmt:message key="creature.editCreatureModal.button.close"/>
+                        </button>
+                        <button type="submit" class="btn btn-primary">
+                            <fmt:message key="creature.editReviewModal.button.save"/>
+                        </button>
                     </div>
                 </form>
             </div>
         </div>
         <div class="mt-3">
-            <h4>${requestScope.user.username}</h4>
+            <h4>
+                ${requestScope.user.username}
+            </h4>
         </div>
     </div>
     <c:if test="${sessionScope.errorMessage}">

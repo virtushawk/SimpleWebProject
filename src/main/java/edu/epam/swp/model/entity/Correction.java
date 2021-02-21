@@ -11,29 +11,59 @@ public class Correction {
     private String name;
     private Date date;
 
-    public Correction() {}
+    public static class CorrectionBuilder {
 
-    public Correction(long correctionId, long accountId, long creatureId, String text, String name, Date date) {
-        this.correctionId = correctionId;
-        this.accountId = accountId;
-        this.creatureId = creatureId;
-        this.text = text;
-        this.name = name;
-        this.date = date;
+        private long correctionId;
+        private long accountId;
+        private long creatureId;
+        private String text;
+        private String name;
+        private Date date;
+
+        public CorrectionBuilder() {}
+
+        public CorrectionBuilder withCorrectionId(long correctionId) {
+            this.correctionId = correctionId;
+            return this;
+        }
+
+        public CorrectionBuilder withAccountId(long accountId) {
+            this.accountId = accountId;
+            return this;
+        }
+
+        public CorrectionBuilder withCreatureId(long creatureId) {
+            this.creatureId = creatureId;
+            return this;
+        }
+
+        public CorrectionBuilder withText(String text) {
+            this.text = text;
+            return this;
+        }
+
+        public CorrectionBuilder withName(String name) {
+            this.name = name;
+            return this;
+        }
+
+        public CorrectionBuilder withDate(Date date) {
+            this.date = date;
+            return this;
+        }
+
+        public Correction build() {
+            return new Correction(this);
+        }
     }
 
-    public Correction(long accountId, long creatureId, String text, String name, Date date) {
-        this.accountId = accountId;
-        this.creatureId = creatureId;
-        this.text = text;
-        this.name = name;
-        this.date = date;
-    }
-
-    public Correction(String text, String name, Date date) {
-        this.text = text;
-        this.name = name;
-        this.date = date;
+    private Correction(CorrectionBuilder correctionBuilder) {
+        correctionId = correctionBuilder.correctionId;
+        accountId = correctionBuilder.accountId;
+        creatureId = correctionBuilder.creatureId;
+        text = correctionBuilder.text;
+        name = correctionBuilder.name;
+        date = correctionBuilder.date;
     }
 
     public long getCorrectionId() {
@@ -95,11 +125,25 @@ public class Correction {
 
     @Override
     public int hashCode() {
-        int hashcode = (int) accountId;
-        hashcode = hashcode * 31 + (int) creatureId;
-        hashcode = hashcode * 31 + text.hashCode();
-        hashcode = hashcode * 31 + name.hashCode();
-        hashcode = hashcode * 31 + date.hashCode();
-        return hashcode;
+        int hash = Long.hashCode(correctionId);
+        hash = hash * 31 + Long.hashCode(creatureId);
+        hash = hash * 31 + Long.hashCode(accountId);
+        hash = hash * 31 + (text == null ? 0 : text.hashCode());
+        hash = hash * 31 + (text == null ? 0 : text.hashCode());
+        hash = hash * 31 + (text == null ? 0 : text.hashCode());
+        return hash;
+    }
+
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder("Correction{");
+        sb.append("correctionId=").append(correctionId);
+        sb.append(", accountId=").append(accountId);
+        sb.append(", creatureId=").append(creatureId);
+        sb.append(", text='").append(text).append('\'');
+        sb.append(", name='").append(name).append('\'');
+        sb.append(", date=").append(date);
+        sb.append('}');
+        return sb.toString();
     }
 }

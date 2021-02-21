@@ -35,17 +35,22 @@ public class ChangeUncheckedImageCommand implements Command {
     public String execute(HttpServletRequest request) {
         long creatureId = Long.parseLong(request.getParameter(ParameterName.ID));
         User user = (User) request.getSession().getAttribute(AttributeName.USER);
-        long accountId = user.getId();
+        long accountId = user.getAccountId();
         boolean flag;
         try {
             List<FileItem> fileItems = parseRequest(request);
             String image = handleFileItems(fileItems);
             flag = service.changeUncheckedImage(creatureId,accountId,image);
+            if (flag) {
+                request.getSession().setAttribute(AttributeName.IMAGE_CHANGE_VALID,true);
+            } else {
+                request.getSession().setAttribute(AttributeName.IMAGE_CHANGE_ERROR,true);
+            }
         } catch (Exception e) {
-            logger.error("Error occurred while updating the image",e);
-            request.getSession().setAttribute(AttributeName.GENERAL_ERROR_MESSAGE,true);
+            logger.error("Error occurred while requesting the database",e);
+            request.getSession().setAttribute(AttributeName.DATABASE_ERROR_MESSAGE,true);
         }
-        return PagePath.SERVLET_PROFILE + "&id=" + accountId;
+        return String.format(PagePath.SERVLET_PROFILE_ID,accountId);
     }
 
     private String saveImage(FileItem fileItem) throws Exception {

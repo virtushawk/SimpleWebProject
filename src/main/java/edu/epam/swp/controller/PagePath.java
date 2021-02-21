@@ -19,4 +19,6 @@ public class PagePath {
     public static final String SERVLET_ADMIN_PAGE = "/controller?command=admin_panel";
     public static final String ERROR_403 = "/pages/error_403.jsp";
     public static final String SERVLET_CREATURE = "/controller?command=creature";
+    public static final String SERVLET_CREATURE_ID = "/controller?command=creature&id=%d";
+    public static final String SERVLET_PROFILE_ID = "/controller?command=profile&id=%d";
 }

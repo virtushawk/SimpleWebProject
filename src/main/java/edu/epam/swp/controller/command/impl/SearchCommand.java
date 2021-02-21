@@ -21,9 +21,8 @@ public class SearchCommand implements Command {
     @Override
     public String execute(HttpServletRequest request) {
         String text = request.getParameter(ParameterName.TEXT);
-        List<Creature> creatures;
         try {
-            creatures = service.search(text);
+            List<Creature> creatures = service.search(text);
             request.setAttribute(AttributeName.CREATURES,creatures);
         } catch (ServiceException e) {
             logger.error("Error occurred while searching creatures",e);

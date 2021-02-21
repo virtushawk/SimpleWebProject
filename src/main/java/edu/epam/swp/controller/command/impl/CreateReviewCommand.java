@@ -26,19 +26,25 @@ public class CreateReviewCommand implements Command {
         User user = (User) request.getSession().getAttribute(AttributeName.USER);
         String ratingString = request.getParameter(ParameterName.RATING);
         int rating = Integer.parseInt(ratingString);
-        long accountId = user.getId();
+        long accountId = user.getAccountId();
         String id = request.getParameter(ParameterName.ID);
         long creatureId = Long.parseLong(id);
         long time = System.currentTimeMillis();
         Date date = new Date(time);
-        Review review = new Review(accountId,creatureId,text,date,rating);
+        Review review = new Review.ReviewBuilder().withCreatureId(creatureId)
+                .withAccountId(accountId).withText(text).withDate(date).withRating(rating).build();
         boolean flag;
         try {
             flag = service.createReview(review);
+            if (flag) {
+                request.getSession().setAttribute(AttributeName.REVIEW_MESSAGE_CREATED,true);
+            } else {
+                request.getSession().setAttribute(AttributeName.REVIEW_MESSAGE_ERROR,true);
+            }
         } catch (ServiceException e) {
             logger.error("Error occurred while creating review",e);
-            request.getSession().setAttribute(AttributeName.GENERAL_ERROR_MESSAGE,true);
+            request.getSession().setAttribute(AttributeName.DATABASE_ERROR_MESSAGE,true);
         }
-        return PagePath.SERVLET_HOME;
+        return PagePath.SERVLET_CREATURE + "&id=" + creatureId;
     }
 }

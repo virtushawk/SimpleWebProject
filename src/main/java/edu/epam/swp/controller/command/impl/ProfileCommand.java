@@ -35,30 +35,32 @@ public class ProfileCommand implements Command {
     public String execute(HttpServletRequest request) {
         long id = Long.parseLong(request.getParameter(ParameterName.ID));
         Optional<User> user;
-        List<Review> reviews;
-        List<Creature> creatures;
-        List<Creature> suggestedCreatures;
-        List<Correction> corrections;
+        String page;
         try {
             user = userService.get(id);
-            reviews = reviewService.findReviewsUser(id);
-            creatures = creatureService.findUserCreatures(id);
-            suggestedCreatures = creatureService.findUserSuggestedCreatures(id);
-            corrections = correctionService.findUserCorrections(id);
+            if (user.isPresent()) {
+                request.setAttribute(AttributeName.USER,user.get());
+                List<Review> reviews = reviewService.findUserReviews(id);
+                List<Creature> creatures = creatureService.findUserCreatures(id);
+                request.setAttribute(AttributeName.REVIEWS,reviews);
+                request.setAttribute(AttributeName.CREATURES,creatures);
+                User sessionUser = (User) request.getSession().getAttribute(AttributeName.USER);
+                long accountId = sessionUser.getAccountId();
+                if (id == accountId) {
+                    List<Creature> suggestedCreatures = creatureService.findUserSuggestedCreatures(id);
+                    List<Correction> corrections = correctionService.findUserCorrections(id);
+                    request.setAttribute(AttributeName.UNCHECKED_CREATURES,suggestedCreatures);
+                    request.setAttribute(AttributeName.CORRECTIONS,corrections);
+                }
+                page = PagePath.PROFILE;
+            } else {
+                page = PagePath.ERROR;
+            }
         } catch (ServiceException e) {
-            logger.error("Error occurred while finding user",e);
-            request.getSession().setAttribute(AttributeName.DATABASE_ERROR_MESSAGE, true);
-            return PagePath.HOME;
+            logger.error("Error occurred while requesting database",e);
+            request.setAttribute(AttributeName.DATABASE_ERROR_MESSAGE, true);
+            page = PagePath.HOME;
         }
-        if (user.isPresent()) {
-            request.setAttribute(AttributeName.USER,user.get());
-            request.setAttribute(AttributeName.REVIEWS,reviews);
-            request.setAttribute(AttributeName.CREATURES,creatures);
-            request.setAttribute(AttributeName.UNCHECKED_CREATURES,suggestedCreatures);
-            request.setAttribute(AttributeName.CORRECTIONS,corrections);
-            return PagePath.PROFILE;
-        } else {
-            return PagePath.ERROR;
-        }
+        return page;
     }
 }

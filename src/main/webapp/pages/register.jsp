@@ -31,7 +31,7 @@
             <label for="username">
                 <fmt:message key="register.username.label"/>
             </label>
-            <input type="text" name="username" class="form-control" id="username" aria-describedby="usernameHelp" placeholder="${usernamePlaceHolder}"  required pattern="(^[a-z]{1,10}$)|(^[а-я]{0,9}?$)">
+            <input type="text" name="username" class="form-control" id="username" aria-describedby="usernameHelp" placeholder="${usernamePlaceHolder}" required pattern="(^[a-z,A-Z]{1,10}$)">
             <small id="usernameHelp" class="form-text text-muted">
                 <fmt:message key="register.username.help"/>
             </small>
@@ -40,7 +40,7 @@
             <label for="password">
                 <fmt:message key="register.password.label"/>
             </label>
-            <input type="text" name="password" class="form-control" id="password" aria-describedby="passwordHelp" placeholder="${passwordPlaceHolder}" required  pattern="^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$">
+            <input type="text" name="password" class="form-control" id="password" aria-describedby="passwordHelp" placeholder="${passwordPlaceHolder}" required  pattern="^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,20}$">
             <small id="passwordHelp" class="form-text text-muted">
                 <fmt:message key="register.password.help"/>
             </small>

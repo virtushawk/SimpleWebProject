@@ -1,6 +1,7 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@taglib prefix="e" uri="https://www.owasp.org/index.php/OWASP_Java_Encoder_Project"%>
 <fmt:setLocale value="${sessionScope.lang}"/>
 <fmt:setBundle basename="property.text"/>
 <!DOCTYPE html>
@@ -30,12 +31,13 @@
     </div>
     <c:remove var="confirmedMessage" scope="session"/>
 </c:if>
-<c:if test="${requestScope.errorMessageDB}">
+<c:if test="${requestScope.errorMessageDB or sessionScope.errorMessageDB}">
     <div class="container">
         <div class="alert alert-danger text-center" role="alert">
             <fmt:message key="home.errorMessageDB"/>
         </div>
     </div>
+    <c:remove var="errorMessageDB" scope="session"/>
 </c:if>
 <p class="fs-1 text-center">
     <fmt:message key="home.label.new"/>
@@ -47,10 +49,10 @@
                 <img src="${pageContext.request.contextPath}/uploadController?url=${creature.picture}" class="card-img-top" alt="<fmt:message key="home.image.alt"/>" style="width: 100%;object-fit: cover;height: 15vw">
                 <div class="card-body">
                     <a href="${pageContext.request.contextPath}/controller?command=creature&id=${creature.id}" class="text-decoration-none stretched-link">
-                        ${creature.name}
+                        <e:forHtml value="${creature.name}"/>
                     </a>
                     <p class="card-text text-truncate">
-                            ${creature.description}
+                        <e:forHtml value="${creature.description}"/>
                     </p>
                 </div>
                 <div class="card-footer border-0">
@@ -72,10 +74,12 @@
                 <img src="${pageContext.request.contextPath}/uploadController?url=${creature.picture}" class="card-img-top" alt="<fmt:message key="home.image.alt"/>" style="width: 100%;object-fit: cover;height: 15vw">
                 <div class="card-body">
                     <a href="${pageContext.request.contextPath}/controller?command=creature&id=${creature.id}" class="text-decoration-none stretched-link">
-                            ${creature.name}
+                        <e:forHtml value="${creature.name}"/>
                     </a>
                     <p class="card-text text-truncate">
-                            ${creature.description}
+                        <e:forHtml value="${creature.description}"/>
+                    </p>
+                    <p class="card-text">
                     </p>
                 </div>
                 <div class="card-footer border-0">

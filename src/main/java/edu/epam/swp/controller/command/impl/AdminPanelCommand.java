@@ -31,17 +31,12 @@ public class AdminPanelCommand implements Command {
 
     @Override
     public String execute(HttpServletRequest request) {
-        List<User> users;
-        List<Review> reviews;
-        List<Creature> creatures;
-        List<Creature> usersCreatures;
-        List<Correction> usersCorrections;
         try {
-            users = userService.findAll();
-            reviews = reviewService.findAll();
-            creatures = creatureService.findAll();
-            usersCreatures = creatureService.findUncheckedCreatures();
-            usersCorrections = correctionService.findAll();
+            List<User> users = userService.findAll();
+            List<Review> reviews = reviewService.findAll();
+            List<Creature> creatures = creatureService.findAll();
+            List<Creature> usersCreatures = creatureService.findUncheckedCreatures();
+            List<Correction> usersCorrections = correctionService.findAll();
             request.setAttribute(AttributeName.USERS,users);
             request.setAttribute(AttributeName.REVIEWS,reviews);
             request.setAttribute(AttributeName.CREATURES,creatures);

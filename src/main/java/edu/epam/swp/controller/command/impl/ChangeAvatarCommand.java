@@ -32,20 +32,26 @@ public class ChangeAvatarCommand implements Command {
 
     @Override
     public String execute(HttpServletRequest request) {
-        boolean flag;
         User user = (User) request.getSession().getAttribute(AttributeName.USER);
-        long id = user.getId();
+        long id = user.getAccountId();
+        boolean flag;
+        String page;
         try {
             List<FileItem> fileItems = parseRequest(request);
             String avatar = handleFileItems(fileItems);
             flag = service.changeAvatar(avatar,id);
-            user.setAvatar(avatar);
+            if (flag) {
+                request.getSession().setAttribute(AttributeName.AVATAR_CHANGE_VALID,true);
+                user.setAvatar(avatar);
+            } else {
+                request.getSession().setAttribute(AttributeName.AVATAR_CHANGE_ERROR,true);
+            }
         } catch (Exception e) {
             logger.error("Error occurred while updating the avatar",e);
-            request.getSession().setAttribute(AttributeName.GENERAL_ERROR_MESSAGE,true);
-            return PagePath.SERVLET_HOME;
+            request.getSession().setAttribute(AttributeName.DATABASE_ERROR_MESSAGE,true);
         }
-        return PagePath.SERVLET_PROFILE + "&id=" + user.getId();
+        page = String.format(PagePath.SERVLET_PROFILE_ID,id);
+        return page;
     }
 
     private String saveImage(FileItem fileItem) throws Exception {

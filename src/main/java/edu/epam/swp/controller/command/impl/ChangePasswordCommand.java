@@ -21,15 +21,19 @@ public class ChangePasswordCommand implements Command {
     public String execute(HttpServletRequest request) {
         String password = request.getParameter(ParameterName.PASSWORD);
         User user = (User) request.getSession().getAttribute(AttributeName.USER);
-        long id = user.getId();
+        long accountId = user.getAccountId();
         boolean flag;
         try {
-            flag = service.changePassword(password,id);
+            flag = service.changePassword(password,accountId);
+            if (flag) {
+                request.getSession().setAttribute(AttributeName.PASSWORD_CHANGED_VALID,true);
+            } else {
+                request.getSession().setAttribute(AttributeName.PASSWORD_CHANGED_ERROR,true);
+            }
         } catch (ServiceException e) {
             logger.error("Error occurred while accessing database",e);
             request.getSession().setAttribute(AttributeName.DATABASE_ERROR_MESSAGE,true);
-            return PagePath.SERVLET_HOME;
         }
-        return PagePath.SERVLET_PROFILE + "&id=" + user.getId();
+        return String.format(PagePath.SERVLET_PROFILE_ID,accountId);
     }
 }

@@ -11,9 +11,9 @@ public interface UserService {
     List<User> findAll() throws ServiceException;
     long registerUser(String email,String username,String password) throws ServiceException;
     Optional<User> findUser(String username,String password) throws ServiceException;
-    boolean restorePassword(String username) throws ServiceException;
-    boolean changeAvatar(String avatar,long id) throws ServiceException;
     Optional<User> get(long id) throws ServiceException;
+    boolean restorePassword(String username) throws ServiceException;
+    boolean changeAvatar(String avatar,long accountId) throws ServiceException;
     boolean confirmEmail(long id) throws ServiceException;
     boolean blockUser(long id) throws ServiceException;
     boolean unblockUser(long id) throws ServiceException;

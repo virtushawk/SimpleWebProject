@@ -27,6 +27,11 @@ public class DeleteReviewCommand implements Command {
         if (user.getRole().equals(AccountRole.ADMIN)) {
             try {
                 flag = service.delete(id);
+                if (flag) {
+                    request.setAttribute(AttributeName.REVIEW_DELETE_MESSAGE_VALID,true);
+                } else {
+                    request.setAttribute(AttributeName.REVIEW_DELETE_MESSAGE_ERROR,true);
+                }
             } catch (ServiceException e) {
                 logger.error("Error occurred while accessing database",e);
                 request.setAttribute(AttributeName.DATABASE_ERROR_MESSAGE,true);
@@ -34,15 +39,19 @@ public class DeleteReviewCommand implements Command {
             page = PagePath.SERVLET_ADMIN_PAGE;
         } else {
             try {
-                long accountId = user.getId();
+                long accountId = user.getAccountId();
                 flag = service.delete(id,accountId);
+                if (flag) {
+                    request.setAttribute(AttributeName.REVIEW_DELETE_MESSAGE_VALID,true);
+                } else {
+                    request.setAttribute(AttributeName.REVIEW_DELETE_MESSAGE_ERROR,true);
+                }
             } catch (ServiceException e) {
                 logger.error("Error occurred while accessing database",e);
                 request.setAttribute(AttributeName.DATABASE_ERROR_MESSAGE,true);
             }
             long creatureId = Long.parseLong(request.getParameter(ParameterName.CREATURE));
-            request.setAttribute(AttributeName.ID,creatureId);
-            page = PagePath.SERVLET_CREATURE;
+            page = String.format(PagePath.SERVLET_CREATURE_ID,creatureId);
         }
         return page;
     }

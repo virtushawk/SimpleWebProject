@@ -18,27 +18,20 @@ import java.io.IOException;
 @WebServlet(name = "uploadController", urlPatterns = "/uploadController")
 public class  UploadServlet extends HttpServlet {
 
-    //todo fix and clean
+    private static final String CONTENT_TYPE = "image/jpeg";
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        String url = request.getParameter("url");
-        response.setContentType("image/jpeg");
-        ServletOutputStream out;
-        out = response.getOutputStream();
-        FileInputStream flinp = new FileInputStream(url);
-        BufferedInputStream buffinp = new BufferedInputStream(flinp);
-        BufferedOutputStream buffoup = new BufferedOutputStream(out);
-        int ch=0;
-        while ((ch=buffinp.read()) != -1) {
-
-            buffoup.write(ch);
-
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        String url = request.getParameter(ParameterName.URL);
+        response.setContentType(CONTENT_TYPE);
+        try (ServletOutputStream out = response.getOutputStream();
+             FileInputStream fileInputStream = new FileInputStream(url);
+             BufferedInputStream bufferedInputStream = new BufferedInputStream(fileInputStream);
+             BufferedOutputStream bufferedOutputStream = new BufferedOutputStream(out)) {
+            int ch = 0;
+            while ((ch = bufferedInputStream.read()) != -1) {
+                bufferedOutputStream.write(ch);
+            }
         }
-        buffinp.close();
-        flinp.close();
-        buffoup.close();
-        out.close();
     }
 
     @Override

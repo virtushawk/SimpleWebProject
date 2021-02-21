@@ -19,12 +19,12 @@ import java.util.Optional;
 
 public class UserServiceImpl implements UserService {
     private static final Logger logger = LogManager.getLogger(UserServiceImpl.class);
-    private static final UserServiceImpl instance = new UserServiceImpl();
-    private static final UserDao dao = UserDaoImpl.getInstance();
+    private static final UserService instance = new UserServiceImpl();
+    private UserDao dao = UserDaoImpl.getInstance();
 
     private UserServiceImpl() {}
 
-    public static UserServiceImpl getInstance() {
+    public static UserService getInstance() {
         return instance;
     }
 
@@ -34,8 +34,8 @@ public class UserServiceImpl implements UserService {
         try {
             users = dao.findAll();
         } catch (DaoException e) {
-            logger.error("An error occurred when requesting a database");
-            throw new ServiceException("An error occurred when requesting a database",e);
+            logger.error("An error occurred while finding all users",e);
+            throw new ServiceException("An error occurred while finding all users",e);
         }
         return users;
     }
@@ -43,12 +43,12 @@ public class UserServiceImpl implements UserService {
     @Override
     public long registerUser(String email,String username,String password) throws ServiceException {
         long id = 0;
-        if (!(UserValidator.isUsername(username) && UserValidator.isPassword(password) && UserValidator.isEmail(email))) {
+        if (!(UserValidator.isUsername(username) || UserValidator.isPassword(password) || UserValidator.isEmail(email))) {
             logger.info("Invalid credentials : email : {}, username : {}, password : {}"
                     ,email,username, password);
             return id;
         }
-        User user = new User(email,username,AccountRole.INACTIVE);
+        User user = new User.UserBuilder().withEmail(email).withUsername(username).withRole(AccountRole.INACTIVE).build();
         String encryptedPassword = PasswordHash.createHash(password);
         try {
             id = dao.create(user,encryptedPassword);
@@ -70,8 +70,8 @@ public class UserServiceImpl implements UserService {
                 String encryptedPassword = PasswordHash.createHash(password);
                 user = dao.findUserByUsernamePassword(username,encryptedPassword);
             } catch (DaoException e) {
-                logger.error("An error occurred when requesting a database");
-                throw new ServiceException("An error occurred when requesting a database",e);
+                logger.error("An error occurred while finding a user",e);
+                throw new ServiceException("An error occurred while finding a user",e);
             }
         }
         return user;
@@ -87,7 +87,7 @@ public class UserServiceImpl implements UserService {
                 if(user.isPresent()) {
                     String password = PasswordGenerator.generatePassword();
                     String enctyptedPassword = PasswordHash.createHash(password);
-                    flag = dao.updatePassword(enctyptedPassword,user.get().getId());
+                    flag = dao.updatePassword(enctyptedPassword,user.get().getAccountId());
                     if (flag) {
                         MailUtility.sendRestoreMessage(user.get().getEmail(),password);
                     }
@@ -101,13 +101,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean changeAvatar(String avatar, long id) throws ServiceException {
+    public boolean changeAvatar(String avatar, long accountId) throws ServiceException {
         boolean flag;
         try {
-            flag = dao.updateAvatarById(avatar,id);
+            flag = dao.updateAvatarById(avatar,accountId);
         } catch (DaoException e) {
-            logger.error("An error occurred when requesting a database");
-            throw new ServiceException("An error occurred when requesting a database",e);
+            logger.error("An error occurred while updating avatar",e);
+            throw new ServiceException("An error occurred while updating avatar",e);
         }
         return flag;
     }
@@ -118,8 +118,8 @@ public class UserServiceImpl implements UserService {
         try {
             user = dao.get(id);
         } catch (DaoException e) {
-            logger.error("An error occurred when requesting a database",e);
-            throw new ServiceException("An error occurred when requesting a database",e);
+            logger.error("An error occurred while finding user",e);
+            throw new ServiceException("An error occurred while finding user",e);
         }
         return user;
     }
@@ -173,25 +173,33 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean changeName(String name, long id) throws ServiceException {
+    public boolean changeName(String name, long accountId) throws ServiceException {
         boolean flag;
+        if (!UserValidator.isName(name)){
+            logger.info("Invalid name");
+            return false;
+        }
         try {
-            flag = dao.updateName(name,id);
+            flag = dao.updateName(name,accountId);
         } catch (DaoException e) {
-            logger.error("An error occurred when requesting a database");
-            throw new ServiceException("An error occurred when requesting a database",e);
+            logger.error("An error occurred while updating name",e);
+            throw new ServiceException("An error occurred while updating name",e);
         }
         return flag;
     }
 
     @Override
-    public boolean changeEmail(String email, long id) throws ServiceException {
+    public boolean changeEmail(String email, long accountId) throws ServiceException {
         boolean flag;
+        if (!UserValidator.isEmail(email)){
+            logger.info("Invalid email");
+            return false;
+        }
         try {
-            flag = dao.updateEmail(email,id);
+            flag = dao.updateEmail(email,accountId);
         } catch (DaoException e) {
-            logger.error("An error occurred when requesting a database");
-            throw new ServiceException("An error occurred when requesting a database",e);
+            logger.error("An error occurred while updating email",e);
+            throw new ServiceException("An error occurred while updating email",e);
         }
         return flag;
     }
@@ -199,12 +207,16 @@ public class UserServiceImpl implements UserService {
     @Override
     public boolean changePassword(String password, long id) throws ServiceException {
         boolean flag;
+        if (!UserValidator.isPassword(password)) {
+            logger.info("Invalid password");
+            return false;
+        }
         String encryptedPassword = PasswordHash.createHash(password);
         try {
             flag = dao.updatePassword(encryptedPassword,id);
         } catch (DaoException e) {
-            logger.error("An error occurred when requesting a database");
-            throw new ServiceException("An error occurred when requesting a database",e);
+            logger.error("An error occurred while updating password",e);
+            throw new ServiceException("An error occurred while updating password",e);
         }
         return flag;
     }

@@ -10,7 +10,7 @@ public interface UserDao extends BaseDao<User>{
     Optional<User> findUserByUsernamePassword(String username, String password) throws DaoException;
     Optional<User> findUserByUsername(String username) throws DaoException;
     long create(User user,String password) throws DaoException;
-    boolean updateAvatarById(String avatar,long id) throws DaoException;
+    boolean updateAvatarById(String avatar,long accountId) throws DaoException;
     boolean confirmEmail(long id) throws DaoException;
     boolean blockUser(long id) throws DaoException;
     boolean unblockUser(long id) throws DaoException;

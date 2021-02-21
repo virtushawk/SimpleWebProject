@@ -39,7 +39,7 @@ public class CreateCreatureCommand implements Command {
     @Override
     public String execute(HttpServletRequest request) {
         User user = (User) request.getSession().getAttribute(AttributeName.USER);
-        long id = user.getId();
+        long id = user.getAccountId();
         boolean flag;
         try {
             List<FileItem> fileItems = parseRequest(request);
@@ -108,7 +108,8 @@ public class CreateCreatureCommand implements Command {
         }
         long currentTime = System.currentTimeMillis();
         Date lastUpdated = new Date(currentTime);
-        Creature creature = new Creature(name,picture,description,lastUpdated);
+        Creature creature = new Creature.CreatureBuilder().withName(name).withPicture(picture)
+                .withDescription(description).withLastUpdated(lastUpdated).build();
         return creature;
     }
 }

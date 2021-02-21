@@ -15,7 +15,7 @@ import java.util.Optional;
 public class CorrectionDaoImpl implements CorrectionDao {
     private static final Logger logger = LogManager.getLogger(CorrectionDaoImpl.class);
     private static final CorrectionDao instance = new CorrectionDaoImpl();
-    private static final ConnectionPool pool = ConnectionPool.INSTANCE;
+    private ConnectionPool pool = ConnectionPool.INSTANCE;
     private static final String INSERT_CORRECTION = "INSERT INTO corrections(creature_id,account_id,description,name,date) " +
             "VALUES (?,?,?,?,?)";
     private static final String SELECT_CORRECTION = "SELECT correction_id,creature_id,account_id,description,name,date " +
@@ -25,7 +25,7 @@ public class CorrectionDaoImpl implements CorrectionDao {
     private static final String SELECT_CORRECTION_BY_ID = "SELECT creature_id,account_id,description,name,date FROM corrections WHERE " +
             "correction_id = ?";
     private static final String DELETE_CORRECTION = "DELETE FROM corrections WHERE correction_id = ?";
-    private static final String SELECT_CORRECTION_BY_ACCOUNT_ID = "SELECT correction_id,creature_id,account_id,description," +
+    private static final String SELECT_CORRECTION_BY_ACCOUNT_ID = "SELECT correction_id,creature_id,description," +
             "name,date FROM corrections WHERE account_id = ?";
     private static final String UPDATE_CORRECTION_BY_ACCOUNT_ID = "UPDATE corrections SET name = ?,description = ?,date = ? " +
             "WHERE correction_id = ? AND account_id = ?";
@@ -51,14 +51,15 @@ public class CorrectionDaoImpl implements CorrectionDao {
                 String name = resultSet.getString(5);
                 long time = resultSet.getLong(6);
                 Date date = new Date(time);
-                Correction correction = new Correction(correctionId,accountId,creatureId,text,name,date);
+                Correction correction = new Correction.CorrectionBuilder().withCorrectionId(correctionId)
+                        .withAccountId(accountId).withCreatureId(creatureId).withText(text).withName(name).withDate(date).build();
                 corrections.add(correction);
             }
-            return corrections;
         } catch (SQLException e) {
-            logger.error("An error occurred when requesting a database",e);
-            throw new DaoException("An error occurred when requesting a database",e);
+            logger.error("Error occurred while finding all corrections",e);
+            throw new DaoException("Error occurred while finding all corrections",e);
         }
+        return corrections;
     }
 
     @Override
@@ -131,28 +132,28 @@ public class CorrectionDaoImpl implements CorrectionDao {
     }
 
     @Override
-    public List<Correction> findCorrectionsByAccountId(long id) throws DaoException {
+    public List<Correction> findCorrectionsByAccountId(long accountId) throws DaoException {
         List<Correction> corrections = new ArrayList<>();
         try(Connection connection = pool.getConnection();
             PreparedStatement statement = connection.prepareStatement(SELECT_CORRECTION_BY_ACCOUNT_ID)) {
-            statement.setLong(1,id);
+            statement.setLong(1,accountId);
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
                 long correctionId = resultSet.getLong(1);
                 long creatureId = resultSet.getLong(2);
-                long accountId = resultSet.getLong(3);
-                String text = resultSet.getString(4);
-                String name = resultSet.getString(5);
-                long time = resultSet.getLong(6);
+                String text = resultSet.getString(3);
+                String name = resultSet.getString(4);
+                long time = resultSet.getLong(5);
                 Date date = new Date(time);
-                Correction correction = new Correction(correctionId,accountId,creatureId,text,name,date);
+                Correction correction = new Correction.CorrectionBuilder().withCorrectionId(correctionId)
+                        .withAccountId(accountId).withCreatureId(creatureId).withText(text).withName(name).withDate(date).build();
                 corrections.add(correction);
             }
-            return corrections;
         } catch (SQLException e) {
-            logger.error("An error occurred when requesting a database",e);
-            throw new DaoException("An error occurred when requesting a database",e);
+            logger.error("Error occurred while finding user's corrections",e);
+            throw new DaoException("Error occurred while finding user's corrections",e);
         }
+        return corrections;
     }
 
     @Override
@@ -167,8 +168,8 @@ public class CorrectionDaoImpl implements CorrectionDao {
             statement.setLong(5,accountId);
             flag = statement.executeUpdate() > 0;
         } catch (SQLException e) {
-            logger.error("An error occurred when requesting a database",e);
-            throw new DaoException("An error occurred when requesting a database",e);
+            logger.error("Error occurred while updating correction",e);
+            throw new DaoException("Error occurred while updating correction",e);
         }
         return flag;
     }

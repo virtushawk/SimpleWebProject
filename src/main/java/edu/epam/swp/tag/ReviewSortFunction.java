@@ -5,9 +5,9 @@ import edu.epam.swp.model.entity.Review;
 import java.util.Comparator;
 import java.util.List;
 
-public class ReviewSortTag {
+public class ReviewSortFunction {
 
-    private ReviewSortTag() {}
+    private ReviewSortFunction() {}
 
     public static List<Review> sortByUser(List<Review> reviews) {
         Comparator<Review> byUser = (o1, o2) -> String.CASE_INSENSITIVE_ORDER.compare(o1.getAccountName(),o2.getAccountName());

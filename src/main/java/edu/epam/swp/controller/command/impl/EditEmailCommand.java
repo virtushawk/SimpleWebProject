@@ -21,15 +21,20 @@ public class EditEmailCommand implements Command {
     public String execute(HttpServletRequest request) {
         String email = request.getParameter(ParameterName.EMAIL);
         User user = (User) request.getSession().getAttribute(AttributeName.USER);
-        long id = user.getId();
+        long accountId = user.getAccountId();
         boolean flag;
         try {
-            flag = service.changeEmail(email,id);
+            flag = service.changeEmail(email,accountId);
+            if (flag) {
+                request.getSession().setAttribute(AttributeName.EMAIL_CHANGE_VALID,true);
+                user.setEmail(email);
+            } else {
+                request.getSession().setAttribute(AttributeName.EMAIL_CHANGE_ERROR,true);
+            }
         } catch (ServiceException e) {
             logger.error("Error occurred while accessing database",e);
             request.getSession().setAttribute(AttributeName.DATABASE_ERROR_MESSAGE,true);
-            return PagePath.SERVLET_HOME;
         }
-        return PagePath.SERVLET_PROFILE + "&id=" + user.getId();
+        return String.format(PagePath.SERVLET_PROFILE_ID,accountId);
     }
 }

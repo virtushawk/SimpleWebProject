@@ -8,7 +8,7 @@ import java.util.List;
 public interface CorrectionDao extends BaseDao<Correction> {
 
     boolean approveCorrection(long id) throws DaoException;
-    List<Correction> findCorrectionsByAccountId(long id) throws DaoException;
+    List<Correction> findCorrectionsByAccountId(long accountId) throws DaoException;
     boolean update(long accountId,Correction correction) throws DaoException;
     boolean delete(long accountId,long correctionId) throws DaoException;
 }

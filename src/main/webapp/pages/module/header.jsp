@@ -56,10 +56,10 @@
                     <fmt:message key="header.language"/>
                 </button>
                 <div class="dropdown-menu ">
-                    <a class="dropdown-item" href="${pageContext.request.contextPath}/controller?sessionLocale=en_US<c:if test="${not empty param.command}">&command=${param.command}</c:if><c:if test="${not empty param.id}">&id=${param.id}</c:if><c:if test="${not empty param.text}">&text=${param.text}</c:if>">
+                    <a class="dropdown-item" href="${requestScope['javax.servlet.forward.request_url']}?sessionLocale=en_US<c:if test="${not empty param.command}">&command=${param.command}</c:if><c:if test="${not empty param.id}">&id=${param.id}</c:if><c:if test="${not empty param.text}">&text=${param.text}</c:if>">
                         <fmt:message key="header.language.en"/>
                     </a>
-                    <a class="dropdown-item" href="${pageContext.request.contextPath}/controller?sessionLocale=ru_RU<c:if test="${not empty param.command}">&command=${param.command}</c:if><c:if test="${not empty param.id}">&id=${param.id}</c:if><c:if test="${not empty param.text}">&text=${param.text}</c:if>">
+                    <a class="dropdown-item" href="${requestScope['javax.servlet.forward.request_url']}?sessionLocale=ru_RU<c:if test="${not empty param.command}">&command=${param.command}</c:if><c:if test="${not empty param.id}">&id=${param.id}</c:if><c:if test="${not empty param.text}">&text=${param.text}</c:if>">
                         <fmt:message key="header.language.ru"/>
                     </a>
                 </div>
@@ -67,7 +67,7 @@
            <c:choose>
                <c:when test="${sessionScope.authorised}">
                    <li class="nav-item">
-                       <a href="${pageContext.request.contextPath}/controller?command=profile&id=${sessionScope.user.id}" class="nav-link m-2 menu-item">
+                       <a href="${pageContext.request.contextPath}/controller?command=profile&id=${sessionScope.user.accountId}" class="nav-link m-2 menu-item">
                            ${sessionScope.user.username}
                        </a>
                    </li>

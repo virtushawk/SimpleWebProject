@@ -28,7 +28,7 @@ public class AccessFilter implements Filter {
         String commandType = request.getParameter(ParameterName.COMMAND);
         User user = (User) request.getSession().getAttribute(AttributeName.USER);
         if (user == null) {
-            user = new User(AccountRole.GUEST);
+            user = new User.UserBuilder().withRole(AccountRole.GUEST).build();
             request.getSession().setAttribute(AttributeName.USER,user);
         }
         CommandType command;

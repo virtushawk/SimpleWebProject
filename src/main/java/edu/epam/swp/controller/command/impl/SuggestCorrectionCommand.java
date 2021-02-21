@@ -23,15 +23,21 @@ public class SuggestCorrectionCommand implements Command {
     public String execute(HttpServletRequest request) {
         long creatureId = Long.parseLong(request.getParameter(ParameterName.ID));
         User user = (User) request.getSession().getAttribute(AttributeName.USER);
-        long accountId = user.getId();
+        long accountId = user.getAccountId();
         String text = request.getParameter(ParameterName.DESCRIPTION);
         String name = request.getParameter(ParameterName.NAME);
         long time = System.currentTimeMillis();
         Date date = new Date(time);
-        Correction correction = new Correction(accountId,creatureId,text,name,date);
+        Correction correction = new Correction.CorrectionBuilder().withAccountId(accountId).withCreatureId(creatureId)
+                .withText(text).withName(name).withDate(date).build();
         boolean flag;
         try {
             flag = service.create(correction);
+            if (flag) {
+                request.getSession().setAttribute(AttributeName.CORRECTION_MESSAGE_CREATED,true);
+            } else {
+                request.getSession().setAttribute(AttributeName.CORRECTION_MESSAGE_ERROR,true);
+            }
         } catch (ServiceException e) {
             logger.error("Error occurred while creating correction",e);
             request.getSession().setAttribute(AttributeName.DATABASE_ERROR_MESSAGE,true);

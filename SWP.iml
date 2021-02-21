@@ -46,5 +46,8 @@
     <orderEntry type="library" name="Maven: com.sun.mail:javax.mail:1.6.2" level="project" />
     <orderEntry type="library" name="Maven: javax.activation:activation:1.1" level="project" />
     <orderEntry type="library" name="Maven: org.passay:passay:1.6.0" level="project" />
+    <orderEntry type="library" name="Maven: org.owasp.encoder:encoder-jsp:1.2.3" level="project" />
+    <orderEntry type="library" name="Maven: org.owasp.encoder:encoder:1.2.3" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: javax.servlet.jsp:javax.servlet.jsp-api:2.3.3" level="project" />
   </component>
 </module>

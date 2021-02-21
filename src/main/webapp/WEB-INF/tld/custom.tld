@@ -9,58 +9,69 @@
     <tlib-version>1.0</tlib-version>
     <short-name>customTag</short-name>
     <uri>edu.epam.swp.tag</uri>
+    
+    <tag>
+        <name>access</name>
+        <tag-class>edu.epam.swp.tag.AccessControlTag</tag-class>
+        <body-content>scriptless</body-content>
+        <attribute>
+            <name>accessRole</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+    </tag>
 
     <function>
         <name>sortByName</name>
-        <function-class>edu.epam.swp.tag.CreatureSortTag</function-class>
+        <function-class>edu.epam.swp.tag.CreatureSortFunction</function-class>
         <function-signature>java.util.List sortByName(java.util.List)</function-signature>
     </function>
 
     <function>
         <name>sortByDate</name>
-        <function-class>edu.epam.swp.tag.CreatureSortTag</function-class>
+        <function-class>edu.epam.swp.tag.CreatureSortFunction</function-class>
         <function-signature>java.util.List sortByDate(java.util.List)</function-signature>
     </function>
 
     <function>
         <name>sortByRating</name>
-        <function-class>edu.epam.swp.tag.CreatureSortTag</function-class>
+        <function-class>edu.epam.swp.tag.CreatureSortFunction</function-class>
         <function-signature>java.util.List sortByRating(java.util.List)</function-signature>
     </function>
 
     <function>
         <name>sortByUsername</name>
-        <function-class>edu.epam.swp.tag.UserSortTag</function-class>
+        <function-class>edu.epam.swp.tag.UserSortFunction</function-class>
         <function-signature>java.util.List sortByUsername(java.util.List)</function-signature>
     </function>
 
     <function>
         <name>sortByRole</name>
-        <function-class>edu.epam.swp.tag.UserSortTag</function-class>
+        <function-class>edu.epam.swp.tag.UserSortFunction</function-class>
         <function-signature>java.util.List sortByRole(java.util.List)</function-signature>
     </function>
 
     <function>
         <name>sortByUser</name>
-        <function-class>edu.epam.swp.tag.ReviewSortTag</function-class>
+        <function-class>edu.epam.swp.tag.ReviewSortFunction</function-class>
         <function-signature>java.util.List sortByUser(java.util.List)</function-signature>
     </function>
 
     <function>
         <name>sortByRate</name>
-        <function-class>edu.epam.swp.tag.ReviewSortTag</function-class>
+        <function-class>edu.epam.swp.tag.ReviewSortFunction</function-class>
         <function-signature>java.util.List sortByRating(java.util.List)</function-signature>
     </function>
 
     <function>
         <name>sortByCorrectionName</name>
-        <function-class>edu.epam.swp.tag.CorrectionSortTag</function-class>
+        <function-class>edu.epam.swp.tag.CorrectionSortFunction</function-class>
         <function-signature>java.util.List sortByName(java.util.List)</function-signature>
     </function>
 
     <function>
         <name>sortByCorrectionDate</name>
-        <function-class>edu.epam.swp.tag.CorrectionSortTag</function-class>
+        <function-class>edu.epam.swp.tag.CorrectionSortFunction</function-class>
         <function-signature>java.util.List sortByDate(java.util.List)</function-signature>
     </function>
 

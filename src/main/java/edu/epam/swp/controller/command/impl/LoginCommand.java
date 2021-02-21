@@ -23,20 +23,22 @@ public class LoginCommand implements Command {
         String password = request.getParameter(ParameterName.PASSWORD);
         String username = request.getParameter(ParameterName.USERNAME);
         Optional<User> optional;
+        String page;
         try {
             optional = service.findUser(username,password);
+            if (optional.isPresent()) {
+                request.getSession().setAttribute(AttributeName.AUTHORISED,true);
+                request.getSession().setAttribute(AttributeName.USER,optional.get());
+                page = PagePath.SERVLET_HOME;
+            } else {
+                request.getSession().setAttribute(AttributeName.LOGIN_ERROR_MESSAGE, true);
+                page = PagePath.LOGIN;
+            }
         } catch (ServiceException e) {
-            logger.error("Error occurred while finding user",e);
+            logger.error("Error occurred while requesting database",e);
             request.getSession().setAttribute(AttributeName.DATABASE_ERROR_MESSAGE, true);
-            return PagePath.LOGIN;
+            page = PagePath.LOGIN;
         }
-        if (optional.isPresent()) {
-            request.getSession().setAttribute(AttributeName.AUTHORISED,true);
-            request.getSession().setAttribute(AttributeName.USER,optional.get());
-            return PagePath.SERVLET_HOME;
-        } else {
-            request.getSession().setAttribute(AttributeName.LOGIN_ERROR_MESSAGE, true);
-            return PagePath.LOGIN;
-        }
+        return page;
     }
 }

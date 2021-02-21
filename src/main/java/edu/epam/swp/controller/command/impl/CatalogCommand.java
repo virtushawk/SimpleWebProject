@@ -19,9 +19,8 @@ public class CatalogCommand implements Command {
 
     @Override
     public String execute(HttpServletRequest request) {
-        List<Creature> creatures;
         try {
-            creatures = service.findAll();
+            List<Creature> creatures = service.findAll();
             request.setAttribute(AttributeName.CREATURES,creatures);
         } catch (ServiceException e) {
             logger.error("Error occurred while accessing database",e);

@@ -25,18 +25,23 @@ public class EditUncheckedCreatureCommand implements Command {
         String name = request.getParameter(ParameterName.NAME);
         long id = Long.parseLong(request.getParameter(ParameterName.ID));
         User user = (User) request.getSession().getAttribute(AttributeName.USER);
-        long accountId = user.getId();
+        long accountId = user.getAccountId();
         long time = System.currentTimeMillis();
         Date date = new Date(time);
-        Creature creature = new Creature(id,name,text,date);
+        Creature creature = new Creature.CreatureBuilder().withName(name)
+                .withDescription(text).withLastUpdated(date).withId(id).build();
         boolean flag;
         try {
             flag = service.editUncheckedCreature(accountId,creature);
+            if (flag) {
+                request.getSession().setAttribute(AttributeName.CREATURE_EDIT_VALID,true);
+            } else {
+                request.getSession().setAttribute(AttributeName.CREATURE_EDIT_ERROR,true);
+            }
         } catch (ServiceException e) {
             logger.error("Error occurred while accessing database",e);
             request.getSession().setAttribute(AttributeName.DATABASE_ERROR_MESSAGE,true);
-            return PagePath.SERVLET_HOME;
         }
-        return PagePath.SERVLET_PROFILE + "&id=" + accountId;
+        return String.format(PagePath.SERVLET_PROFILE_ID,accountId);
     }
 }

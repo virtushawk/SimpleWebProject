@@ -23,31 +23,32 @@ public class CreatureCommand implements Command {
     private static final CreatureService creatureService = CreatureServiceImpl.getInstance();
     private static final ReviewService reviewService = ReviewServiceImpl.getInstance();
 
-    //todo : check and clean
+    //todo : FIX ERROR PAGE?
     @Override
     public String execute(HttpServletRequest request) {
-        long creatureId = Long.parseLong(request.getParameter(ParameterName.ID));
-        User user = (User) request.getSession().getAttribute(AttributeName.USER);
-        long accountId = user.getId();
+        String creatureIdParameter = request.getParameter(ParameterName.ID);
+        long creatureId = Long.parseLong(creatureIdParameter);
         Optional<Creature> creature;
-        List<Review> reviews;
-        Optional<Review> userReview;
+        String page;
         try {
             creature = creatureService.get(creatureId);
-            reviews = reviewService.findReviewsCreature(creatureId);
-            userReview = reviewService.findUserReview(accountId,creatureId);
+            if (creature.isPresent()) {
+                User user = (User) request.getSession().getAttribute(AttributeName.USER);
+                long accountId = user.getAccountId();
+                List<Review> reviews = reviewService.findCreatureReviews(creatureId);
+                Optional<Review> userReview = reviewService.findUserReview(accountId,creatureId);
+                request.setAttribute(AttributeName.CREATURE,creature.get());
+                request.setAttribute(AttributeName.REVIEWS,reviews);
+                userReview.ifPresent(review -> request.setAttribute(AttributeName.USER_REVIEW,review));
+                page = PagePath.CREATURE;
+            } else {
+                page = PagePath.ERROR;
+            }
         } catch (ServiceException e) {
-            logger.error("Error occurred while finding creature",e);
-            request.getSession().setAttribute(AttributeName.DATABASE_ERROR_MESSAGE, true);
-            return PagePath.HOME;
+            logger.error("Error occurred while connecting to database",e);
+            request.setAttribute(AttributeName.DATABASE_ERROR_MESSAGE, true);
+            page = PagePath.HOME;
         }
-        if (creature.isPresent()) {
-            request.setAttribute(AttributeName.CREATURE,creature.get());
-            request.setAttribute(AttributeName.REVIEWS,reviews);
-            userReview.ifPresent(review -> request.setAttribute(AttributeName.USER_REVIEW,review));
-            return PagePath.CREATURE;
-        } else {
-            return PagePath.ERROR;
-        }
+        return page;
     }
 }

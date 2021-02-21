@@ -53,7 +53,7 @@
 <head>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
     <title>
-        Admin Panel
+        <fmt:message key="header.adminPanel"/>
     </title>
 </head>
 <body>
@@ -62,31 +62,47 @@
     <div class="col-sm-12 mb-3">
         <ul class="nav nav-tabs justify-content-center" id="myTab" role="tablist">
             <li class="nav-item" role="presentation">
-                <a class="nav-link active" id="home-tab" data-bs-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Users</a>
+                <a class="nav-link active" id="users-tab" data-bs-toggle="tab" href="#users" role="tab">
+                    <fmt:message key="adminPanel.tab.users"/>
+                </a>
             </li>
             <li class="nav-item" role="presentation">
-                <a class="nav-link" id="profile-tab" data-bs-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Reviews</a>
+                <a class="nav-link" id="reviews-tab" data-bs-toggle="tab" href="#reviews" role="tab">
+                    <fmt:message key="adminPanel.tab.reviews"/>
+                </a>
             </li>
             <li class="nav-item" role="presentation">
-                <a class="nav-link" id="creatures-tab" data-bs-toggle="tab" href="#creatures" role="tab" aria-controls="creature" aria-selected="false">Creatures</a>
+                <a class="nav-link" id="creatures-tab" data-bs-toggle="tab" href="#creatures" role="tab">
+                    <fmt:message key="adminPanel.tab.creatures"/>
+                </a>
             </li>
             <li class="nav-item" role="presentation">
-                <a class="nav-link" id="userCreatures-tab" data-bs-toggle="tab" href="#userCreatures" role="tab" aria-controls="userCreatures" aria-selected="false">User's creatures</a>
+                <a class="nav-link" id="userCreatures-tab" data-bs-toggle="tab" href="#userCreatures" role="tab">
+                    <fmt:message key="adminPanel.tab.uncheckedCreatures"/>
+                </a>
             </li>
             <li class="nav-item" role="presentation">
-                <a class="nav-link" id="userCorrections-tab" data-bs-toggle="tab" href="#userCorrections" role="tab" aria-controls="userCorrections" aria-selected="false">User's corrections</a>
+                <a class="nav-link" id="userCorrections-tab" data-bs-toggle="tab" href="#userCorrections" role="tab">
+                    <fmt:message key="adminPanel.tab.corrections"/>
+                </a>
             </li>
         </ul>
         <div class="tab-content" id="myTabContent">
-            <div class="tab-pane fade " id="userCorrections" role="tabpanel" aria-labelledby="creatures-tab">
+            <div class="tab-pane fade " id="userCorrections" role="tabpanel">
                 <div class="container">
                     <form class="d-flex justify-content-end g-1 me-5" action="${pageContext.request.contextPath}/controller?command=${param.command}">
                         <input type="hidden" name="command" value="${param.command}"/>
                         <select name="filter">
-                            <option value="correctionName">By name</option>
-                            <option value="correctionDate" selected>By date</option>
+                            <option value="correctionName">
+                                <fmt:message key="catalog.filter.byName"/>
+                            </option>
+                            <option value="correctionDate" selected>
+                                <fmt:message key="catalog.filter.byDate"/>
+                            </option>
                         </select>
-                        <button type="submit" class="btn btn-primary">Filter</button>
+                        <button type="submit" class="btn btn-primary">
+                            <fmt:message key="catalog.filter.button"/>
+                        </button>
                     </form>
                 </div>
                 <ul class="list-group">
@@ -96,15 +112,17 @@
                                 <div class="row g-4" style="width: 500px">
                                     <div class="col-md-8">
                                         <div class="card-body">
-                                            <button type="button" class="btn btn-outline-primary mt-1" data-bs-toggle="modal" data-bs-target="#creatureModal${correction.correctionId}">
+                                            <button type="button" class="btn btn-outline-primary mt-1" data-bs-toggle="modal" data-bs-target="#correctionModal${correction.correctionId}">
                                                     ${correction.name}
                                             </button>
-                                            <div class="modal fade" id="creatureModal${correction.correctionId}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                            <div class="modal fade" id="correctionModal${correction.correctionId}" tabindex="-1">
                                                 <div class="modal-dialog modal-xl">
                                                     <div class="modal-content">
                                                         <div class="modal-header">
-                                                            <h5 class="modal-title">Correction</h5>
-                                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                            <h5 class="modal-title">
+                                                                <fmt:message key="adminPanel.correctionModal.correction"/>
+                                                            </h5>
+                                                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                                                         </div>
                                                         <div class="modal-body">
                                                             <div class="card mb-3 mx-auto shadow p-3 mb-5 bg-white rounded">
@@ -126,38 +144,52 @@
                                                             </div>
                                                         </div>
                                                         <div class="modal-footer">
-                                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                                                                <fmt:message key="creature.editCreatureModal.button.close"/>
+                                                            </button>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                            <p class="card-text text-truncate">${correction.text}</p>
-                                            <p class="card-text"><small class="text-muted">${correction.date}</small></p>
+                                            <p class="card-text text-truncate">
+                                                    ${correction.text}
+                                            </p>
+                                            <p class="card-text">
+                                                <small class="text-muted">
+                                                    ${correction.date}
+                                                </small>
+                                            </p>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                             <div class="d-flex justify-content-end">
                                 <a class="btn btn-outline-success mt-1" href="${pageContext.request.contextPath}/controller?command=approve_correction&id=${correction.correctionId}">
-                                    Approve
+                                    <fmt:message key="adminPanel.correctionTab.approve"/>
                                 </a>
                                 <a class="btn btn-outline-danger mt-1" href="${pageContext.request.contextPath}/controller?command=delete_correction&id=${correction.correctionId}">
-                                    delete
+                                    <fmt:message key="adminPanel.correctionTab.delete"/>
                                 </a>
                             </div>
                         </li>
                     </c:forEach>
                 </ul>
             </div>
-            <div class="tab-pane fade " id="userCreatures" role="tabpanel" aria-labelledby="creatures-tab">
+            <div class="tab-pane fade " id="userCreatures" role="tabpanel">
                 <div class="container">
                     <form class="d-flex justify-content-end g-1 me-5" action="${pageContext.request.contextPath}/controller">
                         <input type="hidden" name="command" value="admin_panel"/>
                         <select name="filter">
-                            <option value="usersName">By name</option>
-                            <option value="usersDate" selected>By date</option>
+                            <option value="usersName">
+                                <fmt:message key="catalog.filter.byName"/>
+                            </option>
+                            <option value="usersDate" selected>
+                                <fmt:message key="catalog.filter.byDate"/>
+                            </option>
                         </select>
-                        <button type="submit" class="btn btn-primary">Filter</button>
+                        <button type="submit" class="btn btn-primary">
+                            <fmt:message key="catalog.filter.button"/>
+                        </button>
                     </form>
                 </div>
                 <ul class="list-group">
@@ -166,25 +198,27 @@
                             <div class="card mb-3">
                                 <div class="row g-4" style="width: 500px">
                                     <div class="col-md-4">
-                                        <img src="${pageContext.request.contextPath}/uploadController?url=${creature.picture}" alt="..." height="150" width="150">
+                                        <img src="${pageContext.request.contextPath}/uploadController?url=${creature.picture}" alt="<fmt:message key="home.image.alt"/>" height="150" width="150">
                                     </div>
                                     <div class="col-md-8">
                                         <div class="card-body">
                                             <button type="button" class="btn btn-outline-primary mt-1" data-bs-toggle="modal" data-bs-target="#creatureModal${creature.id}">
                                                 ${creature.name}
                                             </button>
-                                            <div class="modal fade" id="creatureModal${creature.id}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                            <div class="modal fade" id="creatureModal${creature.id}" tabindex="-1">
                                                 <div class="modal-dialog modal-xl">
                                                     <div class="modal-content">
                                                         <div class="modal-header">
-                                                            <h5 class="modal-title">Creature</h5>
-                                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                            <h5 class="modal-title">
+                                                                <fmt:message key="adminPanel.creatureModal.creature"/>
+                                                            </h5>
+                                                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                                                         </div>
                                                         <div class="modal-body">
                                                             <div class="card mb-3 mx-auto shadow p-3 mb-5 bg-white rounded">
                                                                 <div class="row g-0">
                                                                     <div class="col-md-4">
-                                                                        <img src="${pageContext.request.contextPath}/uploadController?url=${creature.picture}" alt="..." style=" width: 100%;object-fit: cover;height: 15vw">
+                                                                        <img src="${pageContext.request.contextPath}/uploadController?url=${creature.picture}" alt="<fmt:message key="home.image.alt"/>" style=" width: 100%;object-fit: cover;height: 15vw">
                                                                     </div>
                                                                     <div class="col-md-8">
                                                                         <div class="card-body">
@@ -194,47 +228,63 @@
                                                                             <p class="card-text">
                                                                                     ${creature.description}
                                                                             </p>
-                                                                            <p class="card-text"><small class="text-muted">
-                                                                                <fmt:message key="home.creature.lastUpdated"/> ${creature.lastUpdated}
-                                                                            </small></p>
+                                                                            <p class="card-text">
+                                                                                <small class="text-muted">
+                                                                                    <fmt:message key="home.creature.lastUpdated"/> ${creature.lastUpdated}
+                                                                                </small>
+                                                                            </p>
                                                                         </div>
                                                                     </div>
                                                                 </div>
                                                             </div>
                                                         </div>
                                                         <div class="modal-footer">
-                                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                                                                <fmt:message key="creature.editCreatureModal.button.close"/>
+                                                            </button>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                            <p class="card-text text-truncate">${creature.description}</p>
-                                            <p class="card-text"><small class="text-muted">${creature.lastUpdated}</small></p>
+                                            <p class="card-text text-truncate">
+                                                    ${creature.description}
+                                            </p>
+                                            <p class="card-text">
+                                                <small class="text-muted">
+                                                        ${creature.lastUpdated}
+                                                </small>
+                                            </p>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                             <div class="d-flex justify-content-end">
                                 <a class="btn btn-outline-success mt-1" href="${pageContext.request.contextPath}/controller?command=approve_creature&id=${creature.id}">
-                                        Approve
+                                    <fmt:message key="adminPanel.correctionTab.approve"/>
                                 </a>
                                 <a class="btn btn-outline-danger mt-1" href="${pageContext.request.contextPath}/controller?command=delete_creature&id=${creature.id}">
-                                    delete
+                                    <fmt:message key="adminPanel.correctionTab.delete"/>
                                 </a>
                             </div>
                         </li>
                     </c:forEach>
                 </ul>
             </div>
-            <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+            <div class="tab-pane fade show active" id="users" role="tabpanel">
                 <div class="container">
                     <form class="d-flex justify-content-end g-1 me-5" action="${pageContext.request.contextPath}/controller?command=admin_panel">
                         <input type="hidden" name="command" value="admin_panel"/>
                         <select name="filter">
-                            <option value="username">By name</option>
-                            <option value="role">By role</option>
+                            <option value="username">
+                                <fmt:message key="catalog.filter.byName"/>
+                            </option>
+                            <option value="role">
+                                <fmt:message key="catalog.filter.byRole"/>
+                            </option>
                         </select>
-                        <button type="submit" class="btn btn-primary">Filter</button>
+                        <button type="submit" class="btn btn-primary">
+                            <fmt:message key="catalog.filter.button"/>
+                        </button>
                     </form>
                 </div>
                 <ul class="list-group">
@@ -244,29 +294,33 @@
                                 <img src="${pageContext.request.contextPath}/uploadController?url=${user.avatar}" class="rounded-circle" height="150" width="150">
                             </div>
                             <div class="d-flex">
-                                <a class="d-flex ms-2" href="${pageContext.request.contextPath}/controller?command=profile&id=${user.id}">
+                                <a class="d-flex ms-2" href="${pageContext.request.contextPath}/controller?command=profile&id=${user.accountId}">
                                         ${user.username}
                                 </a>
                             </div>
                             <div class="d-flex">
-                                <h6 class="d-flex ms-2">${user.email}</h6>
+                                <h6 class="d-flex ms-2">
+                                        ${user.email}
+                                </h6>
                             </div>
                             <div class="d-flex">
-                                <h6 class="d-flex ms-2">${user.role}</h6>
+                                <h6 class="d-flex ms-2">
+                                        ${user.role}
+                                </h6>
                             </div>
                             <div class="d-flex justify-content-end">
                                 <c:choose>
                                     <c:when test="${user.role.name().equals('INACTIVE')}">
-                                        <a class="d-flex ms-2 btn btn-outline-primary mt-1" href="${pageContext.request.contextPath}/controller?command=unblock_user&id=${user.id}">
-                                            unblock
+                                        <a class="d-flex ms-2 btn btn-outline-primary mt-1" href="${pageContext.request.contextPath}/controller?command=unblock_user&id=${user.accountId}">
+                                            <fmt:message key="adminPanel.userTab.unblock"/>
                                         </a>
                                     </c:when>
                                     <c:otherwise>
-                                        <a class="d-flex ms-2 btn btn-outline-danger mt-1" href="${pageContext.request.contextPath}/controller?command=block_user&id=${user.id}">
-                                            block
+                                        <a class="d-flex ms-2 btn btn-outline-danger mt-1" href="${pageContext.request.contextPath}/controller?command=block_user&id=${user.accountId}">
+                                            <fmt:message key="adminPanel.userTab.block"/>
                                         </a>
-                                        <a class="d-flex ms-2 btn btn-outline-primary mt-1" href="${pageContext.request.contextPath}/controller?command=make_admin&id=${user.id}">
-                                            make admin
+                                        <a class="d-flex ms-2 btn btn-outline-primary mt-1" href="${pageContext.request.contextPath}/controller?command=make_admin&id=${user.accountId}">
+                                            <fmt:message key="adminPanel.userTab.makeAdmin"/>
                                         </a>
                                     </c:otherwise>
                                 </c:choose>
@@ -277,15 +331,21 @@
                 <div class="text-center">
                 </div>
             </div>
-            <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+            <div class="tab-pane fade" id="reviews" role="tabpanel">
                 <div class="container">
                     <form class="d-flex justify-content-end g-1 me-5" action="${pageContext.request.contextPath}/controller?command=admin_panel">
                         <input type="hidden" name="command" value="admin_panel"/>
                         <select name="filter">
-                            <option value="user">By User</option>
-                            <option value="rate">By rating</option>
+                            <option value="user">
+                                <fmt:message key="catalog.filter.byUser"/>
+                            </option>
+                            <option value="rate">
+                                <fmt:message key="catalog.filter.byRating"/>
+                            </option>
                         </select>
-                        <button type="submit" class="btn btn-primary">Filter</button>
+                        <button type="submit" class="btn btn-primary">
+                            <fmt:message key="catalog.filter.button"/>
+                        </button>
                     </form>
                 </div>
                 <ul class="list-group">
@@ -293,7 +353,7 @@
                         <li class="list-group-item">
                             <div class="row g-0">
                                 <div class="col-md-4">
-                                    <img src="${pageContext.request.contextPath}/uploadController?url=${review.avatar}" alt="..." class="rounded-circle" height="150" width="150">
+                                    <img src="${pageContext.request.contextPath}/uploadController?url=${review.avatar}" alt="<fmt:message key="general.userImage.alt"/>" class="rounded-circle" height="150" width="150">
                                 </div>
                                 <div class="col-md-4">
                                     <div class="card-body">
@@ -305,47 +365,57 @@
                                         <p class="card-text">
                                             ${review.text}
                                         </p>
-                                        <p class="card-text"><small class="text-muted">
-                                            ${review.time}
-                                        </small></p>
+                                        <p class="card-text">
+                                            <small class="text-muted">
+                                                    ${review.date}
+                                            </small>
+                                        </p>
                                     </div>
                                 </div>
                                 <div class="col-md-2 my-auto">
-                                    <h4>score</h4>
-                                    <h4>${review.rating}</h4>
+                                    <h4>
+                                        <fmt:message key="catalog.rating"/>
+                                    </h4>
+                                    <h4>
+                                            ${review.rating}
+                                    </h4>
                                 </div>
                                 <div class="col-md-1 my-auto">
-                                    <button type="button" class="btn btn-outline-primary mt-1" data-bs-toggle="modal" data-bs-target="#exampleModal${review.reviewId}">
-                                        edit
+                                    <button type="button" class="btn btn-outline-primary mt-1" data-bs-toggle="modal" data-bs-target="#editReviewModal${review.reviewId}">
+                                        <fmt:message key="creature.button.edit"/>
                                     </button>
                                 </div>
                                 <div class="col-md-1 my-auto">
                                     <a class="btn btn-outline-danger mt-1" href="${pageContext.request.contextPath}/controller?command=delete_review&id=${review.reviewId}">
-                                        delete
+                                        <fmt:message key="creature.review.button.delete"/>
                                     </a>
                                 </div>
-                                <div class="modal fade" id="exampleModal${review.reviewId}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal fade" id="editReviewModal${review.reviewId}" tabindex="-1">
                                     <div class="modal-dialog modal-lg">
                                         <form class="modal-content needs-validation" action="${pageContext.request.contextPath}/controller?command=edit_review" method="post" novalidate>
                                             <input type="hidden" name="id" value="${review.reviewId}">
                                             <input type="hidden" name="creature" value="${review.creatureId}">
                                             <div class="modal-header">
-                                                <h5 class="modal-title" id="exampleModalLabel">Edit review</h5>
-                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                <h5 class="modal-title">
+                                                    <fmt:message key="creature.editReviewModal.title"/>
+                                                </h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                                             </div>
                                             <div class="modal-body">
                                                 <div class="row g-1">
                                                     <div class="col-md-3">
-                                                        <img src="${pageContext.request.contextPath}/uploadController?url=${review.avatar}" alt="..."  class="img-thumbnail" style="height: 100px; width: 100px">
+                                                        <img src="${pageContext.request.contextPath}/uploadController?url=${review.avatar}" alt="<fmt:message key="general.userImage.alt"/>" class="img-thumbnail" style="height: 100px; width: 100px">
                                                         <p class="fs-3">
                                                                 ${review.accountName}
                                                         </p>
                                                     </div>
                                                     <div class="col-md-6">
-                                                        <label for="exampleFormControlTextarea1" class="form-label">
-                                                            Review
+                                                        <label for="review" class="form-label">
+                                                            <fmt:message key="creature.review.title"/>
                                                         </label>
-                                                        <textarea class="form-control" name="review" id="exampleFormControlTextarea1" rows="3" required>${review.text}</textarea>
+                                                        <textarea class="form-control" name="review" id="review" rows="3" required>
+                                                                ${review.text}
+                                                        </textarea>
                                                         <div class="valid-feedback">
                                                             <fmt:message key="createCreature.valid"/>
                                                         </div>
@@ -354,8 +424,10 @@
                                                         </div>
                                                     </div>
                                                     <div class="col-md-2 ms-2">
-                                                        <p class="fs-4">score</p>
-                                                        <select class="form-select" aria-label="Default select example" name="rating" required>
+                                                        <p class="fs-4">
+                                                            <fmt:message key="catalog.rating"/>
+                                                        </p>
+                                                        <select class="form-select" name="rating" required>
                                                             <option value="1">1</option>
                                                             <option value="2">2</option>
                                                             <option value="3">3</option>
@@ -366,8 +438,12 @@
                                                 </div>
                                             </div>
                                             <div class="modal-footer">
-                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                                <button type="submit" class="btn btn-primary">Save changes</button>
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                                                    <fmt:message key="creature.editCreatureModal.button.close"/>
+                                                </button>
+                                                <button type="submit" class="btn btn-primary">
+                                                    <fmt:message key="creature.editReviewModal.button.save"/>
+                                                </button>
                                             </div>
                                         </form>
                                     </div>
@@ -377,16 +453,24 @@
                     </c:forEach>
                 </ul>
             </div>
-            <div class="tab-pane fade " id="creatures" role="tabpanel" aria-labelledby="creatures-tab">
+            <div class="tab-pane fade " id="creatures" role="tabpanel">
                 <div class="container">
                     <form class="d-flex justify-content-end g-1 me-5" action="${pageContext.request.contextPath}/controller">
                         <input type="hidden" name="command" value="admin_panel"/>
                         <select name="filter">
-                            <option value="name">By name</option>
-                            <option value="date" selected>By date</option>
-                            <option value="rating">By rating</option>
+                            <option value="name">
+                                <fmt:message key="catalog.filter.byName"/>
+                            </option>
+                            <option value="date" selected>
+                                <fmt:message key="catalog.filter.byDate"/>
+                            </option>
+                            <option value="rating">
+                                <fmt:message key="catalog.filter.byRating"/>
+                            </option>
                         </select>
-                        <button type="submit" class="btn btn-primary">Filter</button>
+                        <button type="submit" class="btn btn-primary">
+                            <fmt:message key="catalog.filter.button"/>
+                        </button>
                     </form>
                 </div>
                 <ul class="list-group">
@@ -395,36 +479,44 @@
                             <div class="card mb-3">
                                 <div class="row g-4" style="width: 500px">
                                     <div class="col-md-4">
-                                        <img src="${pageContext.request.contextPath}/uploadController?url=${creature.picture}" alt="..." height="150" width="150">
+                                        <img src="${pageContext.request.contextPath}/uploadController?url=${creature.picture}" alt="<fmt:message key="home.image.alt"/>" height="150" width="150">
                                     </div>
                                     <div class="col-md-8">
                                         <div class="card-body">
                                             <a href="${pageContext.request.contextPath}/controller?command=creature&id=${creature.id}" class="text-decoration-none stretched-link">
                                                     ${creature.name}
                                             </a>
-                                            <p class="card-text text-truncate">${creature.description}</p>
-                                            <p class="card-text"><small class="text-muted">${creature.lastUpdated}</small></p>
+                                            <p class="card-text text-truncate">
+                                                    ${creature.description}
+                                            </p>
+                                            <p class="card-text">
+                                                <small class="text-muted">
+                                                    ${creature.lastUpdated}
+                                                </small>
+                                            </p>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                             <div class="d-flex justify-content-end">
                                 <button type="button" class="btn btn-outline-primary mt-1" data-bs-toggle="modal" data-bs-target="#imageModal${creature.id}">
-                                    Change image
+                                    <fmt:message key="adminPanel.creatureTab.button.changeImage"/>
                                 </button>
                                 <button type="button" class="btn btn-outline-primary mt-1" data-bs-toggle="modal" data-bs-target="#bodyModal${creature.id}">
-                                    Edit
+                                    <fmt:message key="adminPanel.creatureTab.button.edit"/>
                                 </button>
                                 <a class="btn btn-outline-danger mt-1" href="${pageContext.request.contextPath}/controller?command=delete_creature&id=${creature.id}">
-                                    delete
+                                    <fmt:message key="adminPanel.creatureTab.button.delete"/>
                                 </a>
                             </div>
-                            <div class="modal fade" id="imageModal${creature.id}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal fade" id="imageModal${creature.id}" tabindex="-1">
                                 <div class="modal-dialog">
                                     <form class="modal-content needs-validation" action="${pageContext.request.contextPath}/controller?command=change_image&id=${creature.id}" method="post" enctype="multipart/form-data" novalidate>
                                         <div class="modal-header">
-                                            <h5 class="modal-title">Change image</h5>
-                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            <h5 class="modal-title">
+                                                <fmt:message key="adminPanel.creatureTab.imageModal.title"/>
+                                            </h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                                         </div>
                                         <div class="modal-body">
                                             <input type="file" name="image" class="form-control" id="image"  accept="image/png,image/jpeg,image/jpg" required/>
@@ -436,18 +528,24 @@
                                             </div>
                                         </div>
                                         <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                            <button type="submit" class="btn btn-primary">Save changes</button>
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                                                <fmt:message key="catalog.creatureModal.button.close"/>
+                                            </button>
+                                            <button type="submit" class="btn btn-primary">
+                                                <fmt:message key="creature.editReviewModal.button.save"/>
+                                            </button>
                                         </div>
                                     </form>
                                 </div>
                             </div>
-                            <div class="modal fade" id="bodyModal${creature.id}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal fade" id="bodyModal${creature.id}" tabindex="-1">
                                 <div class="modal-dialog modal-xl">
                                     <form class="modal-content needs-validation" action="${pageContext.request.contextPath}/controller?command=edit_creature&id=${creature.id}" method="post" novalidate>
                                         <div class="modal-header">
-                                            <h5 class="modal-title">Edit Creature</h5>
-                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            <h5 class="modal-title">
+                                                <fmt:message key="creature.editCreatureModal.title"/>
+                                            </h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                                         </div>
                                         <div class="modal-body">
                                             <label for="name" class="form-label">
@@ -472,8 +570,12 @@
                                             </div>
                                         </div>
                                         <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                            <button type="submit" class="btn btn-primary">Save changes</button>
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                                                <fmt:message key="creature.editCreatureModal.button.close"/>
+                                            </button>
+                                            <button type="submit" class="btn btn-primary">
+                                                <fmt:message key="creature.editReviewModal.button.save"/>
+                                            </button>
                                         </div>
                                     </form>
                                 </div>
