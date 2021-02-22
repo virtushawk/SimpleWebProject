@@ -26,6 +26,7 @@ import java.util.List;
 import java.util.UUID;
 
 public class CreateCreatureCommand implements Command {
+
     private static final Logger logger = LogManager.getLogger(CreateCreatureCommand.class);
     private static final String EXTENSION_SEPARATOR = ".";
     private static final String SLASH = "/";
@@ -35,7 +36,6 @@ public class CreateCreatureCommand implements Command {
     private static final String TEMP_DIR = "javax.servlet.context.tempdir";
     private static final CreatureService service = CreatureServiceImpl.getInstance();
 
-    //todo : fix and clean
     @Override
     public String execute(HttpServletRequest request) {
         User user = (User) request.getSession().getAttribute(AttributeName.USER);
@@ -51,11 +51,15 @@ public class CreateCreatureCommand implements Command {
                 creature.setCreatureStatus(CreatureStatus.UNCHECKED);
             }
             flag = service.createCreature(creature);
+            if (flag) {
+                request.getSession().setAttribute(AttributeName.CREATURE_CREATE_VALID,true);
+            } else {
+                request.getSession().setAttribute(AttributeName.CREATURE_CREATE_ERROR,true);
+            }
         }
         catch (Exception e) {
             logger.error("Error occurred while creating the creature",e);
-            request.getSession().setAttribute(AttributeName.GENERAL_ERROR_MESSAGE,true);
-            return PagePath.SERVLET_CATALOG;
+            request.getSession().setAttribute(AttributeName.DATABASE_ERROR_MESSAGE,true);
         }
         return PagePath.SERVLET_CATALOG;
     }

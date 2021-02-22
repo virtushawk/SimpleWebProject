@@ -39,9 +39,14 @@ public class ChangeImageCommand implements Command {
             List<FileItem> fileItems = parseRequest(request);
             String image = handleFileItems(fileItems);
             flag = service.changeImage(id,image);
+            if (flag) {
+                request.getSession().setAttribute(AttributeName.IMAGE_CHANGE_VALID,true);
+            } else {
+                request.getSession().setAttribute(AttributeName.IMAGE_CHANGE_ERROR,true);
+            }
         } catch (Exception e) {
             logger.error("Error occurred while updating the image",e);
-            request.getSession().setAttribute(AttributeName.GENERAL_ERROR_MESSAGE,true);
+            request.getSession().setAttribute(AttributeName.DATABASE_ERROR_MESSAGE,true);
         }
         return PagePath.SERVLET_ADMIN_PAGE;
     }

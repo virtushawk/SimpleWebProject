@@ -2,6 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@taglib prefix="custom" uri="/WEB-INF/tld/custom.tld"%>
+<%@taglib prefix="e" uri="https://www.owasp.org/index.php/OWASP_Java_Encoder_Project"%>
 <fmt:setLocale value="${sessionScope.lang}"/>
 <fmt:setBundle basename="property.text"/>
 <c:set var="totalCount" scope="session" value="${requestScope.creatures.size()}"/>
@@ -39,6 +40,22 @@
 </head>
 <body>
 <jsp:include page="/pages/module/header.jsp"/>
+<c:if test="${sessionScope.creatureCreated}">
+    <div class="container">
+        <div class="alert alert-success text-center" role="alert">
+            <fmt:message key="catalog.creatureCreated"/>
+        </div>
+    </div>
+    <c:remove var="creatureCreated" scope="session"/>
+</c:if>
+<c:if test="${sessionScope.creatureCreateError}">
+    <div class="container">
+        <div class="alert alert-danger text-center" role="alert">
+            <fmt:message key="catalog.creatureCreateError"/>
+        </div>
+    </div>
+    <c:remove var="creatureCreateError" scope="session"/>
+</c:if>
 <c:if test="${requestScope.errorMessageDB or sessionScope.errorMessageDB}">
     <div class="container">
         <div class="alert alert-danger text-center" role="alert">
@@ -78,7 +95,7 @@
                             <label for="name" class="form-label">
                                 <fmt:message key="createCreature.name.label"/>
                             </label>
-                            <input type="text" name="name" class="form-control" id="name" required>
+                            <input type="text" name="name" class="form-control" id="name" required pattern="(^([ a-z,A-Z]){1,30}$)">
                             <div class="valid-feedback">
                                 <fmt:message key="createCreature.valid"/>
                             </div>
@@ -90,7 +107,7 @@
                             <label for="description" class="form-label">
                                 <fmt:message key="createCreature.description.label"/>
                             </label>
-                            <textarea class="form-control" name="description" id="description" rows="3" required></textarea>
+                            <textarea class="form-control" name="description" id="description" rows="10" required></textarea>
                             <div class="valid-feedback">
                                 <fmt:message key="createCreature.valid"/>
                             </div>
@@ -141,10 +158,10 @@
                 <img src="${pageContext.request.contextPath}/uploadController?url=${creature.picture}" class="card-img-top" alt="..." style=" width: 100%;object-fit: cover;height: 15vw">
                 <div class="card-body">
                     <a href="${pageContext.request.contextPath}/controller?command=creature&id=${creature.id}" class="text-decoration-none stretched-link">
-                            ${creature.name}
+                        <e:forHtml value="${creature.name}"/>
                     </a>
                     <p class="card-text text-truncate">
-                            ${creature.description}
+                        <e:forHtml value="${creature.description}"/>
                     </p>
                     <p class="card-text">
                             <fmt:message key="catalog.rating"/> <fmt:formatNumber type="number" maxFractionDigits="1" value="${creature.averageRating}"/>

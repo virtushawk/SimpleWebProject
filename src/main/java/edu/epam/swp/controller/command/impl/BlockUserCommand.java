@@ -13,6 +13,7 @@ import org.apache.logging.log4j.Logger;
 import javax.servlet.http.HttpServletRequest;
 
 public class BlockUserCommand implements Command {
+
     private static final Logger logger = LogManager.getLogger(BlockUserCommand.class);
     private static final UserService service = UserServiceImpl.getInstance();
 
@@ -22,6 +23,11 @@ public class BlockUserCommand implements Command {
         boolean flag;
         try {
             flag = service.blockUser(id);
+            if (flag) {
+                request.setAttribute(AttributeName.ACCOUNT_BLOCK_VALID,true);
+            } else {
+                request.setAttribute(AttributeName.ACCOUNT_BLOCK_ERROR,true);
+            }
         } catch (ServiceException e) {
             logger.error("Error occurred while blocking user",e);
             request.setAttribute(AttributeName.DATABASE_ERROR_MESSAGE,true);

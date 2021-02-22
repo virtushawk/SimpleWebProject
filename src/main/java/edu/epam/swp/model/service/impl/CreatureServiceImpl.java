@@ -6,7 +6,6 @@ import edu.epam.swp.model.entity.Creature;
 import edu.epam.swp.exception.DaoException;
 import edu.epam.swp.exception.ServiceException;
 import edu.epam.swp.model.service.CreatureService;
-import edu.epam.swp.model.validation.CorrectionValidator;
 import edu.epam.swp.model.validation.CreatureValidator;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -53,6 +52,12 @@ public class CreatureServiceImpl implements CreatureService {
     @Override
     public boolean createCreature(Creature creature) throws ServiceException {
         boolean flag;
+        String name = creature.getName();
+        String description = creature.getDescription();
+        if ((!CreatureValidator.isName(name)) || (!CreatureValidator.isDescription(description))) {
+            logger.info("Invalid credentials for creature");
+            return false;
+        }
         try {
             flag = dao.create(creature);
         } catch (DaoException e) {
@@ -92,8 +97,8 @@ public class CreatureServiceImpl implements CreatureService {
         try {
             flag = dao.updateImageById(id,image);
         } catch (DaoException e) {
-            logger.error("An error occurred when requesting a database");
-            throw new ServiceException("An error occurred when requesting a database",e);
+            logger.error("An error occurred while updating creature image",e);
+            throw new ServiceException("An error occurred while updating creature image",e);
         }
         return flag;
     }
@@ -113,11 +118,17 @@ public class CreatureServiceImpl implements CreatureService {
     @Override
     public boolean editCreature(Creature creature) throws ServiceException {
         boolean flag;
+        String name = creature.getName();
+        String description = creature.getDescription();
+        if ((!CreatureValidator.isName(name)) || (!CreatureValidator.isDescription(description))) {
+            logger.info("Invalid credentials for creature");
+            return false;
+        }
         try {
             flag = dao.update(creature);
         } catch (DaoException e) {
-            logger.error("An error occurred when requesting a database");
-            throw new ServiceException("An error occurred when requesting a database",e);
+            logger.error("An error occurred while updating creature",e);
+            throw new ServiceException("An error occurred while updating creature",e);
         }
         return flag;
     }
@@ -194,8 +205,8 @@ public class CreatureServiceImpl implements CreatureService {
         try {
             flag = dao.approveCreature(id);
         } catch (DaoException e) {
-            logger.error("An error occurred when requesting a database");
-            throw new ServiceException("An error occurred when requesting a database",e);
+            logger.error("An error occurred while approving creature",e);
+            throw new ServiceException("An error occurred while approving creature",e);
         }
         return flag;
     }

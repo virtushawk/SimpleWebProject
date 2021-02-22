@@ -38,11 +38,11 @@
         <c:when test="${param.filter == 'usersDate'}">
             <c:set var="creatures" value="${custom:sortByDate(usersCreatures)}"/>
         </c:when>
-        <c:when test="${param.filter == 'correctionName'}">
-            <c:set var="creatures" value="${custom:sortByCorrectionName(corrections)}"/>
+        <c:when test="${param.filter eq 'correctionName'}">
+            <c:set var="corrections" value="${custom:sortByCorrectionName(corrections)}"/>
         </c:when>
-        <c:when test="${param.filter == 'correctionDate'}">
-            <c:set var="creatures" value="${custom:sortByCorrectionDate(corrections)}"/>
+        <c:when test="${param.filter eq 'correctionDate'}">
+            <c:set var="corrections" value="${custom:sortByCorrectionDate(corrections)}"/>
         </c:when>
     </c:choose>
 </c:if>
@@ -58,6 +58,160 @@
 </head>
 <body>
 <jsp:include page="/pages/module/header.jsp"/>
+<c:if test="${sessionScope.errorMessageDB || requestScope.errorMessageDB}">
+    <div class="container">
+        <div class="alert alert-danger text-center" role="alert">
+            <fmt:message key="home.errorMessageDB"/>
+        </div>
+    </div>
+    <c:remove var="errorMessageDB" scope="session"/>
+</c:if>
+<c:if test="${requestScope.correctionApproved}">
+    <div class="container">
+        <div class="alert alert-success text-center" role="alert">
+            <fmt:message key="adminPanel.correctionApproved"/>
+        </div>
+    </div>
+</c:if>
+<c:if test="${requestScope.correctionApproveError}">
+    <div class="container">
+        <div class="alert alert-danger text-center" role="alert">
+            <fmt:message key="general.errorMessage"/>
+        </div>
+    </div>
+</c:if>
+<c:if test="${requestScope.correctionDeleted}">
+    <div class="container">
+        <div class="alert alert-success text-center" role="alert">
+            <fmt:message key="profile.correctionDeleted"/>
+        </div>
+    </div>
+</c:if>
+<c:if test="${requestScope.correctionDeleteError}">
+    <div class="container">
+        <div class="alert alert-danger text-center" role="alert">
+            <fmt:message key="general.errorMessage"/>
+        </div>
+    </div>
+</c:if>
+<c:if test="${requestScope.creatureApproved}">
+    <div class="container">
+        <div class="alert alert-success text-center" role="alert">
+            <fmt:message key="adminPanel.creatureApproved"/>
+        </div>
+    </div>
+</c:if>
+<c:if test="${requestScope.creatureApproveError}">
+    <div class="container">
+        <div class="alert alert-danger text-center" role="alert">
+            <fmt:message key="general.errorMessage"/>
+        </div>
+    </div>
+</c:if>
+<c:if test="${requestScope.creatureDeleted}">
+    <div class="container">
+        <div class="alert alert-success text-center" role="alert">
+            <fmt:message key="profile.creatureDeleted"/>
+        </div>
+    </div>
+</c:if>
+<c:if test="${requestScope.creatureError}">
+    <div class="container">
+        <div class="alert alert-danger text-center" role="alert">
+            <fmt:message key="general.errorMessage"/>
+        </div>
+    </div>
+</c:if>
+<c:if test="${requestScope.accountUnblocked}">
+    <div class="container">
+        <div class="alert alert-success text-center" role="alert">
+            <fmt:message key="adminPanel.accountUnblocked"/>
+        </div>
+    </div>
+</c:if>
+<c:if test="${requestScope.accountUnblockError}">
+    <div class="container">
+        <div class="alert alert-danger text-center" role="alert">
+            <fmt:message key="general.errorMessage"/>
+        </div>
+    </div>
+</c:if>
+<c:if test="${requestScope.accountBlocked}">
+    <div class="container">
+        <div class="alert alert-success text-center" role="alert">
+            <fmt:message key="adminPanel.accountBlocked"/>
+        </div>
+    </div>
+</c:if>
+<c:if test="${requestScope.accountBlockError}">
+    <div class="container">
+        <div class="alert alert-danger text-center" role="alert">
+            <fmt:message key="general.errorMessage"/>
+        </div>
+    </div>
+</c:if>
+<c:if test="${requestScope.accountMadeAdmin}">
+    <div class="container">
+        <div class="alert alert-success text-center" role="alert">
+            <fmt:message key="adminPanel.accountMadeAdmin"/>
+        </div>
+    </div>
+</c:if>
+<c:if test="${requestScope.accountMadeAdminError}">
+    <div class="container">
+        <div class="alert alert-danger text-center" role="alert">
+            <fmt:message key="general.errorMessage"/>
+        </div>
+    </div>
+</c:if>
+<c:if test="${sessionScope.reviewChanged}">
+    <div class="container">
+        <div class="alert alert-success text-center" role="alert">
+            <fmt:message key="adminPanel.reviewChanged"/>
+        </div>
+    </div>
+    <c:remove var="reviewChanged" scope="session"/>
+</c:if>
+<c:if test="${sessionScope.reviewChangeError}">
+    <div class="container">
+        <div class="alert alert-danger text-center" role="alert">
+            <fmt:message key="adminPanel.reviewChangeError"/>
+        </div>
+    </div>
+    <c:remove var="reviewChangeError" scope="session"/>
+</c:if>
+<c:if test="${sessionScope.imageChanged}">
+    <div class="container">
+        <div class="alert alert-success text-center" role="alert">
+            <fmt:message key="profile.imageChanged"/>
+        </div>
+    </div>
+    <c:remove var="imageChanged" scope="session"/>
+</c:if>
+<c:if test="${sessionScope.imageError}">
+    <div class="container">
+        <div class="alert alert-danger text-center" role="alert">
+            <fmt:message key="general.errorMessage"/>
+        </div>
+    </div>
+    <c:remove var="imageError" scope="session"/>
+</c:if>
+<c:if test="${sessionScope.creatureEdited}">
+    <div class="container">
+        <div class="alert alert-success text-center" role="alert">
+            <fmt:message key="profile.creatureEdited"/>
+        </div>
+    </div>
+    <c:remove var="creatureEdited" scope="session"/>
+</c:if>
+<c:if test="${sessionScope.creatureEditError}">
+    <div class="container">
+        <div class="alert alert-danger text-center" role="alert">
+            <fmt:message key="profile.creatureEditError"/>
+        </div>
+    </div>
+    <c:remove var="creatureEditError" scope="session"/>
+</c:if>
 <div class="container">
     <div class="col-sm-12 mb-3">
         <ul class="nav nav-tabs justify-content-center" id="myTab" role="tablist">
@@ -88,10 +242,10 @@
             </li>
         </ul>
         <div class="tab-content" id="myTabContent">
-            <div class="tab-pane fade " id="userCorrections" role="tabpanel">
+            <div class="tab-pane fade" id="userCorrections" role="tabpanel">
                 <div class="container">
-                    <form class="d-flex justify-content-end g-1 me-5" action="${pageContext.request.contextPath}/controller?command=${param.command}">
-                        <input type="hidden" name="command" value="${param.command}"/>
+                    <form class="d-flex justify-content-end g-1 me-5" action="${pageContext.request.contextPath}/controller">
+                        <input type="hidden" name="command" value="admin_panel"/>
                         <select name="filter">
                             <option value="correctionName">
                                 <fmt:message key="catalog.filter.byName"/>
@@ -135,9 +289,11 @@
                                                                             <p class="card-text">
                                                                                     ${correction.text}
                                                                             </p>
-                                                                            <p class="card-text"><small class="text-muted">
+                                                                            <p class="card-text">
+                                                                                <small class="text-muted">
                                                                                     ${correction.date}
-                                                                            </small></p>
+                                                                                </small>
+                                                                            </p>
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -167,7 +323,7 @@
                                 <a class="btn btn-outline-success mt-1" href="${pageContext.request.contextPath}/controller?command=approve_correction&id=${correction.correctionId}">
                                     <fmt:message key="adminPanel.correctionTab.approve"/>
                                 </a>
-                                <a class="btn btn-outline-danger mt-1" href="${pageContext.request.contextPath}/controller?command=delete_correction&id=${correction.correctionId}">
+                                <a class="btn btn-outline-danger mt-1" href="${pageContext.request.contextPath}/controller?command=disapprove_correction&id=${correction.correctionId}">
                                     <fmt:message key="adminPanel.correctionTab.delete"/>
                                 </a>
                             </div>
@@ -175,7 +331,7 @@
                     </c:forEach>
                 </ul>
             </div>
-            <div class="tab-pane fade " id="userCreatures" role="tabpanel">
+            <div class="tab-pane fade" id="userCreatures" role="tabpanel">
                 <div class="container">
                     <form class="d-flex justify-content-end g-1 me-5" action="${pageContext.request.contextPath}/controller">
                         <input type="hidden" name="command" value="admin_panel"/>
@@ -310,7 +466,7 @@
                             </div>
                             <div class="d-flex justify-content-end">
                                 <c:choose>
-                                    <c:when test="${user.role.name().equals('INACTIVE')}">
+                                    <c:when test="${user.role.name().equals('BLOCKED')}">
                                         <a class="d-flex ms-2 btn btn-outline-primary mt-1" href="${pageContext.request.contextPath}/controller?command=unblock_user&id=${user.accountId}">
                                             <fmt:message key="adminPanel.userTab.unblock"/>
                                         </a>
@@ -358,7 +514,7 @@
                                 <div class="col-md-4">
                                     <div class="card-body">
                                         <h5 class="card-title">
-                                            Review to : <a href="${pageContext.request.contextPath}/controller?command=creature&id=${review.creatureId}" class="text-decoration-none">
+                                            <fmt:message key="profile.review.title"/> <a href="${pageContext.request.contextPath}/controller?command=creature&id=${review.creatureId}" class="text-decoration-none">
                                                 ${review.creatureName}
                                         </a>
                                         </h5>
@@ -413,9 +569,7 @@
                                                         <label for="review" class="form-label">
                                                             <fmt:message key="creature.review.title"/>
                                                         </label>
-                                                        <textarea class="form-control" name="review" id="review" rows="3" required>
-                                                                ${review.text}
-                                                        </textarea>
+                                                        <textarea class="form-control" name="review" id="review" rows="3" required>${review.text}</textarea>
                                                         <div class="valid-feedback">
                                                             <fmt:message key="createCreature.valid"/>
                                                         </div>
@@ -551,7 +705,7 @@
                                             <label for="name" class="form-label">
                                                 <fmt:message key="createCreature.name.label"/>
                                             </label>
-                                            <input type="text" name="name" class="form-control" id="name" value="${creature.name}" required>
+                                            <input type="text" name="name" class="form-control" id="name" value="${creature.name}" required pattern="(^([ a-z,A-Z]){1,30}$)">
                                             <div class="valid-feedback">
                                                 <fmt:message key="createCreature.valid"/>
                                             </div>
@@ -561,7 +715,7 @@
                                             <label for="description" class="form-label">
                                                 <fmt:message key="createCreature.description.label"/>
                                             </label>
-                                            <textarea class="form-control" name="description" id="description" rows="3" required>${creature.description}</textarea>
+                                            <textarea class="form-control" name="description" id="description" rows="10" required>${creature.description}</textarea>
                                             <div class="valid-feedback">
                                                 <fmt:message key="createCreature.valid"/>
                                             </div>

@@ -16,10 +16,10 @@ import javax.servlet.http.HttpServletRequest;
 import java.sql.Date;
 
 public class CreateReviewCommand implements Command {
+
     private static final Logger logger = LogManager.getLogger(CreateReviewCommand.class);
     private static final ReviewService service = ReviewServiceImpl.getInstance();
 
-    //todo : fix and clean
     @Override
     public String execute(HttpServletRequest request) {
         String text = request.getParameter(ParameterName.REVIEW);
@@ -34,6 +34,7 @@ public class CreateReviewCommand implements Command {
         Review review = new Review.ReviewBuilder().withCreatureId(creatureId)
                 .withAccountId(accountId).withText(text).withDate(date).withRating(rating).build();
         boolean flag;
+        String page;
         try {
             flag = service.createReview(review);
             if (flag) {
@@ -45,6 +46,7 @@ public class CreateReviewCommand implements Command {
             logger.error("Error occurred while creating review",e);
             request.getSession().setAttribute(AttributeName.DATABASE_ERROR_MESSAGE,true);
         }
-        return PagePath.SERVLET_CREATURE + "&id=" + creatureId;
+        page = String.format(PagePath.SERVLET_CREATURE_ID,creatureId);
+        return page;
     }
 }

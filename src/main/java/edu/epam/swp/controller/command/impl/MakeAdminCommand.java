@@ -22,6 +22,11 @@ public class MakeAdminCommand implements Command {
         boolean flag;
         try {
             flag = service.makeAdmin(id);
+            if (flag) {
+                request.setAttribute(AttributeName.ACCOUNT_MAKE_ADMIN_VALID,true);
+            } else {
+                request.setAttribute(AttributeName.ACCOUNT_MAKE_ADMIN_ERROR,true);
+            }
         } catch (ServiceException e) {
             logger.error("Error occurred while making admin",e);
             request.setAttribute(AttributeName.DATABASE_ERROR_MESSAGE,true);

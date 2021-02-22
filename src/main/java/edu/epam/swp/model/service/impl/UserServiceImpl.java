@@ -43,9 +43,8 @@ public class UserServiceImpl implements UserService {
     @Override
     public long registerUser(String email,String username,String password) throws ServiceException {
         long id = 0;
-        if (!(UserValidator.isUsername(username) || UserValidator.isPassword(password) || UserValidator.isEmail(email))) {
-            logger.info("Invalid credentials : email : {}, username : {}, password : {}"
-                    ,email,username, password);
+        if ((!UserValidator.isUsername(username)) || (!UserValidator.isPassword(password)) || (!UserValidator.isEmail(email))) {
+            logger.info("Invalid credentials for user");
             return id;
         }
         User user = new User.UserBuilder().withEmail(email).withUsername(username).withRole(AccountRole.INACTIVE).build();
@@ -56,8 +55,7 @@ public class UserServiceImpl implements UserService {
                 MailUtility.sendConfirmMessage(user.getEmail(),id);
             }
         } catch (DaoException e) {
-            logger.error("Error occurred while creating account.Exception : {}, email : {},username : {}," +
-                            "password : {}",e,email,username,password);
+            logger.error("Error occurred while creating account",e);
             throw new ServiceException("Error occurred while creating account",e);
         }
         return id;
@@ -142,8 +140,8 @@ public class UserServiceImpl implements UserService {
         try {
             flag = dao.blockUser(id);
         } catch (DaoException e) {
-            logger.error("An error occurred when requesting a database");
-            throw new ServiceException("An error occurred when requesting a database",e);
+            logger.error("An error occurred while blocking user",e);
+            throw new ServiceException("An error occurred while blocking user",e);
         }
         return flag;
     }
@@ -154,8 +152,8 @@ public class UserServiceImpl implements UserService {
         try {
             flag = dao.unblockUser(id);
         } catch (DaoException e) {
-            logger.error("An error occurred when requesting a database");
-            throw new ServiceException("An error occurred when requesting a database",e);
+            logger.error("An error occurred while unblocking user",e);
+            throw new ServiceException("An error occurred while unblocking user",e);
         }
         return flag;
     }
@@ -166,8 +164,8 @@ public class UserServiceImpl implements UserService {
         try {
             flag = dao.makeAdmin(id);
         } catch (DaoException e) {
-            logger.error("An error occurred when requesting a database");
-            throw new ServiceException("An error occurred when requesting a database",e);
+            logger.error("An error occurred while making the user admin",e);
+            throw new ServiceException("An error occurred while making the user admin",e);
         }
         return flag;
     }

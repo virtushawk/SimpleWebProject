@@ -59,8 +59,8 @@ public class CorrectionServiceImpl implements CorrectionService {
         try {
             flag = dao.approveCorrection(id);
         } catch (DaoException e) {
-            logger.error("Error occurred while accessing database",e);
-            throw new ServiceException("Error occurred while accessing database",e);
+            logger.error("Error occurred while approving correction",e);
+            throw new ServiceException("Error occurred while approving correction",e);
         }
         return flag;
     }
@@ -71,8 +71,8 @@ public class CorrectionServiceImpl implements CorrectionService {
         try {
             flag = dao.delete(id);
         } catch (DaoException e) {
-            logger.error("Error occurred while accessing database",e);
-            throw new ServiceException("Error occurred while accessing database",e);
+            logger.error("Error occurred while deleting correction",e);
+            throw new ServiceException("Error occurred while deleting correction",e);
         }
         return flag;
     }

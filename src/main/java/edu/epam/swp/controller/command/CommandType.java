@@ -35,7 +35,8 @@ public enum CommandType {
     CHANGE_UNCHECKED_IMAGE(new ChangeUncheckedImageCommand()),
     EDIT_UNCHECKED_CREATURE(new EditUncheckedCreatureCommand()),
     EDIT_CORRECTION(new EditCorrectionCommand()),
-    DELETE_UNCHECKED_CREATURE(new DeleteUncheckedCreatureCommand());
+    DELETE_UNCHECKED_CREATURE(new DeleteUncheckedCreatureCommand()),
+    DISAPPROVE_CORRECTION(new DisapproveCorrectionCommand());
 
     private final Command command;
 

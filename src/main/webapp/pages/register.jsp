@@ -25,13 +25,13 @@
             <label for="email">
                 <fmt:message key="register.email.label"/>
             </label>
-            <input type="email" name="email" class="form-control" id="email" placeholder="${emailPlaceHolder}" required>
+            <input type="email" name="email" class="form-control" id="email" placeholder="${emailPlaceHolder}" value="${sessionScope.email}" required>
         </div>
         <div class="form-group">
             <label for="username">
                 <fmt:message key="register.username.label"/>
             </label>
-            <input type="text" name="username" class="form-control" id="username" aria-describedby="usernameHelp" placeholder="${usernamePlaceHolder}" required pattern="(^[a-z,A-Z]{1,10}$)">
+            <input type="text" name="username" class="form-control" id="username" aria-describedby="usernameHelp" placeholder="${usernamePlaceHolder}" value="${sessionScope.username}" required pattern="(^([a-zA-Z]){1,10}$)">
             <small id="usernameHelp" class="form-text text-muted">
                 <fmt:message key="register.username.help"/>
             </small>
@@ -40,7 +40,7 @@
             <label for="password">
                 <fmt:message key="register.password.label"/>
             </label>
-            <input type="text" name="password" class="form-control" id="password" aria-describedby="passwordHelp" placeholder="${passwordPlaceHolder}" required  pattern="^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,20}$">
+            <input type="password" name="password" class="form-control" id="password" aria-describedby="passwordHelp" placeholder="${passwordPlaceHolder}" value="${sessionScope.password}" required  pattern="^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,20}$">
             <small id="passwordHelp" class="form-text text-muted">
                 <fmt:message key="register.password.help"/>
             </small>
@@ -61,6 +61,9 @@
         </div>
         <c:remove var="errorMessageDB" scope="session"/>
     </c:if>
+    <c:remove var="email" scope="session"/>
+    <c:remove var="password" scope="session"/>
+    <c:remove var="username" scope="session"/>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
 </body>

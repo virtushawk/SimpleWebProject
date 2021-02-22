@@ -7,6 +7,8 @@ public class AttributeName {
     //todo : fix names for error message
     public static final String AUTHORISED = "authorised";
     public static final String USERNAME = "username";
+    public static final String EMAIL = "email";
+    public static final String PASSWORD = "password";
     public static final String LOGIN_ERROR_MESSAGE = "errorMessage";
     public static final String DATABASE_ERROR_MESSAGE = "errorMessageDB";
     public static final String REGISTRATION_MESSAGE_CONFIRMED = "confirmedMessage";
@@ -36,6 +38,20 @@ public class AttributeName {
     public static final String CORRECTION_EDIT_ERROR = "correctionEditError";
     public static final String CORRECTION_DELETE_VALID = "correctionDeleted";
     public static final String CORRECTION_DELETE_ERROR = "correctionDeleteError";
+    public static final String CREATURE_CREATE_VALID = "creatureCreated";
+    public static final String CREATURE_CREATE_ERROR = "creatureCreateError";
+    public static final String CORRECTION_APPROVE_VALID = "correctionApproved";
+    public static final String CORRECTION_APPROVE_ERROR = "correctionApproveError";
+    public static final String CREATURE_APPROVE_VALID = "creatureApproved";
+    public static final String CREATURE_APPROVE_ERROR = "creatureApproveError";
+    public static final String ACCOUNT_BLOCK_VALID = "accountBlocked";
+    public static final String ACCOUNT_BLOCK_ERROR = "accountBlockError";
+    public static final String ACCOUNT_UNBLOCK_VALID = "accountUnblocked";
+    public static final String ACCOUNT_UNBLOCK_ERROR = "accountUnblockError";
+    public static final String ACCOUNT_MAKE_ADMIN_VALID = "accountMadeAdmin";
+    public static final String ACCOUNT_MAKE_ADMIN_ERROR = "accountMadeAdminError";
+    public static final String REVIEW_CHANGE_VALID = "reviewChanged";
+    public static final String REVIEW_CHANGE_ERROR = "reviewChangeError";
     public static final String NEW_CREATURE_LIST = "newCreatures";
     public static final String POPULAR_CREATURE_LIST = "popularCreatures";
     public static final String CREATURE = "creature";

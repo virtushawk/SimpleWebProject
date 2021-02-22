@@ -4,5 +4,6 @@ public enum AccountRole {
     USER,
     ADMIN,
     INACTIVE,
+    BLOCKED,
     GUEST,
 }

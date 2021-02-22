@@ -13,6 +13,7 @@ import org.apache.logging.log4j.Logger;
 import javax.servlet.http.HttpServletRequest;
 
 public class ApproveCreatureCommand implements Command {
+
     private static final Logger logger = LogManager.getLogger(ApproveCreatureCommand.class);
     private static final CreatureService service = CreatureServiceImpl.getInstance();
 
@@ -22,8 +23,13 @@ public class ApproveCreatureCommand implements Command {
         boolean flag;
         try {
             flag = service.approveCreature(id);
+            if (flag) {
+                request.setAttribute(AttributeName.CREATURE_APPROVE_VALID,true);
+            } else {
+                request.setAttribute(AttributeName.CREATURE_APPROVE_ERROR,true);
+            }
         } catch (ServiceException e) {
-            logger.error("Error occurred while approving user",e);
+            logger.error("Error occurred while approving creature",e);
             request.setAttribute(AttributeName.DATABASE_ERROR_MESSAGE,true);
         }
         return PagePath.SERVLET_ADMIN_PAGE;

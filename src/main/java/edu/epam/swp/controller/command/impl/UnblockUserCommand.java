@@ -13,6 +13,7 @@ import org.apache.logging.log4j.Logger;
 import javax.servlet.http.HttpServletRequest;
 
 public class UnblockUserCommand implements Command {
+
     private static final Logger logger = LogManager.getLogger(UnblockUserCommand.class);
     private static final UserService service = UserServiceImpl.getInstance();
 
@@ -22,6 +23,11 @@ public class UnblockUserCommand implements Command {
         boolean flag;
         try {
             flag = service.unblockUser(id);
+            if (flag) {
+                request.setAttribute(AttributeName.ACCOUNT_UNBLOCK_VALID,true);
+            } else {
+                request.setAttribute(AttributeName.ACCOUNT_UNBLOCK_ERROR,true);
+            }
         } catch (ServiceException e) {
             logger.error("Error occurred while unblocking user",e);
             request.setAttribute(AttributeName.DATABASE_ERROR_MESSAGE,true);

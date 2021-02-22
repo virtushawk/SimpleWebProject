@@ -175,6 +175,14 @@
     </div>
     <c:remove var="correctionEditError" scope="session"/>
 </c:if>
+<c:if test="${sessionScope.errorMessageDB || requestScope.errorMessageDB}">
+    <div class="container">
+        <div class="alert alert-danger text-center" role="alert">
+            <fmt:message key="home.errorMessageDB"/>
+        </div>
+    </div>
+    <c:remove var="errorMessageDB" scope="session"/>
+</c:if>
 <div class="container row">
     <c:if test="${sessionScope.user.accountId == requestScope.user.accountId}">
         <div class="d-flex align-items-start col-1">

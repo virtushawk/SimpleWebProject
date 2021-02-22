@@ -163,17 +163,16 @@ public class UserDaoImpl implements UserDao {
             statement.setString(2,user.getEmail());
             statement.setString(3,user.getUsername());
             statement.setString(4,password);
-            int roleUser = 3;
-            statement.setInt(5,roleUser); // 3 = INACTIVE
+            int roleUser = AccountRole.INACTIVE.ordinal();
+            statement.setInt(5,roleUser);
             statement.executeUpdate();
             ResultSet resultSet = statement.getGeneratedKeys();
             if (resultSet != null && resultSet.next()) {
                 id = resultSet.getLong(1);
             }
         } catch (SQLException e) {
-            if (!(e.getSQLState().equals(ERROR_DUP_KEY)))
-            {
-                logger.error("Error occurred while creating user. Exception :  {}. User : {}",e,user);
+            if (!(e.getSQLState().equals(ERROR_DUP_KEY))) {
+                logger.error("Error occurred while creating user",e);
                 throw new DaoException("Error occurred while creating user",e);
             }
         }
@@ -200,7 +199,7 @@ public class UserDaoImpl implements UserDao {
         boolean flag;
         try(Connection connection = pool.getConnection();
             PreparedStatement statement = connection.prepareStatement(UPDATE_ROLE)) {
-            int roleUser = 1; // 1 = USER
+            int roleUser = AccountRole.USER.ordinal();
             statement.setLong(1,roleUser);
             statement.setLong(2,id);
             flag = statement.executeUpdate() > 0;
@@ -216,13 +215,13 @@ public class UserDaoImpl implements UserDao {
         boolean flag;
         try(Connection connection = pool.getConnection();
             PreparedStatement statement = connection.prepareStatement(UPDATE_ROLE)) {
-            int roleUser = 3; // 3 = INACTIVE
+            int roleUser = AccountRole.BLOCKED.ordinal();
             statement.setLong(1,roleUser);
             statement.setLong(2,id);
             flag = statement.executeUpdate() > 0;
         } catch (SQLException e) {
-            logger.error("An error occurred while requesting a database",e);
-            throw new DaoException("An error occurred while requesting a database",e);
+            logger.error("An error occurred while blocking user",e);
+            throw new DaoException("An error occurred while blocking user",e);
         }
         return flag;
     }
@@ -232,13 +231,13 @@ public class UserDaoImpl implements UserDao {
         boolean flag;
         try(Connection connection = pool.getConnection();
             PreparedStatement statement = connection.prepareStatement(UPDATE_ROLE)) {
-            int roleUser = 1; // 1 = USER
+            int roleUser = AccountRole.USER.ordinal();
             statement.setLong(1,roleUser);
             statement.setLong(2,id);
             flag = statement.executeUpdate() > 0;
         } catch (SQLException e) {
-            logger.error("An error occurred while requesting a database",e);
-            throw new DaoException("An error occurred while requesting a database",e);
+            logger.error("An error occurred while unblocking user",e);
+            throw new DaoException("An error occurred while unblocking user",e);
         }
         return flag;
     }
@@ -248,13 +247,13 @@ public class UserDaoImpl implements UserDao {
         boolean flag;
         try(Connection connection = pool.getConnection();
             PreparedStatement statement = connection.prepareStatement(UPDATE_ROLE)) {
-            int roleUser = 2; // 2 = ADMIN
+            int roleUser = AccountRole.ADMIN.ordinal();
             statement.setLong(1,roleUser);
             statement.setLong(2,id);
             flag = statement.executeUpdate() > 0;
         } catch (SQLException e) {
-            logger.error("An error occurred while requesting a database",e);
-            throw new DaoException("An error occurred while requesting a database",e);
+            logger.error("An error occurred while making the user admin",e);
+            throw new DaoException("An error occurred while making the user admin",e);
         }
         return flag;
     }

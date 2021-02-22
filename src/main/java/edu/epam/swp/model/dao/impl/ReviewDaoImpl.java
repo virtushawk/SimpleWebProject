@@ -27,7 +27,8 @@ public class ReviewDaoImpl implements ReviewDao {
             "creatures.creature_id = reviews.creature_id WHERE reviews.account_id = ? ORDER BY reviews.time DESC";
     private static final String SELECT_REVIEW = "SELECT reviews.creature_id,reviews.review_id,reviews.account_id,reviews.review,reviews.time," +
             "reviews.rating,accounts.avatar,accounts.username,creatures.name FROM reviews INNER JOIN accounts ON " +
-            "reviews.account_id = accounts.account_id INNER JOIN creatures ON creatures.creature_id = reviews.creature_id";
+            "reviews.account_id = accounts.account_id INNER JOIN creatures ON creatures.creature_id = reviews.creature_id " +
+            "ORDER BY reviews.time DESC";
     private static final String UPDATE_REVIEW = "UPDATE reviews SET review = ?,time = ?,rating = ? WHERE review_id = ?";
     private static final String DELETE_REVIEW = "DELETE FROM reviews WHERE review_id = ?";
     private static final String DELETE_REVIEW_BY_USER_ID = "DELETE FROM reviews WHERE review_id = ? AND account_id = ?";

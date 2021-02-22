@@ -2,8 +2,8 @@ package edu.epam.swp.model.dao.impl;
 
 import edu.epam.swp.model.dao.CreatureDao;
 import edu.epam.swp.model.entity.Creature;
-import edu.epam.swp.model.entity.CreatureStatus;
 import edu.epam.swp.exception.DaoException;
+import edu.epam.swp.model.entity.CreatureStatus;
 import edu.epam.swp.model.pool.ConnectionPool;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -19,34 +19,34 @@ public class CreatureDaoImpl implements CreatureDao {
     private static final CreatureDao instance = new CreatureDaoImpl();
     private ConnectionPool pool = ConnectionPool.INSTANCE;
     private static final String SELECT_CREATURE_BY_LAST_UPDATED_LIMIT = "SELECT creature_id,name,picture,description," +
-            "last_updated FROM creatures WHERE status_id = 1 ORDER BY last_updated DESC LIMIT 0,?";
+            "last_updated FROM creatures WHERE status_id = 0 ORDER BY last_updated DESC LIMIT 0,?";
     private static final String SELECT_CREATURE_BY_RATING_LIMIT = "SELECT reviews.creature_id,count(reviews.rating) AS rate," +
             "creatures.name,creatures.picture,creatures.description,creatures.last_updated FROM reviews INNER JOIN creatures ON " +
-            "reviews.creature_id = creatures.creature_id WHERE creatures.status_id = 1 GROUP BY reviews.creature_id ORDER BY rate DESC LIMIT 0,?";
+            "reviews.creature_id = creatures.creature_id WHERE creatures.status_id = 0 GROUP BY reviews.creature_id ORDER BY rate DESC LIMIT 0,?";
     private static final String INSERT_CREATURE = "INSERT INTO creatures(account_id,name,picture,description,status_id,last_updated) " +
             "VALUES(?,?,?,?,?,?)";
-    private static final String SELECT_CREATURE_BY_ID = "SELECT name,picture,description,last_updated FROM creatures WHERE creature_id = ? AND status_id = 1";
+    private static final String SELECT_CREATURE_BY_ID = "SELECT name,picture,description,last_updated FROM creatures WHERE creature_id = ? AND status_id = 0";
     private static final String SELECT_CREATURE = "SELECT creatures.creature_id,creatures.name,creatures.picture,creatures.description,creatures.last_updated,AVG(reviews.rating) AS rate " +
-            "FROM creatures LEFT JOIN reviews ON creatures.creature_id = reviews.creature_id WHERE creatures.status_id = 1 GROUP BY creatures.creature_id " +
+            "FROM creatures LEFT JOIN reviews ON creatures.creature_id = reviews.creature_id WHERE creatures.status_id = 0 GROUP BY creatures.creature_id " +
             "ORDER BY creatures.last_updated DESC";
     private static final String UPDATE_PICTURE = "UPDATE creatures SET picture = ? WHERE creature_id = ?";
     private static final String UPDATE_CREATURE = "UPDATE creatures SET name = ?,description = ?,last_updated = ? WHERE creature_id = ?";
     private static final String DELETE_CREATURE = "DELETE FROM creatures WHERE creature_id = ?";
     private static final String DELETE_REVIEW = "DELETE FROM reviews WHERE creature_id = ?";
     private static final String SELECT_CREATURE_BY_ACCOUNT_ID = "SELECT creature_id,name,picture,description,last_updated " +
-            "FROM creatures WHERE account_id = ? AND status_id = 1 ORDER BY last_updated DESC";
+            "FROM creatures WHERE account_id = ? AND status_id = 0 ORDER BY last_updated DESC";
     private static final String SELECT_CREATURE_BY_STATUS_ID = "SELECT creature_id,name,picture,description,last_updated FROM creatures " +
-            "WHERE status_id = 2";
+            "WHERE status_id = 1";
     private static final String UPDATE_CREATURE_STATUS_ID = "UPDATE creatures SET status_id = ? WHERE creature_id = ?";
     private static final String SELECT_CREATURE_BY_NAME_LIKE = "SELECT creature_id,name,picture,description,last_updated FROM creatures " +
-            "WHERE name LIKE ? AND status_id = 1";
+            "WHERE name LIKE ? AND status_id = 0";
     private static final String SELECT_CREATURE_BY_STATUS_ID_USER_ID = "SELECT creature_id,name,picture,description,last_updated " +
-            "From creatures WHERE status_id = 2 AND account_id = ?";
+            "From creatures WHERE status_id = 1 AND account_id = ?";
     private static final String UPDATE_IMAGE_BY_USER_ID = "UPDATE creatures SET picture = ? WHERE creature_id = ? AND account_id = ?";
     private static final String UPDATE_CREATURE_BY_USER_ID_STATUS_ID = "UPDATE creatures SET name = ?,description = ?,last_updated = ? " +
             "WHERE creature_id = ? AND account_id = ?";
     private static final String DELETE_CREATURE_BY_USER_ID = "DELETE FROM creatures WHERE creature_id = ? AND account_id = ? " +
-            "AND status_id = 2";
+            "AND status_id = 1";
 
     private CreatureDaoImpl() {}
 
@@ -141,8 +141,8 @@ public class CreatureDaoImpl implements CreatureDao {
             statement.setLong(2,id);
             flag = statement.executeUpdate() > 0;
         } catch (SQLException e) {
-            logger.error("An error occurred while requesting a database",e);
-            throw new DaoException("An error occurred while requesting a database",e);
+            logger.error("An error occurred while updating creature image",e);
+            throw new DaoException("An error occurred while updating creature image",e);
         }
         return flag;
     }
@@ -235,13 +235,13 @@ public class CreatureDaoImpl implements CreatureDao {
         boolean flag;
         try(Connection connection = pool.getConnection();
             PreparedStatement statement = connection.prepareStatement(UPDATE_CREATURE_STATUS_ID)) {
-            int statusId = 1; // 1 = Approved;
+            int statusId = CreatureStatus.APPROVED.ordinal();
             statement.setInt(1,statusId);
             statement.setLong(2,id);
             flag = statement.executeUpdate() > 0;
         } catch (SQLException e) {
-            logger.error("An error occurred while requesting a database",e);
-            throw new DaoException("An error occurred while requesting a database",e);
+            logger.error("An error occurred while approving creature",e);
+            throw new DaoException("An error occurred while approving creature",e);
         }
         return flag;
     }
@@ -321,19 +321,14 @@ public class CreatureDaoImpl implements CreatureDao {
             statement.setString(2,creature.getName());
             statement.setString(3,creature.getPicture());
             statement.setString(4,creature.getDescription());
-            int statusId;
-            if (creature.getCreatureStatus().equals(CreatureStatus.APPROVED)){
-                statusId = 1;
-            } else {
-                statusId = 2;
-            }
+            int statusId = creature.getCreatureStatus().ordinal();
             statement.setInt(5,statusId);
             Date date = creature.getLastUpdated();
             long lastUpdated = date.getTime();
             statement.setLong(6,lastUpdated);
             flag = statement.executeUpdate() > 0;
         } catch (SQLException e) {
-            logger.error("Error occurred while creating creature. Creature : {}",creature,e);
+            logger.error("Error occurred while creating creature",e);
             throw new DaoException("Error occurred while creating creature",e);
         }
         return flag;
@@ -350,8 +345,8 @@ public class CreatureDaoImpl implements CreatureDao {
             statement.setLong(4,creature.getId());
             flag = statement.executeUpdate() > 0;
         } catch (SQLException e) {
-            logger.error("An error occurred while requesting a database",e);
-            throw new DaoException("An error occurred while requesting a database",e);
+            logger.error("An error occurred while updating creature",e);
+            throw new DaoException("An error occurred while updating creature",e);
         }
         return flag;
     }

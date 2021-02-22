@@ -83,6 +83,22 @@
         </div>
     </div>
 </c:if>
+<c:if test="${sessionScope.reviewChanged}">
+    <div class="container">
+        <div class="alert alert-success text-center" role="alert">
+            <fmt:message key="adminPanel.reviewChanged"/>
+        </div>
+    </div>
+    <c:remove var="reviewChanged" scope="session"/>
+</c:if>
+<c:if test="${sessionScope.reviewChangeError}">
+    <div class="container">
+        <div class="alert alert-danger text-center" role="alert">
+            <fmt:message key="adminPanel.reviewChangeError"/>
+        </div>
+    </div>
+    <c:remove var="reviewChangeError" scope="session"/>
+</c:if>
 <div class="card mb-3 mx-auto shadow p-3 mb-5 bg-white rounded">
     <div class="row g-0">
         <div class="col-md-4">

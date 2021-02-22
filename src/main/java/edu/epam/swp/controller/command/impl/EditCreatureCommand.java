@@ -30,10 +30,14 @@ public class EditCreatureCommand implements Command {
         boolean flag;
         try {
             flag = service.editCreature(creature);
+            if (flag) {
+                request.getSession().setAttribute(AttributeName.CREATURE_EDIT_VALID,true);
+            } else {
+                request.getSession().setAttribute(AttributeName.CREATURE_EDIT_ERROR,true);
+            }
         } catch (ServiceException e) {
             logger.error("Error occurred while accessing database",e);
             request.getSession().setAttribute(AttributeName.DATABASE_ERROR_MESSAGE,true);
-            return PagePath.SERVLET_HOME;
         }
         return PagePath.SERVLET_ADMIN_PAGE;
     }

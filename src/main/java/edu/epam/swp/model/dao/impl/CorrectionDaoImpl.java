@@ -107,10 +107,13 @@ public class CorrectionDaoImpl implements CorrectionDao {
     @Override
     public boolean approveCorrection(long id) throws DaoException {
         boolean flag = false;
-        try(Connection connection = pool.getConnection();
-            PreparedStatement correctionStatement = connection.prepareStatement(SELECT_CORRECTION_BY_ID);
-            PreparedStatement creatureStatement = connection.prepareStatement(UPDATE_CREATURE)) {
+        Connection connection = pool.getConnection();
+        try(PreparedStatement correctionStatement = connection.prepareStatement(SELECT_CORRECTION_BY_ID);
+            PreparedStatement creatureStatement = connection.prepareStatement(UPDATE_CREATURE);
+            PreparedStatement deleteStatement = connection.prepareStatement(DELETE_CORRECTION)) {
             correctionStatement.setLong(1,id);
+            deleteStatement.setLong(1,id);
+            connection.setAutoCommit(false);
             ResultSet resultSet = correctionStatement.executeQuery();
             if (resultSet.next()) {
                 long creature_id = resultSet.getLong(1);
@@ -122,11 +125,26 @@ public class CorrectionDaoImpl implements CorrectionDao {
                 creatureStatement.setString(2,description);
                 creatureStatement.setLong(3,time);
                 creatureStatement.setLong(4,creature_id);
-                flag = creatureStatement.executeUpdate() > 0;
+                creatureStatement.executeUpdate();
+                flag = deleteStatement.executeUpdate() > 0;
+                connection.commit();
             }
         } catch (SQLException e) {
+            try {
+                connection.rollback();
+            } catch (SQLException exception) {
+                logger.error("An error occurred while rolling back",e);
+                throw new DaoException("An error occurred while rolling back",e);
+            }
             logger.error("Error occurred while approving correction",e);
             throw new DaoException("Error occurred while approving correction",e);
+        } finally {
+            try {
+                connection.setAutoCommit(true);
+                connection.close();
+            } catch (SQLException e) {
+                logger.error("An error occurred while requesting a database",e);
+            }
         }
         return flag;
     }
