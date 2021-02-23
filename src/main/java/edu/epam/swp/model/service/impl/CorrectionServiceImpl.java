@@ -13,6 +13,7 @@ import org.apache.logging.log4j.Logger;
 import java.util.List;
 
 public class CorrectionServiceImpl implements CorrectionService {
+
     private static final Logger logger = LogManager.getLogger(CorrectionServiceImpl.class);
     private static final CorrectionService instance = new CorrectionServiceImpl();
     private CorrectionDao dao = CorrectionDaoImpl.getInstance();

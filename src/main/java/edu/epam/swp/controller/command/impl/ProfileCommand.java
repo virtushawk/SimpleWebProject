@@ -25,6 +25,7 @@ import java.util.List;
 import java.util.Optional;
 
 public class ProfileCommand implements Command {
+
     private static final Logger logger = LogManager.getLogger(ProfileCommand.class);
     private static final CreatureService creatureService = CreatureServiceImpl.getInstance();
     private static final UserService userService = UserServiceImpl.getInstance();

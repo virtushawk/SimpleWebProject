@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 public class SearchCommand implements Command {
+
     private static final Logger logger = LogManager.getLogger(SearchCommand.class);
     private static final CreatureService service = CreatureServiceImpl.getInstance();
 

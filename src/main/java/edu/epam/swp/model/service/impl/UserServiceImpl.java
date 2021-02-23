@@ -7,9 +7,9 @@ import edu.epam.swp.model.entity.User;
 import edu.epam.swp.exception.DaoException;
 import edu.epam.swp.exception.ServiceException;
 import edu.epam.swp.model.service.UserService;
-import edu.epam.swp.model.util.PasswordGenerator;
-import edu.epam.swp.model.util.PasswordHash;
-import edu.epam.swp.model.util.mail.MailUtility;
+import edu.epam.swp.util.PasswordGenerator;
+import edu.epam.swp.util.PasswordHash;
+import edu.epam.swp.util.mail.MailUtility;
 import edu.epam.swp.model.validation.UserValidator;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -18,6 +18,7 @@ import java.util.List;
 import java.util.Optional;
 
 public class UserServiceImpl implements UserService {
+
     private static final Logger logger = LogManager.getLogger(UserServiceImpl.class);
     private static final UserService instance = new UserServiceImpl();
     private UserDao dao = UserDaoImpl.getInstance();
@@ -84,15 +85,15 @@ public class UserServiceImpl implements UserService {
                 user = dao.findUserByUsername(username);
                 if(user.isPresent()) {
                     String password = PasswordGenerator.generatePassword();
-                    String enctyptedPassword = PasswordHash.createHash(password);
-                    flag = dao.updatePassword(enctyptedPassword,user.get().getAccountId());
+                    String encryptedPassword = PasswordHash.createHash(password);
+                    flag = dao.updatePassword(encryptedPassword,user.get().getAccountId());
                     if (flag) {
                         MailUtility.sendRestoreMessage(user.get().getEmail(),password);
                     }
                 }
             } catch (DaoException e) {
-                logger.error("An error occurred when requesting a database");
-                throw new ServiceException("An error occurred when requesting a database",e);
+                logger.error("An error occurred while restoring password",e);
+                throw new ServiceException("An error occurred while restoring password",e);
             }
         }
         return flag;
@@ -128,8 +129,8 @@ public class UserServiceImpl implements UserService {
         try {
             flag = dao.confirmEmail(id);
         } catch (DaoException e) {
-            logger.error("An error occurred when requesting a database");
-            throw new ServiceException("An error occurred when requesting a database",e);
+            logger.error("An error occurred while confirming email",e);
+            throw new ServiceException("An error occurred while confirming email",e);
         }
         return flag;
     }

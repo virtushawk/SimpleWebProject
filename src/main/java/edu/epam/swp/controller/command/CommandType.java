@@ -3,6 +3,7 @@ package edu.epam.swp.controller.command;
 import edu.epam.swp.controller.command.impl.*;
 
 public enum CommandType {
+
     HOME(new HomeCommand()),
     REGISTER(new RegisterCommand()),
     LOGIN(new LoginCommand()),

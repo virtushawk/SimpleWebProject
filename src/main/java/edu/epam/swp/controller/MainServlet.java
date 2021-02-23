@@ -12,6 +12,7 @@ import javax.servlet.annotation.*;
 
 @WebServlet(name = "controller", urlPatterns = {"/controller","*.do"})
 public class MainServlet extends HttpServlet {
+
     private static final ConnectionPool pool = ConnectionPool.INSTANCE;
 
     @Override

@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.sql.Date;
 
 public class EditCorrectionCommand implements Command {
+
     private static final Logger logger = LogManager.getLogger(EditCorrectionCommand.class);
     private static final CorrectionService service = CorrectionServiceImpl.getInstance();
 

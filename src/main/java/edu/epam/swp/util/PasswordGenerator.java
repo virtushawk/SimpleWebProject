@@ -1,10 +1,12 @@
-package edu.epam.swp.model.util;
+package edu.epam.swp.util;
 
 import org.passay.CharacterData;
 import org.passay.CharacterRule;
 import org.passay.EnglishCharacterData;
 
 public class PasswordGenerator {
+
+    private PasswordGenerator() {}
 
     public static String generatePassword() {
         org.passay.PasswordGenerator generator = new org.passay.PasswordGenerator();

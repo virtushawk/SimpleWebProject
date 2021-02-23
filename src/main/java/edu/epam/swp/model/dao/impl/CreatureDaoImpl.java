@@ -80,7 +80,6 @@ public class CreatureDaoImpl implements CreatureDao {
         return creatures;
     }
 
-    //todo check and clean
     @Override
     public List<Creature> findNewCreatures(int limit) throws DaoException {
         List<Creature> creatures = new ArrayList<>();

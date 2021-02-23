@@ -22,6 +22,7 @@ import java.util.List;
 import java.util.UUID;
 
 public class ChangeUncheckedImageCommand implements Command {
+
     private static final Logger logger = LogManager.getLogger(ChangeUncheckedImageCommand.class);
     private static final CreatureService service = CreatureServiceImpl.getInstance();
     private static final String EXTENSION_SEPARATOR = ".";

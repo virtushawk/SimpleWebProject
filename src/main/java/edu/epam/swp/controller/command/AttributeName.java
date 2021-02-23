@@ -4,12 +4,12 @@ public class AttributeName {
 
     private AttributeName() {}
 
-    //todo : fix names for error message
     public static final String AUTHORISED = "authorised";
     public static final String USERNAME = "username";
     public static final String EMAIL = "email";
     public static final String PASSWORD = "password";
     public static final String LOGIN_ERROR_MESSAGE = "errorMessage";
+    public static final String LOGIN_RESTORE_PASSWORD_ERROR = "restoreError";
     public static final String DATABASE_ERROR_MESSAGE = "errorMessageDB";
     public static final String REGISTRATION_MESSAGE_CONFIRMED = "confirmedMessage";
     public static final String REGISTRATION_MESSAGE_ERROR = "errorMessage";
@@ -64,4 +64,6 @@ public class AttributeName {
     public static final String CORRECTIONS = "corrections";
     public static final String ID = "id";
     public static final String USER_REVIEW = "userReview";
+    public static final String EMAIL_CONFIRMED_MESSAGE = "emailMessage";
+    public static final String LANGUAGE = "lang";
 }

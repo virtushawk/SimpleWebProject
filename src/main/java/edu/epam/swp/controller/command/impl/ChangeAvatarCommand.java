@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.UUID;
 
 public class ChangeAvatarCommand implements Command {
+
     private static final Logger logger = LogManager.getLogger(ChangeAvatarCommand.class);
     private static final String EXTENSION_SEPARATOR = ".";
     private static final String SLASH = "/";

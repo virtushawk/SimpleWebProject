@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.UUID;
 
 public class ChangeImageCommand implements Command {
+
     private static final Logger logger = LogManager.getLogger(ChangeImageCommand.class);
     private static final CreatureService service = CreatureServiceImpl.getInstance();
     private static final String EXTENSION_SEPARATOR = ".";
@@ -29,7 +30,6 @@ public class ChangeImageCommand implements Command {
     private static final int MAX_REQUEST_SIZE = 1024 * 1024 * 5 * 5;
     private static final String UPLOAD_PATH = "C:/storage";
     private static final String TEMP_DIR = "javax.servlet.context.tempdir";
-
 
     @Override
     public String execute(HttpServletRequest request) {

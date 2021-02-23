@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Optional;
 
 public class CorrectionDaoImpl implements CorrectionDao {
+
     private static final Logger logger = LogManager.getLogger(CorrectionDaoImpl.class);
     private static final CorrectionDao instance = new CorrectionDaoImpl();
     private ConnectionPool pool = ConnectionPool.INSTANCE;
@@ -64,7 +65,7 @@ public class CorrectionDaoImpl implements CorrectionDao {
 
     @Override
     public Optional<Correction> get(long id) throws DaoException {
-        return Optional.empty();
+        throw new UnsupportedOperationException();
     }
 
     @Override
@@ -87,7 +88,7 @@ public class CorrectionDaoImpl implements CorrectionDao {
 
     @Override
     public boolean update(Correction correction) throws DaoException {
-        return false;
+        throw new UnsupportedOperationException();
     }
 
     @Override

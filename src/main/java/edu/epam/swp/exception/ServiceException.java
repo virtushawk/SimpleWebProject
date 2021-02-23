@@ -1,6 +1,7 @@
 package edu.epam.swp.exception;
 
 public class ServiceException extends Exception {
+
     public ServiceException() {
     }
 

@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.Optional;
 
 public class UserDaoImpl implements UserDao {
+
     private static final Logger logger = LogManager.getLogger(UserDaoImpl.class);
     private static final UserDao instance = new UserDaoImpl();
     private ConnectionPool pool = ConnectionPool.INSTANCE;
@@ -92,17 +93,17 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public boolean create(User user) throws DaoException {
-        return false;
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public boolean update(User user) throws DaoException {
-        return false;
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public boolean delete(long id) throws DaoException {
-        return false;
+        throw new UnsupportedOperationException();
     }
 
     @Override
@@ -132,6 +133,7 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public Optional<User> findUserByUsername(String username) throws DaoException {
+        Optional<User> result = Optional.empty();
         try(Connection connection = pool.getConnection();
             PreparedStatement statement = connection.prepareStatement(SELECT_USER_BY_USERNAME)) {
             statement.setString(1,username);
@@ -144,13 +146,12 @@ public class UserDaoImpl implements UserDao {
                 String avatar = resultSet.getString(5);
                 User user = new User.UserBuilder().withEmail(userEmail).withUsername(userName).withRole(role)
                         .withAvatar(avatar).withAccountId(id).build();
-                return Optional.of(user);
+                result = Optional.of(user);
             }
         } catch (SQLException e) {
-            logger.error("An error occurred when requesting a database",e);
-            throw new DaoException("An error occurred when requesting a database",e);
+            logger.error("An error occurred while finding user",e);
+            throw new DaoException("An error occurred while finding user",e);
         }
-        Optional<User> result = Optional.empty();
         return result;
     }
 
@@ -167,7 +168,7 @@ public class UserDaoImpl implements UserDao {
             statement.setInt(5,roleUser);
             statement.executeUpdate();
             ResultSet resultSet = statement.getGeneratedKeys();
-            if (resultSet != null && resultSet.next()) {
+            if (resultSet.next()) {
                 id = resultSet.getLong(1);
             }
         } catch (SQLException e) {

@@ -18,7 +18,6 @@ public class AccessFilter implements Filter {
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
-
     }
 
     @Override
@@ -39,7 +38,6 @@ public class AccessFilter implements Filter {
         } catch (IllegalArgumentException e) {
             flag = false;
         }
-
         if (flag) {
             filterChain.doFilter(servletRequest,servletResponse);
         } else {

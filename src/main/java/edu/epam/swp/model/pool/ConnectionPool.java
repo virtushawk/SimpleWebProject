@@ -18,13 +18,13 @@ public enum ConnectionPool {
     INSTANCE;
 
     private final Logger logger = LogManager.getLogger(ConnectionPool.class);
-    private BlockingQueue<Connection> freeConnections;
-    private Queue<Connection> givenAwayConnections;
+    private BlockingQueue<ProxyConnection> freeConnections;
+    private Queue<ProxyConnection> givenAwayConnections;
     private static final int DEFAULT_POOL_SIZE = 32;
-    public static final String DATABASE_PROPERTIES = "property/database.properties";
+    private static final String DATABASE_PROPERTIES = "property/database.properties";
+    private static final String DATABASE_URL = "url";
+    private static final String DATABASE_DRIVER = "driverClassName";
 
-    // todo : Create ConnectionCreator?
-    // todo : Исправить connection pool
     ConnectionPool() {
         PropertyReader propertyReader = new PropertyReader();
         Properties properties;
@@ -34,8 +34,8 @@ public enum ConnectionPool {
             logger.error("Error occurred while reading the property file",e);
             throw new RuntimeException("Error occurred while reading the property file",e);
         }
-        String url = properties.getProperty(PropertyName.DATABASE_URL);
-        String driverName = properties.getProperty(PropertyName.DATABASE_DRIVER);
+        String url = properties.getProperty(DATABASE_URL);
+        String driverName = properties.getProperty(DATABASE_DRIVER);
         try {
             Class.forName(driverName);
         } catch (ClassNotFoundException e) {
@@ -56,7 +56,7 @@ public enum ConnectionPool {
     }
 
     public Connection getConnection() {
-        Connection connection = null;
+        ProxyConnection connection = null;
         try {
             connection = freeConnections.take();
             givenAwayConnections.offer(connection);
@@ -67,16 +67,18 @@ public enum ConnectionPool {
     }
 
     public void releaseConnection(Connection connection) {
-        givenAwayConnections.remove(connection);
-        freeConnections.offer(connection);
+        if (connection instanceof ProxyConnection) {
+            givenAwayConnections.remove(connection);
+            freeConnections.offer((ProxyConnection) connection);
+        } else {
+            logger.error("connection is not a proxy connection!");
+        }
     }
 
     public void destroyPool() {
         for (int i = 0; i < DEFAULT_POOL_SIZE; i++) {
             try {
-                freeConnections.take().close();
-            } catch (SQLException e) {
-                logger.error("Error occurred while destroying connection",e);
+                freeConnections.take().reallyClose();
             } catch (InterruptedException e) {
                 logger.error("Interrupted Exception occurred",e);
             }

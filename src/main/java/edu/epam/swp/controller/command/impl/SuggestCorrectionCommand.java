@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.sql.Date;
 
 public class SuggestCorrectionCommand implements Command {
+
     private static final Logger logger = LogManager.getLogger(SuggestCorrectionCommand.class);
     private static final CorrectionService service = CorrectionServiceImpl.getInstance();
 
@@ -31,6 +32,7 @@ public class SuggestCorrectionCommand implements Command {
         Correction correction = new Correction.CorrectionBuilder().withAccountId(accountId).withCreatureId(creatureId)
                 .withText(text).withName(name).withDate(date).build();
         boolean flag;
+        String page;
         try {
             flag = service.create(correction);
             if (flag) {
@@ -42,6 +44,7 @@ public class SuggestCorrectionCommand implements Command {
             logger.error("Error occurred while creating correction",e);
             request.getSession().setAttribute(AttributeName.DATABASE_ERROR_MESSAGE,true);
         }
-        return PagePath.SERVLET_CREATURE + "&id=" + creatureId;
+        page = String.format(PagePath.SERVLET_CREATURE_ID,creatureId);
+        return page;
     }
 }

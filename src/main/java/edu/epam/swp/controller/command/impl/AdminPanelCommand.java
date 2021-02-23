@@ -23,6 +23,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 public class AdminPanelCommand implements Command {
+
     private static final Logger logger = LogManager.getLogger(AdminPanelCommand.class);
     private static final UserService userService = UserServiceImpl.getInstance();
     private static final ReviewService reviewService = ReviewServiceImpl.getInstance();

@@ -1,4 +1,4 @@
-package edu.epam.swp.model.util.mail;
+package edu.epam.swp.util.mail;
 
 import edu.epam.swp.exception.PropertyReaderException;
 import edu.epam.swp.model.reader.PropertyReader;
@@ -8,6 +8,7 @@ import org.apache.logging.log4j.Logger;
 import java.util.Properties;
 
 public class MailUtility {
+
     private static final Logger logger = LogManager.getLogger(MailUtility.class);
     private static final String MESSAGE_CONFIRM_TEXT = "confirmation link : http://localhost:8080/SWP_war_exploded/controller?command=confirm_email&id=%d";
     private static final String MESSAGE_RESTORE_TEXT = "Your new password : %s";

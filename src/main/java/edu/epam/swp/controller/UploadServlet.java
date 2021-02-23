@@ -19,6 +19,7 @@ import java.io.IOException;
 public class  UploadServlet extends HttpServlet {
 
     private static final String CONTENT_TYPE = "image/jpeg";
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String url = request.getParameter(ParameterName.URL);

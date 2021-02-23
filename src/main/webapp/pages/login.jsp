@@ -18,6 +18,30 @@
 </head>
 <body>
 <jsp:include page="/pages/module/header.jsp"/>
+<c:if test="${sessionScope.errorMessageDB || requestScope.errorMessageDB}">
+    <div class="container">
+        <div class="alert alert-danger text-center" role="alert">
+            <fmt:message key="home.errorMessageDB"/>
+        </div>
+    </div>
+    <c:remove var="errorMessageDB" scope="session"/>
+</c:if>
+<c:if test="${sessionScope.emailConfirmed}">
+    <div class="container">
+        <div class="alert alert-success text-center" role="alert">
+            <fmt:message key="login.forgetPassword.success"/>
+        </div>
+    </div>
+    <c:remove var="confirmedMessage" scope="session"/>
+</c:if>
+<c:if test="${sessionScope.restoreError}">
+    <div class="container">
+        <div class="alert alert-danger text-center" role="alert">
+            <fmt:message key="login.forgetPassword.error"/>
+        </div>
+    </div>
+    <c:remove var="restoreError" scope="session"/>
+</c:if>
 <div>
     <form id="login_form" action="${pageContext.request.contextPath}/controller?command=login" method="post">
         <div class="form-group">

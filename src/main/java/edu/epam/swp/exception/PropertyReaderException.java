@@ -1,6 +1,7 @@
 package edu.epam.swp.exception;
 
 public class PropertyReaderException extends Exception {
+
     public PropertyReaderException() {
     }
 

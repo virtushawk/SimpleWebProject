@@ -39,6 +39,20 @@
     </div>
     <c:remove var="errorMessageDB" scope="session"/>
 </c:if>
+<c:if test="${requestScope.emailMessage}">
+    <div class="container">
+        <div class="alert alert-success text-center" role="alert">
+            <fmt:message key="home.emailConfirmed"/>
+        </div>
+    </div>
+</c:if>
+<c:if test="${requestScope.errorMessage}">
+    <div class="container">
+        <div class="alert alert-danger text-center" role="alert">
+            <fmt:message key="general.errorMessage"/>
+        </div>
+    </div>
+</c:if>
 <p class="fs-1 text-center">
     <fmt:message key="home.label.new"/>
 </p>

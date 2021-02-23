@@ -14,6 +14,7 @@ import org.apache.logging.log4j.Logger;
 import javax.servlet.http.HttpServletRequest;
 
 public class DeleteCorrectionCommand implements Command {
+
     private static final Logger logger = LogManager.getLogger(DeleteCorrectionCommand.class);
     private static final CorrectionService service = CorrectionServiceImpl.getInstance();
 

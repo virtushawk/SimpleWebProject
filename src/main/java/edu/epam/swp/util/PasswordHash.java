@@ -1,4 +1,4 @@
-package edu.epam.swp.model.util;
+package edu.epam.swp.util;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

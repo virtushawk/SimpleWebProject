@@ -13,6 +13,7 @@ import org.apache.logging.log4j.Logger;
 import javax.servlet.http.HttpServletRequest;
 
 public class DeleteCreatureCommand implements Command {
+
     private static final Logger logger = LogManager.getLogger(DeleteCreatureCommand.class);
     private static final CreatureService service = CreatureServiceImpl.getInstance();
 

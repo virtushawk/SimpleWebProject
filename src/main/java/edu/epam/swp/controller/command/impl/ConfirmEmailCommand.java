@@ -13,6 +13,7 @@ import org.apache.logging.log4j.Logger;
 import javax.servlet.http.HttpServletRequest;
 
 public class ConfirmEmailCommand implements Command {
+
     private static final Logger logger = LogManager.getLogger(ConfirmEmailCommand.class);
     private static final UserService service = UserServiceImpl.getInstance();
 
@@ -20,14 +21,19 @@ public class ConfirmEmailCommand implements Command {
     public String execute(HttpServletRequest request) {
         long id = Long.parseLong(request.getParameter(ParameterName.ID));
         String page;
+        boolean flag;
         try {
-            if (service.confirmEmail(id)) {
-                request.setAttribute(AttributeName.EMAIL_CONFIRMATION_MESSAGE,true);
+            flag = service.confirmEmail(id);
+            if (flag) {
+                request.setAttribute(AttributeName.EMAIL_CONFIRMED_MESSAGE,true);
+            } else {
+                request.setAttribute(AttributeName.GENERAL_ERROR_MESSAGE,true);
             }
         } catch (ServiceException e) {
             logger.error("Error occurred while accessing database",e);
             request.setAttribute(AttributeName.DATABASE_ERROR_MESSAGE,true);
         }
-        return PagePath.SERVLET_HOME;
+        page = PagePath.SERVLET_HOME;
+        return page;
     }
 }

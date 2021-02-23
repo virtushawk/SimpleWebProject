@@ -14,7 +14,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/register.css"/>
     <title>
-        <fmt:message key="register.title"/>
+        <fmt:message key="register.label"/>
     </title>
 </head>
 <body>
@@ -45,6 +45,18 @@
                 <fmt:message key="register.password.help"/>
             </small>
         </div>
+        <div class="form-group">
+            <label for="confirm_password">
+                <fmt:message key="profile.changePassword.confirmPassword"/>
+            </label>
+            <input type="password" name="password" id="confirm_password" class="form-control" required pattern="^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,20}$"/>
+            <div class="valid-feedback">
+                <fmt:message key="createCreature.valid"/>
+            </div>
+            <div class="invalid-feedback">
+                <fmt:message key="profile.confirmPassword.invalid"/>
+            </div>
+        </div>
         <button type="submit" class="btn btn-primary">
             <fmt:message key="register.register"/>
         </button>
@@ -66,5 +78,19 @@
     <c:remove var="username" scope="session"/>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+<script>
+    const password = document.getElementById("password")
+        , confirm_password = document.getElementById("confirm_password");
+    function validatePassword(){
+        const message = "<fmt:message key="profile.confirmPassword.invalid"/>";
+        if(password.value !== confirm_password.value) {
+            confirm_password.setCustomValidity(message);
+        } else {
+            confirm_password.setCustomValidity('');
+        }
+    }
+    password.onchange = validatePassword;
+    confirm_password.onkeyup = validatePassword;
+</script>
 </body>
 </html>

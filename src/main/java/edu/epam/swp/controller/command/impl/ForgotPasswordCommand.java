@@ -13,6 +13,7 @@ import org.apache.logging.log4j.Logger;
 import javax.servlet.http.HttpServletRequest;
 
 public class ForgotPasswordCommand implements Command {
+
     private static final Logger logger = LogManager.getLogger(ForgotPasswordCommand.class);
     private static final UserService service = UserServiceImpl.getInstance();
 
@@ -20,18 +21,19 @@ public class ForgotPasswordCommand implements Command {
     public String execute(HttpServletRequest request) {
         String name = request.getParameter(ParameterName.NAME);
         boolean flag;
+        String page;
         try {
             flag = service.restorePassword(name);
+            if (flag) {
+                request.getSession().setAttribute(AttributeName.EMAIL_CONFIRMATION_MESSAGE, true);
+            } else {
+                request.getSession().setAttribute(AttributeName.LOGIN_RESTORE_PASSWORD_ERROR, true);
+            }
         } catch (ServiceException e) {
             logger.error("Error occurred while accessing database",e);
             request.getSession().setAttribute(AttributeName.DATABASE_ERROR_MESSAGE,true);
-            return PagePath.SERVLET_HOME;
         }
-        if (flag) {
-            request.getSession().setAttribute(AttributeName.EMAIL_CONFIRMATION_MESSAGE,true);
-        } else {
-            request.getSession().setAttribute(AttributeName.LOGIN_ERROR_MESSAGE,true);
-        }
-        return PagePath.LOGIN;
+        page = PagePath.LOGIN;
+        return page;
     }
 }

@@ -1,4 +1,4 @@
-package edu.epam.swp.model.util.mail;
+package edu.epam.swp.util.mail;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -13,6 +13,7 @@ import javax.mail.internet.MimeMessage;
 import java.util.Properties;
 
 public class MailSender {
+
     private static final Logger logger = LogManager.getLogger(MailSender.class);
     private MimeMessage message;
     private String sendToEmail;

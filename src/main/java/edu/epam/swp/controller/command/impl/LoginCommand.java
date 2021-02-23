@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.Optional;
 
 public class LoginCommand implements Command {
+
     private static final Logger logger = LogManager.getLogger(LoginCommand.class);
     private static final UserService service = UserServiceImpl.getInstance();
 

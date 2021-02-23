@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.sql.Date;
 
 public class EditUncheckedCreatureCommand implements Command {
+
     private static final Logger logger = LogManager.getLogger(EditUncheckedCreatureCommand.class);
     private static final CreatureService service = CreatureServiceImpl.getInstance();
 

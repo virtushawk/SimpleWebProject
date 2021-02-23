@@ -15,6 +15,7 @@ import org.apache.logging.log4j.Logger;
 import javax.servlet.http.HttpServletRequest;
 
 public class DeleteReviewCommand implements Command {
+
     private static final Logger logger = LogManager.getLogger(DeleteReviewCommand.class);
     private static final ReviewService service = ReviewServiceImpl.getInstance();
 

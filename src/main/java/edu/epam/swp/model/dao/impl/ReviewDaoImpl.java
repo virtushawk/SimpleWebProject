@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Optional;
 
 public class ReviewDaoImpl implements ReviewDao {
+
     private static final Logger logger = LogManager.getLogger(ReviewDaoImpl.class);
     private static final ReviewDao instance = new ReviewDaoImpl();
     private ConnectionPool pool = ConnectionPool.INSTANCE;
@@ -75,7 +76,7 @@ public class ReviewDaoImpl implements ReviewDao {
 
     @Override
     public Optional<Review> get(long id) throws DaoException {
-        return null;
+        throw new UnsupportedOperationException();
     }
 
     @Override

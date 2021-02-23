@@ -6,9 +6,10 @@ import edu.epam.swp.model.entity.AccountRole;
 import java.util.*;
 
 class AccessMap {
+
     static final Map<AccountRole, List<CommandType>> COMMAND_MAP = new EnumMap<>(AccountRole.class);
 
-    //todo изменить
+    //todo изменить?
     static {
         COMMAND_MAP.put(AccountRole.GUEST,Arrays.asList(CommandType.HOME,CommandType.CATALOG,CommandType.PROFILE,CommandType.CREATURE,
                 CommandType.LOGIN,CommandType.REGISTER,CommandType.CONFIRM_EMAIL,CommandType.SEARCH,CommandType.FORGOT_PASSWORD));

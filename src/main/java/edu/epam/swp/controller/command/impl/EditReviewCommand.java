@@ -17,6 +17,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.sql.Date;
 
 public class EditReviewCommand implements Command {
+
     private static final Logger logger = LogManager.getLogger(EditReviewCommand.class);
     private static final ReviewService service = ReviewServiceImpl.getInstance();
 

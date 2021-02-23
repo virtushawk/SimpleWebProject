@@ -14,6 +14,7 @@ import org.apache.logging.log4j.Logger;
 import javax.servlet.http.HttpServletRequest;
 
 public class EditNameCommand implements Command {
+
     private static final Logger logger = LogManager.getLogger(EditNameCommand.class);
     private static final UserService service = UserServiceImpl.getInstance();
 

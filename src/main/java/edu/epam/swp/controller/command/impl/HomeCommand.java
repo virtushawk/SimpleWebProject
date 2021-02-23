@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 public class HomeCommand implements Command {
+
     private static final Logger logger = LogManager.getLogger(HomeCommand.class);
     private static final CreatureService service = CreatureServiceImpl.getInstance();
 

@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.Optional;
 
 public class ReviewServiceImpl implements ReviewService {
+
     private static final Logger logger = LogManager.getLogger(ReviewServiceImpl.class);
     private static final ReviewService instance = new ReviewServiceImpl();
     private ReviewDao dao = ReviewDaoImpl.getInstance();
@@ -48,7 +49,7 @@ public class ReviewServiceImpl implements ReviewService {
         try {
             reviews = dao.findReviewsByCreatureId(id);
         } catch (DaoException e) {
-            logger.error("An error occurred while finding reviews");
+            logger.error("An error occurred while finding reviews",e);
             throw new ServiceException("An error occurred while finding reviews",e);
         }
         return reviews;
