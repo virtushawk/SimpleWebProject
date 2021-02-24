@@ -2,8 +2,8 @@ package edu.epam.swp.model.validation;
 
 public class ReviewValidator {
 
-    private static final String REVIEW_REGEX = "(^[ ,.!?{}0-9()a-zA-Z]{1,350}$)";
-    private static final String RATING_REGEX = "(^[0-5]$)";
+    private static final String REVIEW_REGEX = "(^[ ,.!?\\-{}0-9()a-zA-Z]{1,350}$)";
+    private static final String RATING_REGEX = "(^[1-5]$)";
 
     private ReviewValidator() {}
 

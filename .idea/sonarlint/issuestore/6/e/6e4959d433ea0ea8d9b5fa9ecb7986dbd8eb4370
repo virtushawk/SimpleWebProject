@@ -1,9 +1,5 @@
 
 ~
-java:S1488J"aImmediately return this expression instead of assigning it to the temporary variable "fileItems".(¡ßÓ¯8¸×Úø.
-K
-java:S1481%")Remove this unused "flag" local variable.(€Á»›ùÿÿÿÿ8ÌÛ‘Úø.
+java:S1488O"aImmediately return this expression instead of assigning it to the temporary variable "fileItems".(¡ßÓ¯8¸×Úø.
 c
-java:S1075"ARefactor your code to get this URI from a customizable parameter.(æ€íÒüÿÿÿÿ8¤¤ŒÚø.
-Z
-java:S1854)"8Remove this useless assignment to local variable "flag".(˜Ú´¡ùÿÿÿÿ8™å¬Úø.
+java:S1075"ARefactor your code to get this URI from a customizable parameter.(æ€íÒüÿÿÿÿ8¤¤ŒÚø.

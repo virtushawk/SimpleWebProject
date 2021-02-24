@@ -1,11 +1,3 @@
 
-
-java:S1192@"mDefine a constant instead of duplicating this literal "An error occurred when requesting a database" 8 times.(ê¯Õëşÿÿÿÿ8ß¿À‰ø.
-|
-java:S1488‚"^Immediately return this expression instead of assigning it to the temporary variable "result".(á¯ÙÆ8İ¨ğşù.
-|
-java:S1488š"^Immediately return this expression instead of assigning it to the temporary variable "result".(á¯ÙÆ8ıòÓ„ú.
-{
-java:S4144è"]Update this method so that its implementation is not identical to "confirmEmail" on line 200.(¾œãÒ8İ¨ğşù.
-
-java:S1192Á"oDefine a constant instead of duplicating this literal "An error occurred while requesting a database" 16 times.(Æ•ÔÄ8İ¨ğşù.
+‚
+java:S1192X"eDefine a constant instead of duplicating this literal "An error occurred while finding user" 4 times.(ÌíßÁ8ßÇ†ı.

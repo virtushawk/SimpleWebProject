@@ -15,7 +15,6 @@ public class PasswordHash {
 
     private PasswordHash() {}
 
-    //todo EXCEPTION?
     public static String createHash(String password)
     {
         try {

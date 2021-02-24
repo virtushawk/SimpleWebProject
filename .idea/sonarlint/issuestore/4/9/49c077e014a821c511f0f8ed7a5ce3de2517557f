@@ -1,9 +1,5 @@
 
-Œ
-java:S1192É"nDefine a constant instead of duplicating this literal "An error occurred while requesting a database" 4 times.(Æ•ÔÄ8ô¨¤Óú.
-\
-java:S1128"?Remove this unused import 'edu.epam.swp.model.entity.Creature'.(áÓ¿¥8´¢ß¥ú.
-
-java:S1192I"nDefine a constant instead of duplicating this literal "An error occurred when requesting a database" 12 times.(ê¯Õëşÿÿÿÿ8íüô‰ø.
-]
-java:S2789P"@Methods with an "Optional" return type should never return null.(¥¹ï8Şû½¼÷.
+‹
+java:S1192Ã"hDefine a constant instead of duplicating this literal "An error occurred while deleting review" 4 times.(Ú¸ûÿÿÿÿ8ÎÒ­¢ü.
+†
+java:S1192Õ"hDefine a constant instead of duplicating this literal "An error occurred while updating review" 4 times.(àºÜÏ8ˆ‰’¢ü.
