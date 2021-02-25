@@ -30,18 +30,17 @@ public class AccessFilter implements Filter {
             user = new User.UserBuilder().withRole(AccountRole.GUEST).build();
             request.getSession().setAttribute(AttributeName.USER,user);
         }
-        CommandType command;
-        boolean flag;
+        AccountRole accountRole = user.getRole();
         try {
-            command = CommandType.valueOf(commandType.toUpperCase());
-            flag = AccessMap.COMMAND_MAP.get(user.getRole()).contains(command);
+            CommandType command = CommandType.valueOf(commandType.toUpperCase());
+            boolean flag = AccessMap.COMMAND_MAP.get(accountRole).contains(command);
+            if (flag) {
+                filterChain.doFilter(servletRequest,servletResponse);
+            } else {
+                response.sendRedirect(request.getContextPath() + PagePath.ERROR_403);
+            }
         } catch (IllegalArgumentException e) {
-            flag = false;
-        }
-        if (flag) {
-            filterChain.doFilter(servletRequest,servletResponse);
-        } else {
-            response.sendRedirect(request.getContextPath() + PagePath.ERROR_403);
+            response.sendRedirect(request.getContextPath() + PagePath.ERROR);
         }
     }
 
