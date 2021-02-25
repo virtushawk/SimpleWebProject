@@ -251,3 +251,17 @@ a
 1src/main/resources/property/text_en_US.properties,a\8\a84d0d8472a532c8d87fdf5ab8626f4e46c198df
 m
 =src/main/java/edu/epam/swp/controller/filter/CacheFilter.java,b\f\bfb9020a52772687e15b83f8341150a1769ea90d
+9
+	README.md,8\e\8ec9a00bfd09b3190ac6b22251dbb1aa95a0579d
+x
+Hsrc/test/java/edu/epam/swp/model/validation/CorrectionValidatorTest.java,5\3\53d656ceac62b2235d08763d137f49c61d50dc9f
+v
+Fsrc/test/java/edu/epam/swp/model/validation/CreatureValidatorTest.java,5\a\5a89ec154bb1f815671e3b9d8351bda4465c77a7
+j
+:src/test/java/edu/epam/swp/util/PasswordGeneratorTest.java,9\9\9977040aac6d7cf89986cb86b8118c75a51d6769
+e
+5src/test/java/edu/epam/swp/util/PasswordHashTest.java,c\c\cc0664597b14776775d0386874a61dbcaccc684d
+t
+Dsrc/test/java/edu/epam/swp/model/validation/ReviewValidatorTest.java,b\4\b4d5b7594d3643560c49fdb5a239819b9bca6add
+r
+Bsrc/test/java/edu/epam/swp/model/validation/UserValidatorTest.java,9\0\906cc2e53706def00554a2f9035d9ff99404470c
