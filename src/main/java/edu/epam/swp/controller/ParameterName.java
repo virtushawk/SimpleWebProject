@@ -19,4 +19,5 @@ public class ParameterName {
     public static final String TEXT = "text";
     public static final String URL = "url";
     public static final String LOCALE = "sessionLocale";
+    public static final String STATUS = "status";
 }

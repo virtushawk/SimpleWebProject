@@ -4,6 +4,7 @@ import edu.epam.swp.model.dao.UserDao;
 import edu.epam.swp.model.entity.AccountRole;
 import edu.epam.swp.model.entity.User;
 import edu.epam.swp.exception.DaoException;
+import edu.epam.swp.model.entity.UserStatus;
 import edu.epam.swp.model.pool.ConnectionPool;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -19,14 +20,15 @@ public class UserDaoImpl implements UserDao {
     private static final UserDao instance = new UserDaoImpl();
     private ConnectionPool pool = ConnectionPool.INSTANCE;
     private static final String ERROR_DUP_KEY = "23000";
-    private static final String INSERT_ACCOUNT = "INSERT INTO accounts(account_id,email,username,password,role_id) " +
-            "VALUES(?,?,?,?,?)";
+    private static final String INSERT_ACCOUNT = "INSERT INTO accounts(account_id,email,username,password,role_id,user_status_id) " +
+            "VALUES(?,?,?,?,?,?)";
     private static final String SELECT_ACCOUNT_BY_USERNAME_PASSWORD =
-            "SELECT accounts.account_id,accounts.email,accounts.username,roles.role,accounts.avatar " +
-                    "FROM accounts INNER JOIN roles ON accounts.role_id = roles.role_id " +
-                    "WHERE accounts.username =? AND accounts.password =?";
-    private static final String SELECT_ACCOUNT_BY_ID = "SELECT email,username," +
-            "avatar,name FROM accounts WHERE account_id = ? ";
+            "SELECT accounts.account_id,accounts.email,accounts.username,roles.role,accounts.avatar,COUNT(reviews.review) " +
+                    "AS counts,accounts.user_status_id FROM accounts INNER JOIN roles ON accounts.role_id = roles.role_id LEFT JOIN reviews ON " +
+                    "accounts.account_id = reviews.account_id WHERE accounts.username =? AND accounts.password =?";
+    private static final String SELECT_ACCOUNT_BY_ID = "SELECT accounts.email,accounts.username," +
+            "accounts.avatar,accounts.name,COUNT(reviews.review) AS counts,accounts.user_status_id FROM accounts LEFT JOIN reviews " +
+            "ON accounts.account_id = reviews.account_id WHERE accounts.account_id = ? ";
     private static final String UPDATE_AVATAR = "UPDATE accounts SET avatar = ? WHERE account_id = ?";
     private static final String UPDATE_ROLE = "UPDATE accounts SET role_id = ? WHERE account_id = ?";
     private static final String SELECT_ACCOUNT = "SELECT accounts.account_id,accounts.email,accounts.username," +
@@ -37,6 +39,7 @@ public class UserDaoImpl implements UserDao {
     private static final String SELECT_USER_BY_USERNAME = "SELECT accounts.account_id,accounts.email,accounts.username,roles.role,accounts.avatar " +
             "FROM accounts INNER JOIN roles ON accounts.role_id = roles.role_id " +
             "WHERE accounts.username =?";
+    private static final String UPDATE_USER_STATUS_BY_ACCOUNT_ID = "UPDATE accounts SET user_status_id = ? WHERE account_id = ?";
 
 
     private UserDaoImpl() {}
@@ -80,8 +83,11 @@ public class UserDaoImpl implements UserDao {
                 String username = resultSet.getString(2);
                 String avatar = resultSet.getString(3);
                 String name = resultSet.getString(4);
+                int reviewsNumber = resultSet.getInt(5);
+                UserStatus userStatus = UserStatus.values()[resultSet.getInt(6)];
                 User user = new User.UserBuilder().withEmail(email).withUsername(username).withAvatar(avatar)
-                        .withAccountId(id).withName(name).build();
+                        .withAccountId(id).withName(name).withNumberReviews(reviewsNumber).withUserStatus(userStatus)
+                        .build();
                 result = Optional.of(user);
             }
         } catch (SQLException e) {
@@ -114,14 +120,17 @@ public class UserDaoImpl implements UserDao {
             statement.setString(1,username);
             statement.setString(2,password);
             ResultSet resultSet = statement.executeQuery();
-            if (resultSet.next()) {
+            if (resultSet.next() && resultSet.getString(3) != null) {
                 long id = resultSet.getLong(1);
                 String userEmail = resultSet.getString(2);
                 String userName = resultSet.getString(3);
                 AccountRole role = AccountRole.valueOf(resultSet.getString(4));
                 String avatar = resultSet.getString(5);
+                int numberReviews = resultSet.getInt(6);
+                UserStatus userStatus = UserStatus.values()[resultSet.getInt(7)];
                 User user = new User.UserBuilder().withEmail(userEmail).withRole(role).withAvatar(avatar)
-                        .withAccountId(id).withUsername(userName).build();
+                        .withAccountId(id).withUsername(userName).withNumberReviews(numberReviews).withUserStatus(userStatus)
+                        .build();
                 result = Optional.of(user);
             }
         } catch (SQLException e) {
@@ -166,6 +175,8 @@ public class UserDaoImpl implements UserDao {
             statement.setString(4,password);
             int roleUser = AccountRole.INACTIVE.ordinal();
             statement.setInt(5,roleUser);
+            int userStatus = UserStatus.BEGINNER.ordinal();
+            statement.setInt(6,userStatus);
             statement.executeUpdate();
             ResultSet resultSet = statement.getGeneratedKeys();
             if (resultSet.next()) {
@@ -300,6 +311,21 @@ public class UserDaoImpl implements UserDao {
         } catch (SQLException e) {
             logger.error("An error occurred while updating password",e);
             throw new DaoException("An error occurred while updating password",e);
+        }
+        return flag;
+    }
+
+    @Override
+    public boolean updateUserStatus(long accountId, UserStatus userStatus) throws DaoException {
+        boolean flag;
+        try(Connection connection = pool.getConnection();
+            PreparedStatement statement = connection.prepareStatement(UPDATE_USER_STATUS_BY_ACCOUNT_ID)) {
+            statement.setInt(1,userStatus.ordinal());
+            statement.setLong(2,accountId);
+            flag = statement.executeUpdate() > 0;
+        } catch (SQLException e) {
+            logger.error("An error occurred while updating userStatus",e);
+            throw new DaoException("An error occurred while updating userStatus",e);
         }
         return flag;
     }

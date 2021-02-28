@@ -2,6 +2,7 @@ package edu.epam.swp.model.dao;
 
 import edu.epam.swp.model.entity.User;
 import edu.epam.swp.exception.DaoException;
+import edu.epam.swp.model.entity.UserStatus;
 
 import java.util.Optional;
 
@@ -18,4 +19,5 @@ public interface UserDao extends BaseDao<User>{
     boolean updateName(String name,long id) throws DaoException;
     boolean updateEmail(String email,long id) throws DaoException;
     boolean updatePassword(String password,long id) throws DaoException;
+    boolean updateUserStatus(long accountId,UserStatus userStatus) throws DaoException;
 }

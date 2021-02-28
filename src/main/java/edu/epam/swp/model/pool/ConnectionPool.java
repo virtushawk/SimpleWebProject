@@ -62,6 +62,7 @@ public enum ConnectionPool {
             givenAwayConnections.offer(connection);
         } catch (InterruptedException e) {
             logger.error("Interrupted Exception occurred",e);
+            Thread.currentThread().interrupt();
         }
         return connection;
     }
@@ -71,7 +72,7 @@ public enum ConnectionPool {
             givenAwayConnections.remove(connection);
             freeConnections.offer((ProxyConnection) connection);
         } else {
-            logger.error("connection is not a proxy connection!");
+            logger.error("Connection is not a proxy connection!");
         }
     }
 

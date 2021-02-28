@@ -245,10 +245,6 @@ a
 1src/main/java/edu/epam/swp/util/PasswordHash.java,5\c\5ce709455e94911207c427f1816e5c562c56ca89
 h
 8src/main/java/edu/epam/swp/util/mail/SessionFactory.java,7\3\7347337adf9ccf3b8f7c8bbe4951419968027ab8
-[
-+src/main/resources/property/text.properties,2\c\2c898547fdf57d98ea1f205476ea3e4866b1f51f
-a
-1src/main/resources/property/text_en_US.properties,a\8\a84d0d8472a532c8d87fdf5ab8626f4e46c198df
 m
 =src/main/java/edu/epam/swp/controller/filter/CacheFilter.java,b\f\bfb9020a52772687e15b83f8341150a1769ea90d
 9

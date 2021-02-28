@@ -2,6 +2,7 @@ package edu.epam.swp.model.service;
 
 import edu.epam.swp.model.entity.User;
 import edu.epam.swp.exception.ServiceException;
+import edu.epam.swp.model.entity.UserStatus;
 
 import java.util.List;
 import java.util.Optional;
@@ -21,4 +22,5 @@ public interface UserService {
     boolean changeName(String name,long id) throws ServiceException;
     boolean changeEmail(String email,long id) throws ServiceException;
     boolean changePassword(String password,long id) throws ServiceException;
+    boolean changeUserStatus(long accountId,UserStatus userStatus) throws ServiceException;
 }

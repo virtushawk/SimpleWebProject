@@ -1,8 +1,6 @@
 
-c
-java:S2142R"FEither re-interrupt this method or rethrow the "InterruptedException".(ä ¹€8Û‘ü‚ğ.
-g	java:S112#"FDefine and throw a dedicated exception instead of using a generic one.(â¡Æûÿÿÿÿ8Û‘ü‚ğ.
-[	java:S899H":Do something with the "boolean" value returned by "offer".(€Ïû°ûÿÿÿÿ8˜äÌ‡ı.
 g	java:S112+"FDefine and throw a dedicated exception instead of using a generic one.(±‡Æ‘úÿÿÿÿ8†‰“„ğ.
+[	java:S899I":Do something with the "boolean" value returned by "offer".(€Ïû°ûÿÿÿÿ8˜äÌ‡ı.
 c
-java:S2142?"FEither re-interrupt this method or rethrow the "InterruptedException".(ä ¹€8Û‘ü‚ğ.
+java:S2142S"FEither re-interrupt this method or rethrow the "InterruptedException".(ä ¹€8Û‘ü‚ğ.
+g	java:S112#"FDefine and throw a dedicated exception instead of using a generic one.(â¡Æûÿÿÿÿ8Û‘ü‚ğ.

@@ -26,7 +26,7 @@ class AccessMap {
                 CommandType.EDIT_REVIEW,CommandType.LOGOUT,CommandType.MAKE_ADMIN,CommandType.UNBLOCK_USER,
                 CommandType.APPROVE_CREATURE,CommandType.SUGGEST_CORRECTION,CommandType.APPROVE_CORRECTION,CommandType.DELETE_CORRECTION,
                 CommandType.SEARCH,CommandType.EDIT_NAME,CommandType.EDIT_EMAIL,CommandType.CHANGE_PASSWORD,CommandType.FORGOT_PASSWORD,
-                CommandType.DISAPPROVE_CORRECTION));
+                CommandType.DISAPPROVE_CORRECTION,CommandType.CHANGE_STATUS));
         COMMAND_MAP.put(AccountRole.USER,Arrays.asList(CommandType.HOME,CommandType.CONFIRM_EMAIL,CommandType.LOGIN,
                 CommandType.CATALOG,CommandType.CREATURE,CommandType.REGISTER,CommandType.EDIT_CREATURE,CommandType.PROFILE,
                 CommandType.CHANGE_AVATAR,CommandType.CREATE_CREATURE,CommandType.CREATE_REVIEW,CommandType.LOGOUT,CommandType.SUGGEST_CORRECTION,

@@ -66,4 +66,6 @@ public class AttributeName {
     public static final String USER_REVIEW = "userReview";
     public static final String EMAIL_CONFIRMED_MESSAGE = "emailMessage";
     public static final String LANGUAGE = "lang";
+    public static final String STATUS_CHANGE_VALID = "changeStatus";
+    public static final String STATUS_CHANGE_ERROR = "changeStatusError";
 }

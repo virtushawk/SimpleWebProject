@@ -175,6 +175,22 @@
     </div>
     <c:remove var="correctionEditError" scope="session"/>
 </c:if>
+<c:if test="${sessionScope.changeStatus}">
+    <div class="container">
+        <div class="alert alert-success text-center" role="alert">
+            <fmt:message key="profile.statusChange"/>
+        </div>
+    </div>
+    <c:remove var="changeStatus" scope="session"/>
+</c:if>
+<c:if test="${sessionScope.changeStatusError}">
+    <div class="container">
+        <div class="alert alert-danger text-center" role="alert">
+            <fmt:message key="general.errorMessage"/>
+        </div>
+    </div>
+    <c:remove var="changeStatusError" scope="session"/>
+</c:if>
 <c:if test="${sessionScope.errorMessageDB || requestScope.errorMessageDB}">
     <div class="container">
         <div class="alert alert-danger text-center" role="alert">
@@ -316,6 +332,62 @@
                                         </div>
                                     </div>
                                     <hr>
+                                    <div class="row">
+                                        <div class="col-sm-3">
+                                            <h6 class="mb-0">
+                                                <fmt:message key="profile.status.title"/>
+                                            </h6>
+                                        </div>
+                                        <div class="col-sm-8 text-secondary">
+                                            <c:choose>
+                                                <c:when test="${requestScope.user.userStatus eq 'BEGINNER'}">
+                                                    <fmt:message key="profile.status.beginner"/>
+                                                </c:when>
+                                                <c:when test="${requestScope.user.userStatus eq 'ADVANCED'}">
+                                                    <fmt:message key="profile.status.advanced"/>
+                                                </c:when>
+                                                <c:when test="${requestScope.user.userStatus eq 'REGULAR'}">
+                                                    <fmt:message key="profile.status.regular"/>
+                                                </c:when>
+                                            </c:choose>
+                                            (${requestScope.user.numberReviews})
+                                        </div>
+                                        <c:if test="${sessionScope.user.role eq 'ADMIN'}">
+                                            <div class="col-sm-1">
+                                                <button type="button" class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#statusModal">
+                                                    <i class="bi bi-pencil"></i>
+                                                </button>
+                                            </div>
+                                        </c:if>
+                                        <div class="modal fade" id="statusModal" tabindex="-1">
+                                            <div class="modal-dialog">
+                                                <form class="modal-content" action="${pageContext.request.contextPath}/controller?command=change_status" method="post">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title">
+                                                            change status
+                                                        </h5>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                                    </div>
+                                                    <div class= "modal-body">
+                                                        <input type="hidden" name="id" value="${requestScope.user.accountId}">
+                                                        <select class="form-select" name="status" required>
+                                                            <option value="BEGINNER"><fmt:message key="profile.status.beginner"/></option>
+                                                            <option value="ADVANCED"><fmt:message key="profile.status.advanced"/></option>
+                                                            <option value="REGULAR"><fmt:message key="profile.status.regular"/></option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                                                            <fmt:message key="creature.editCreatureModal.button.close"/>
+                                                        </button>
+                                                        <button type="submit" class="btn btn-primary">
+                                                            <fmt:message key="creature.editReviewModal.button.save"/>
+                                                        </button>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                             <div class="col-sm-12 mb-3 shadow-sm p-3 mb-5 bg-white rounded">

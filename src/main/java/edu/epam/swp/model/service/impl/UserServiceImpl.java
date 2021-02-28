@@ -6,6 +6,7 @@ import edu.epam.swp.model.entity.AccountRole;
 import edu.epam.swp.model.entity.User;
 import edu.epam.swp.exception.DaoException;
 import edu.epam.swp.exception.ServiceException;
+import edu.epam.swp.model.entity.UserStatus;
 import edu.epam.swp.model.service.UserService;
 import edu.epam.swp.util.PasswordGenerator;
 import edu.epam.swp.util.PasswordHash;
@@ -216,6 +217,18 @@ public class UserServiceImpl implements UserService {
         } catch (DaoException e) {
             logger.error("An error occurred while updating password",e);
             throw new ServiceException("An error occurred while updating password",e);
+        }
+        return flag;
+    }
+
+    @Override
+    public boolean changeUserStatus(long accountId, UserStatus userStatus) throws ServiceException {
+        boolean flag;
+        try {
+            flag = dao.updateUserStatus(accountId,userStatus);
+        } catch (DaoException e) {
+            logger.error("An error occurred while updating user's status",e);
+            throw new ServiceException("An error occurred while updating user's status",e);
         }
         return flag;
     }

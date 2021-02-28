@@ -10,6 +10,8 @@ public class User implements Serializable {
     private String avatar;
     private AccountRole role;
     private String name;
+    private int numberReviews;
+    private UserStatus userStatus;
 
     public static class UserBuilder {
 
@@ -19,6 +21,8 @@ public class User implements Serializable {
         private String avatar;
         private AccountRole role;
         private String name;
+        private int numberReviews;
+        private UserStatus userStatus;
 
         public UserBuilder() {}
 
@@ -52,6 +56,16 @@ public class User implements Serializable {
             return this;
         }
 
+        public UserBuilder withNumberReviews(int numberReviews) {
+            this.numberReviews = numberReviews;
+            return this;
+        }
+
+        public UserBuilder withUserStatus(UserStatus userStatus) {
+            this.userStatus = userStatus;
+            return this;
+        }
+
         public User build() {
             return new User(this);
         }
@@ -64,6 +78,8 @@ public class User implements Serializable {
         avatar = userBuilder.avatar;
         role = userBuilder.role;
         name = userBuilder.name;
+        numberReviews = userBuilder.numberReviews;
+        userStatus = userBuilder.userStatus;
     }
 
     public long getAccountId() {
@@ -114,13 +130,30 @@ public class User implements Serializable {
         this.name = name;
     }
 
+    public int getNumberReviews() {
+        return numberReviews;
+    }
+
+    public void setNumberReviews(int numberReviews) {
+        this.numberReviews = numberReviews;
+    }
+
+    public UserStatus getUserStatus() {
+        return userStatus;
+    }
+
+    public void setUserStatus(UserStatus userStatus) {
+        this.userStatus = userStatus;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
         return accountId == user.accountId && email.equals(user.email) && username.equals(user.username) &&
-                role.equals(user.role) && avatar.equals(user.avatar) && name.equals(user.name);
+                role.equals(user.role) && avatar.equals(user.avatar) && name.equals(user.name) && numberReviews == user.numberReviews
+                && userStatus.equals(user.userStatus);
     }
 
     @Override
@@ -131,6 +164,8 @@ public class User implements Serializable {
         hash = hash * 31 + (role == null ? 0 : role.hashCode());
         hash = hash * 31 + (avatar == null ? 0 : avatar.hashCode());
         hash = hash * 31 + (name == null ? 0 : name.hashCode());
+        hash = hash * 31 + (userStatus == null ? 0 : userStatus.hashCode());
+        hash = hash * 31 + numberReviews;
         return hash;
     }
 
@@ -143,6 +178,8 @@ public class User implements Serializable {
         sb.append(", avatar='").append(avatar).append('\'');
         sb.append(", role=").append(role);
         sb.append(", name='").append(name).append('\'');
+        sb.append(", numberReviews=").append(numberReviews);
+        sb.append(", userStatus=").append(userStatus);
         sb.append('}');
         return sb.toString();
     }
