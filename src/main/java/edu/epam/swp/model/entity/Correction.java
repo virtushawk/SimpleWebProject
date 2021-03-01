@@ -120,7 +120,9 @@ public class Correction {
         if (o == null || getClass() != o.getClass()) return false;
         Correction that = (Correction) o;
         return correctionId == that.correctionId && accountId == that.accountId && creatureId == that.creatureId
-                && date.equals(that.date) && text.equals(that.text) && name.equals(that.name);
+                && (date == null ? that.date == null : date.equals(that.date))
+                && (text == null ? that.text == null : text.equals(that.text))
+                && (name == null ? that.name == null : name.equals(that.name));
     }
 
     @Override
