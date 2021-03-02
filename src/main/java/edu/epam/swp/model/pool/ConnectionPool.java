@@ -50,7 +50,8 @@ public enum ConnectionPool {
                 ProxyConnection proxyConnection = new ProxyConnection(connection);
                 freeConnections.add(proxyConnection);
             } catch (SQLException e) {
-                logger.error("Error occurred while creating connection",e);
+                logger.fatal("Error occurred while creating connection",e);
+                throw new RuntimeException("Error occurred while creating connection",e);
             }
         }
     }
