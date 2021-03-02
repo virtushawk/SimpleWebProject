@@ -168,8 +168,11 @@ public class Review {
         if (o == null || getClass() != o.getClass()) return false;
         Review review = (Review) o;
         return reviewId == review.reviewId && accountId == review.accountId && creatureId == review.creatureId &&
-                text.equals(review.text) && date.equals(review.date) && rating == review.rating &&
-                accountName.equals(review.accountName) && creatureName.equals(review.creatureName) && avatar.equals(review.avatar);
+                rating == review.rating && (text == null ? review.text == null : text.equals(review.text))
+                && (date == null ? review.date == null : date.equals(review.date))
+                && (accountName == null ? review.accountName == null : accountName.equals(review.accountName))
+                && (creatureName == null ? review.creatureName == null : creatureName.equals(review.creatureName))
+                && (avatar == null ? review.avatar == null : avatar.equals(review.avatar));
     }
 
     @Override

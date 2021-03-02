@@ -151,9 +151,12 @@ public class User implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
-        return accountId == user.accountId && email.equals(user.email) && username.equals(user.username) &&
-                role.equals(user.role) && avatar.equals(user.avatar) && name.equals(user.name) && numberReviews == user.numberReviews
-                && userStatus.equals(user.userStatus);
+        return accountId == user.accountId && email.equals(user.email)  && numberReviews == user.numberReviews
+                && (username == null ? user.username == null : username.equals(user.username))
+                && (role == null ? user.role == null : role.equals(user.role))
+                && (avatar == null ? user.avatar == null : avatar.equals(user.avatar))
+                && (name == null ? user.name == null : name.equals(user.name))
+                && (userStatus == null ? user.userStatus == null : userStatus.equals(user.userStatus));
     }
 
     @Override
