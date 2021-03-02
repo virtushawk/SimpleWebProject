@@ -150,9 +150,12 @@ public class Creature {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Creature creature = (Creature) o;
-        return  lastUpdated.equals(creature.lastUpdated) && id == creature.id && accountId == creature.accountId
-                && name.equals(creature.name) && picture.equals(creature.picture) && creatureStatus.equals(creature.creatureStatus)
-                && description.equals(creature.description) && averageRating == creature.averageRating;
+        return  id == creature.id && accountId == creature.accountId
+                && averageRating == creature.averageRating && (name == null ? creature.name == null : name.equals(creature.name))
+                && (picture == null ? creature.picture == null : picture.equals(creature.picture))
+                && (creatureStatus == null ? creature.creatureStatus == null : creatureStatus.equals(creature.creatureStatus))
+                && (description == null ? creature.description == null : description.equals(creature.description))
+                && (lastUpdated == null ? creature.lastUpdated == null : lastUpdated.equals(creature.lastUpdated));
     }
 
     @Override

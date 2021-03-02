@@ -10,6 +10,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.testng.Assert;
+import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
@@ -58,7 +59,7 @@ public class CorrectionServiceImplTest {
         Assert.assertEquals(actual,expected);
     }
 
-    @Test(expectedExceptions = ServiceException.class)
+    @Test(dependsOnMethods = "createTest", expectedExceptions = ServiceException.class)
     public void createTestException() throws DaoException, ServiceException {
         Correction correction = new Correction.CorrectionBuilder().withName("Test name").withText("test Text").build();
         Mockito.when(dao.create(correction)).thenThrow(new DaoException());
@@ -73,7 +74,7 @@ public class CorrectionServiceImplTest {
         Assert.assertEquals(actual,expected);
     }
 
-    @Test(expectedExceptions = ServiceException.class)
+    @Test(dependsOnMethods = "findAllTest",expectedExceptions = ServiceException.class)
     public void findAllTestException() throws DaoException, ServiceException {
         Mockito.when(dao.findAll()).thenThrow(new DaoException());
         service.findAll();
@@ -81,7 +82,7 @@ public class CorrectionServiceImplTest {
 
     @Test
     public void approveCorrectionTrueTest() throws DaoException, ServiceException {
-        long id = 2;
+        long id = 9;
         Mockito.when(dao.approveCorrection(Mockito.anyLong())).thenReturn(true);
         boolean actual = service.approveCorrection(id);
         Assert.assertTrue(actual);
@@ -95,10 +96,10 @@ public class CorrectionServiceImplTest {
         Assert.assertFalse(actual);
     }
 
-    @Test(expectedExceptions = ServiceException.class)
+    @Test(dependsOnMethods = {"approveCorrectionTrueTest","approveCorrectionFalseTest"},expectedExceptions = ServiceException.class)
     public void approveCorrectionTestException() throws DaoException, ServiceException {
         long id = 1;
-        Mockito.when(dao.approveCorrection(id)).thenThrow(new DaoException());
+        Mockito.when(dao.approveCorrection(Mockito.anyLong())).thenThrow(new DaoException());
         service.approveCorrection(id);
     }
 
@@ -118,10 +119,10 @@ public class CorrectionServiceImplTest {
         Assert.assertFalse(actual);
     }
 
-    @Test(expectedExceptions = ServiceException.class)
+    @Test(dependsOnMethods = {"deleteTrueTest","deleteFalseTest"},expectedExceptions = ServiceException.class)
     public void deleteExceptionTest() throws DaoException, ServiceException {
         long id = 1;
-        Mockito.when(dao.delete(id)).thenThrow(new DaoException());
+        Mockito.when(dao.delete(Mockito.anyLong())).thenThrow(new DaoException());
         service.delete(id);
     }
 
@@ -143,11 +144,11 @@ public class CorrectionServiceImplTest {
         Assert.assertFalse(actual);
     }
 
-    @Test(expectedExceptions = ServiceException.class)
+    @Test(dependsOnMethods = {"deleteWithAccountIdTrueTest","deleteWithAccountIdFalseTest"},expectedExceptions = ServiceException.class)
     public void deleteWithAccountIdExceptionTest() throws DaoException, ServiceException {
         long accountId = 1;
         long correctionId = 1;
-        Mockito.when(dao.delete(accountId,correctionId)).thenThrow(new DaoException());
+        Mockito.when(dao.delete(Mockito.anyLong(),Mockito.anyLong())).thenThrow(new DaoException());
         service.delete(accountId,correctionId);
     }
 
@@ -160,10 +161,10 @@ public class CorrectionServiceImplTest {
         Assert.assertEquals(actual,expected);
     }
 
-    @Test(expectedExceptions = ServiceException.class)
+    @Test(dependsOnMethods = "findUserCorrectionsTest",expectedExceptions = ServiceException.class)
     public void findUserCorrectionExceptionTest() throws DaoException, ServiceException {
         long id = 1;
-        Mockito.when(dao.findCorrectionsByAccountId(id)).thenThrow(new DaoException());
+        Mockito.when(dao.findCorrectionsByAccountId(Mockito.anyLong())).thenThrow(new DaoException());
         service.findUserCorrections(id);
     }
 
@@ -174,11 +175,16 @@ public class CorrectionServiceImplTest {
         Assert.assertEquals(actual,expected);
     }
 
-    @Test(expectedExceptions = ServiceException.class)
+    @Test(dependsOnMethods = "editCorrectionTest",expectedExceptions = ServiceException.class)
     public void editCorrectionExceptionTest() throws DaoException, ServiceException {
         long accountId = 1;
         Correction correction = new Correction.CorrectionBuilder().withName("Test name").withText("test Text").build();
-        Mockito.when(dao.update(accountId,correction)).thenThrow(new DaoException());
+        Mockito.when(dao.update(Mockito.anyLong(),Mockito.eq(correction))).thenThrow(new DaoException());
         service.editCorrection(accountId,correction);
+    }
+
+    @AfterClass
+    public void afterClass() throws Exception {
+        MockitoAnnotations.openMocks(this).close();
     }
 }

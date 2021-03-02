@@ -211,6 +211,7 @@ public class CreatureServiceImpl implements CreatureService {
         return flag;
     }
 
+    // todo : xss attack
     @Override
     public List<Creature> search(String text) throws ServiceException {
         List<Creature> creatures;
