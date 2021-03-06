@@ -17,10 +17,6 @@ import java.io.IOException;
 public class AccessFilter implements Filter {
 
     @Override
-    public void init(FilterConfig filterConfig) throws ServletException {
-    }
-
-    @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         HttpServletRequest request = (HttpServletRequest) servletRequest;
         HttpServletResponse response = (HttpServletResponse) servletResponse;
@@ -42,10 +38,5 @@ public class AccessFilter implements Filter {
         } catch (IllegalArgumentException e) {
             response.sendRedirect(request.getContextPath() + PagePath.ERROR);
         }
-    }
-
-    @Override
-    public void destroy() {
-
     }
 }

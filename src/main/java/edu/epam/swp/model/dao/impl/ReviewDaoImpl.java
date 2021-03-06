@@ -75,11 +75,6 @@ public class ReviewDaoImpl implements ReviewDao {
     }
 
     @Override
-    public Optional<Review> get(long id) throws DaoException {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
     public List<Review> findReviewsByCreatureId(long id) throws DaoException {
         List<Review> reviews = new ArrayList<>();
         try(Connection connection = pool.getConnection();
@@ -145,7 +140,8 @@ public class ReviewDaoImpl implements ReviewDao {
             statement.setLong(1,review.getAccountId());
             statement.setLong(2,review.getCreatureId());
             statement.setString(3,review.getText());
-            statement.setLong(4,review.getDate().getTime());
+            long time = review.getDate().getTime();
+            statement.setLong(4,time);
             statement.setInt(5,review.getRating());
             flag = statement.executeUpdate() > 0;
         } catch (SQLException e) {
@@ -204,7 +200,8 @@ public class ReviewDaoImpl implements ReviewDao {
         try(Connection connection = pool.getConnection();
             PreparedStatement statement = connection.prepareStatement(UPDATE_REVIEW_BY_USER_ID)) {
             statement.setString(1,review.getText());
-            statement.setLong(2,review.getDate().getTime());
+            long time = review.getDate().getTime();
+            statement.setLong(2,time);
             statement.setInt(3,review.getRating());
             statement.setLong(4,review.getReviewId());
             statement.setLong(5,accountId);
@@ -222,7 +219,8 @@ public class ReviewDaoImpl implements ReviewDao {
         try(Connection connection = pool.getConnection();
             PreparedStatement statement = connection.prepareStatement(UPDATE_REVIEW)) {
             statement.setString(1,review.getText());
-            statement.setLong(2,review.getDate().getTime());
+            long time = review.getDate().getTime();
+            statement.setLong(2,time);
             statement.setInt(3,review.getRating());
             statement.setLong(4,review.getReviewId());
             flag = statement.executeUpdate() > 0;
@@ -247,4 +245,8 @@ public class ReviewDaoImpl implements ReviewDao {
         return flag;
     }
 
+    @Override
+    public Optional<Review> get(long id) throws DaoException {
+        throw new UnsupportedOperationException();
+    }
 }

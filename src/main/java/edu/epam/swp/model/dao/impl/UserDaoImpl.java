@@ -59,7 +59,8 @@ public class UserDaoImpl implements UserDao {
                 String email = resultSet.getString(2);
                 String name = resultSet.getString(3);
                 String avatar = resultSet.getString(4);
-                AccountRole role = AccountRole.valueOf(resultSet.getString(5));
+                String accountRole = resultSet.getString(5);
+                AccountRole role = AccountRole.valueOf(accountRole);
                 User user = new User.UserBuilder().withEmail(email).withUsername(name).withRole(role).withAvatar(avatar)
                 .withAccountId(id).build();
                 users.add(user);
@@ -84,7 +85,8 @@ public class UserDaoImpl implements UserDao {
                 String avatar = resultSet.getString(3);
                 String name = resultSet.getString(4);
                 int reviewsNumber = resultSet.getInt(5);
-                UserStatus userStatus = UserStatus.values()[resultSet.getInt(6)];
+                int userStatusId = resultSet.getInt(6);
+                UserStatus userStatus = UserStatus.values()[userStatusId];
                 User user = new User.UserBuilder().withEmail(email).withUsername(username).withAvatar(avatar)
                         .withAccountId(id).withName(name).withNumberReviews(reviewsNumber).withUserStatus(userStatus)
                         .build();
@@ -95,21 +97,6 @@ public class UserDaoImpl implements UserDao {
             throw new DaoException("An error occurred while finding user",e);
         }
         return result;
-    }
-
-    @Override
-    public boolean create(User user) throws DaoException {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public boolean update(User user) throws DaoException {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public boolean delete(long id) throws DaoException {
-        throw new UnsupportedOperationException();
     }
 
     @Override
@@ -124,10 +111,12 @@ public class UserDaoImpl implements UserDao {
                 long id = resultSet.getLong(1);
                 String userEmail = resultSet.getString(2);
                 String userName = resultSet.getString(3);
-                AccountRole role = AccountRole.valueOf(resultSet.getString(4));
+                String accountRole = resultSet.getString(4);
+                AccountRole role = AccountRole.valueOf(accountRole);
                 String avatar = resultSet.getString(5);
                 int numberReviews = resultSet.getInt(6);
-                UserStatus userStatus = UserStatus.values()[resultSet.getInt(7)];
+                int userStatusId = resultSet.getInt(7);
+                UserStatus userStatus = UserStatus.values()[userStatusId];
                 User user = new User.UserBuilder().withEmail(userEmail).withRole(role).withAvatar(avatar)
                         .withAccountId(id).withUsername(userName).withNumberReviews(numberReviews).withUserStatus(userStatus)
                         .build();
@@ -151,7 +140,8 @@ public class UserDaoImpl implements UserDao {
                 long id = resultSet.getLong(1);
                 String userEmail = resultSet.getString(2);
                 String userName = resultSet.getString(3);
-                AccountRole role = AccountRole.valueOf(resultSet.getString(4));
+                String accountRole = resultSet.getString(4);
+                AccountRole role = AccountRole.valueOf(accountRole);
                 String avatar = resultSet.getString(5);
                 User user = new User.UserBuilder().withEmail(userEmail).withUsername(userName).withRole(role)
                         .withAvatar(avatar).withAccountId(id).build();
@@ -330,4 +320,18 @@ public class UserDaoImpl implements UserDao {
         return flag;
     }
 
+    @Override
+    public boolean create(User user) throws DaoException {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public boolean update(User user) throws DaoException {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public boolean delete(long id) throws DaoException {
+        throw new UnsupportedOperationException();
+    }
 }

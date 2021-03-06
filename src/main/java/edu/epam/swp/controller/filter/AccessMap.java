@@ -34,6 +34,5 @@ class AccessMap {
                 CommandType.EDIT_REVIEW,CommandType.DELETE_REVIEW,CommandType.CHANGE_UNCHECKED_IMAGE,CommandType.EDIT_UNCHECKED_CREATURE
                 ,CommandType.EDIT_CORRECTION,CommandType.DELETE_CORRECTION,CommandType.DELETE_UNCHECKED_CREATURE));
     }
-
     private AccessMap() {}
 }

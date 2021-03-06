@@ -64,11 +64,6 @@ public class CorrectionDaoImpl implements CorrectionDao {
     }
 
     @Override
-    public Optional<Correction> get(long id) throws DaoException {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
     public boolean create(Correction correction) throws DaoException {
         boolean flag;
         try(Connection connection = pool.getConnection();
@@ -77,18 +72,14 @@ public class CorrectionDaoImpl implements CorrectionDao {
             statement.setLong(2,correction.getAccountId());
             statement.setString(3,correction.getText());
             statement.setString(4,correction.getName());
-            statement.setLong(5,correction.getDate().getTime());
+            long time = correction.getDate().getTime();
+            statement.setLong(5,time);
             flag = statement.executeUpdate() > 0;
         } catch (SQLException e) {
             logger.error("Error occurred while creating correction",e);
             throw new DaoException("Error occurred while creating correction",e);
         }
         return flag;
-    }
-
-    @Override
-    public boolean update(Correction correction) throws DaoException {
-        throw new UnsupportedOperationException();
     }
 
     @Override
@@ -117,15 +108,15 @@ public class CorrectionDaoImpl implements CorrectionDao {
             connection.setAutoCommit(false);
             ResultSet resultSet = correctionStatement.executeQuery();
             if (resultSet.next()) {
-                long creature_id = resultSet.getLong(1);
-                long account_id = resultSet.getLong(2);
+                long creatureId = resultSet.getLong(1);
+                long accountId = resultSet.getLong(2);
                 String description = resultSet.getString(3);
                 String name = resultSet.getString(4);
                 long time = System.currentTimeMillis();
                 creatureStatement.setString(1,name);
                 creatureStatement.setString(2,description);
                 creatureStatement.setLong(3,time);
-                creatureStatement.setLong(4,creature_id);
+                creatureStatement.setLong(4,creatureId);
                 creatureStatement.executeUpdate();
                 flag = deleteStatement.executeUpdate() > 0;
                 connection.commit();
@@ -182,7 +173,8 @@ public class CorrectionDaoImpl implements CorrectionDao {
             PreparedStatement statement = connection.prepareStatement(UPDATE_CORRECTION_BY_ACCOUNT_ID)) {
             statement.setString(1,correction.getName());
             statement.setString(2,correction.getText());
-            statement.setLong(3,correction.getDate().getTime());
+            long time = correction.getDate().getTime();
+            statement.setLong(3,time);
             statement.setLong(4,correction.getCorrectionId());
             statement.setLong(5,accountId);
             flag = statement.executeUpdate() > 0;
@@ -206,5 +198,15 @@ public class CorrectionDaoImpl implements CorrectionDao {
             throw new DaoException("Error occurred while deleting correction",e);
         }
         return flag;
+    }
+
+    @Override
+    public Optional<Correction> get(long id) throws DaoException {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public boolean update(Correction correction) throws DaoException {
+        throw new UnsupportedOperationException();
     }
 }

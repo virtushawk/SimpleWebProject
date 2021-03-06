@@ -169,7 +169,8 @@ public class CreatureDaoImpl implements CreatureDao {
             PreparedStatement statement = connection.prepareStatement(UPDATE_CREATURE_BY_USER_ID_STATUS_ID)) {
             statement.setString(1,creature.getName());
             statement.setString(2,creature.getDescription());
-            statement.setLong(3,creature.getLastUpdated().getTime());
+            long time = creature.getLastUpdated().getTime();
+            statement.setLong(3,time);
             statement.setLong(4,creature.getId());
             statement.setLong(5,accountId);
             flag = statement.executeUpdate() > 0;
@@ -340,7 +341,8 @@ public class CreatureDaoImpl implements CreatureDao {
             PreparedStatement statement = connection.prepareStatement(UPDATE_CREATURE)) {
             statement.setString(1,creature.getName());
             statement.setString(2,creature.getDescription());
-            statement.setLong(3,creature.getLastUpdated().getTime());
+            long time = creature.getLastUpdated().getTime();
+            statement.setLong(3,time);
             statement.setLong(4,creature.getId());
             flag = statement.executeUpdate() > 0;
         } catch (SQLException e) {

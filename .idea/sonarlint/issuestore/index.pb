@@ -289,3 +289,9 @@ f
 6.idea/libraries/Maven__org_objenesis_objenesis_3_1.xml,7\3\738111ad290bb2534116e9cbdebd1609965a8fe9
 |
 Lsrc/test/java/edu/epam/swp/model/service/impl/CorrectionServiceImplTest.java,3\2\32d63521c2657eb47976dce357fed7580a571ff6
+z
+Jsrc/test/java/edu/epam/swp/model/service/impl/CreatureServiceImplTest.java,2\2\2214055ceb2e23e8bfbf2afcf30d8c8ae852efae
+x
+Hsrc/test/java/edu/epam/swp/model/service/impl/ReviewServiceImplTest.java,5\7\5793512e9e067a514026594c6d81cd70a6c09919
+v
+Fsrc/test/java/edu/epam/swp/model/service/impl/UserServiceImplTest.java,a\5\a5a08278661402839868d789a2fea6e2522ef04e
