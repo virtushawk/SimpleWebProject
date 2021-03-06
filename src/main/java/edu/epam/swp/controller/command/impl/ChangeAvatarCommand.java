@@ -20,6 +20,10 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.UUID;
 
+/**
+ * Command to change user's avatar.
+ * @author romab
+ */
 public class ChangeAvatarCommand implements Command {
 
     private static final Logger logger = LogManager.getLogger(ChangeAvatarCommand.class);
@@ -31,6 +35,11 @@ public class ChangeAvatarCommand implements Command {
     private static final String TEMP_DIR = "javax.servlet.context.tempdir";
     private static final UserService service = UserServiceImpl.getInstance();
 
+    /**
+     * Executes the command.
+     * @param request HttpServletRequest object.
+     * @return String containing the path to the page.
+     */
     @Override
     public String execute(HttpServletRequest request) {
         User user = (User) request.getSession().getAttribute(AttributeName.USER);
@@ -55,6 +64,12 @@ public class ChangeAvatarCommand implements Command {
         return page;
     }
 
+    /**
+     * Saves the image in the folder specified in UPLOAD_PATH variable.
+     * @param fileItem object containing the image.
+     * @return String containing the name of the image.
+     * @throws Exception
+     */
     private String saveImage(FileItem fileItem) throws Exception {
         String itemName = fileItem.getName();
         String uploadName = generateName(itemName);
@@ -64,6 +79,11 @@ public class ChangeAvatarCommand implements Command {
         return appName;
     }
 
+    /**
+     * Generates random UUID name for image.
+     * @param uploadName String containing name of image with extension.
+     * @return String containing generated name with extension.
+     */
     private String generateName(String uploadName) {
         UUID uuid = UUID.randomUUID();
         String name = uuid.toString();
@@ -72,6 +92,12 @@ public class ChangeAvatarCommand implements Command {
         return name + extension;
     }
 
+    /**
+     * Parses request into list of fileItems.
+     * @param request HttpServletRequest object.
+     * @return List of FileItem.
+     * @throws FileUploadException
+     */
     private List<FileItem> parseRequest(HttpServletRequest request) throws FileUploadException {
         DiskFileItemFactory factory = new DiskFileItemFactory();
         factory.setSizeThreshold(FILE_SIZE_THRESHOLD);
@@ -84,6 +110,12 @@ public class ChangeAvatarCommand implements Command {
         return fileItems;
     }
 
+    /**
+     * Finds image and calls saveImage method.
+     * @param fileItems List of FileItem.
+     * @return String containing generated name of image with extension.
+     * @throws Exception
+     */
     private String handleFileItems(List<FileItem> fileItems) throws Exception {
         Iterator<FileItem> iterator = fileItems.iterator();
         String picture = null;

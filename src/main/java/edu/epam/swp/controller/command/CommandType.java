@@ -2,6 +2,10 @@ package edu.epam.swp.controller.command;
 
 import edu.epam.swp.controller.command.impl.*;
 
+/**
+ * The enum represents command type.
+ * @author romab
+ */
 public enum CommandType {
 
     HOME(new HomeCommand()),
@@ -46,6 +50,10 @@ public enum CommandType {
         this.command = command;
     }
 
+    /**
+     * Returns command.
+     * @return Command object.
+     */
     public Command getCommand() {
         return command;
     }

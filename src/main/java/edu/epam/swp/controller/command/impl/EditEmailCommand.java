@@ -13,11 +13,19 @@ import org.apache.logging.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 
+/**
+ * Command to edit email
+ */
 public class EditEmailCommand implements Command {
 
     private static final Logger logger = LogManager.getLogger(EditEmailCommand.class);
     private static final UserService service = UserServiceImpl.getInstance();
 
+    /**
+     * Executes the command.
+     * @param request HttpServletRequest object.
+     * @return String containing the path to the page.
+     */
     @Override
     public String execute(HttpServletRequest request) {
         String email = request.getParameter(ParameterName.EMAIL);

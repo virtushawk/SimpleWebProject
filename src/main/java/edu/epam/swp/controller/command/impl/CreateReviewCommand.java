@@ -18,12 +18,21 @@ import org.apache.logging.log4j.Logger;
 import javax.servlet.http.HttpServletRequest;
 import java.sql.Date;
 
+/**
+ * Command to create review.
+ * @author romab
+ */
 public class CreateReviewCommand implements Command {
 
     private static final Logger logger = LogManager.getLogger(CreateReviewCommand.class);
     private static final ReviewService service = ReviewServiceImpl.getInstance();
     private static final UserService userService = UserServiceImpl.getInstance();
 
+    /**
+     * Executes the command.
+     * @param request HttpServletRequest object.
+     * @return String containing the path to the page.
+     */
     @Override
     public String execute(HttpServletRequest request) {
         String text = request.getParameter(ParameterName.REVIEW);

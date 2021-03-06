@@ -12,11 +12,20 @@ import org.apache.logging.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 
+/**
+ * Command to block user.
+ * @author romab
+ */
 public class BlockUserCommand implements Command {
 
     private static final Logger logger = LogManager.getLogger(BlockUserCommand.class);
     private static final UserService service = UserServiceImpl.getInstance();
 
+    /**
+     * Executes the command.
+     * @param request HttpServletRequest object.
+     * @return String containing the path to the page.
+     */
     @Override
     public String execute(HttpServletRequest request) {
         long id = Long.parseLong(request.getParameter(ParameterName.ID));

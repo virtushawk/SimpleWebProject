@@ -12,11 +12,20 @@ import org.apache.logging.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 
+/**
+ * Command to register.
+ * @author romab
+ */
 public class RegisterCommand implements Command {
 
     private static final Logger logger = LogManager.getLogger(RegisterCommand.class);
     private static final UserService service = UserServiceImpl.getInstance();
 
+    /**
+     * Executes the command.
+     * @param request HttpServletRequest object.
+     * @return String containing the path to the page.
+     */
     @Override
     public String execute(HttpServletRequest request) {
         String username = request.getParameter(ParameterName.USERNAME);

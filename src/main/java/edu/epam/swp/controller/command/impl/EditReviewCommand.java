@@ -16,11 +16,19 @@ import org.apache.logging.log4j.Logger;
 import javax.servlet.http.HttpServletRequest;
 import java.sql.Date;
 
+/**
+ * Command to edit review
+ */
 public class EditReviewCommand implements Command {
 
     private static final Logger logger = LogManager.getLogger(EditReviewCommand.class);
     private static final ReviewService service = ReviewServiceImpl.getInstance();
 
+    /**
+     * Executes the command.
+     * @param request HttpServletRequest object.
+     * @return String containing the path to the page.
+     */
     @Override
     public String execute(HttpServletRequest request) {
         String text = request.getParameter(ParameterName.REVIEW);

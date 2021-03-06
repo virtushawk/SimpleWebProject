@@ -1,4 +1,5 @@
 package edu.epam.swp.controller.command.impl;
+
 import edu.epam.swp.controller.PagePath;
 import edu.epam.swp.controller.ParameterName;
 import edu.epam.swp.controller.command.AttributeName;
@@ -18,12 +19,21 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Command to open specific creature.
+ * @author romab
+ */
 public class CreatureCommand implements Command {
     private static final Logger logger = LogManager.getLogger(CreatureCommand.class);
     private static final CreatureService creatureService = CreatureServiceImpl.getInstance();
     private static final ReviewService reviewService = ReviewServiceImpl.getInstance();
 
     //todo : FIX ERROR PAGE?
+    /**
+     * Executes the command.
+     * @param request HttpServletRequest object.
+     * @return String containing the path to the page.
+     */
     @Override
     public String execute(HttpServletRequest request) {
         String creatureIdParameter = request.getParameter(ParameterName.ID);

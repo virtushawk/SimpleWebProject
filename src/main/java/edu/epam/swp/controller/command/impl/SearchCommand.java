@@ -14,11 +14,20 @@ import org.apache.logging.log4j.Logger;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
+/**
+ * Command to search
+ * @author romab
+ */
 public class SearchCommand implements Command {
 
     private static final Logger logger = LogManager.getLogger(SearchCommand.class);
     private static final CreatureService service = CreatureServiceImpl.getInstance();
 
+    /**
+     * Executes the command.
+     * @param request HttpServletRequest object.
+     * @return String containing the path to the page.
+     */
     @Override
     public String execute(HttpServletRequest request) {
         String text = request.getParameter(ParameterName.TEXT);

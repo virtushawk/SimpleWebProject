@@ -1,5 +1,9 @@
 package edu.epam.swp.controller.command;
 
+/**
+ * Class contains attribute constants.
+ * @author romab
+ */
 public class AttributeName {
 
     private AttributeName() {}

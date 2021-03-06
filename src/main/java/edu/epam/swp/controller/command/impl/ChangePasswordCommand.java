@@ -13,10 +13,19 @@ import org.apache.logging.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 
+/**
+ * Command to change password.
+ * @author romab
+ */
 public class ChangePasswordCommand implements Command {
     private static final Logger logger = LogManager.getLogger(ChangePasswordCommand.class);
     private static final UserService service = UserServiceImpl.getInstance();
 
+    /**
+     * Executes the command.
+     * @param request HttpServletRequest object.
+     * @return String containing the path to the page.
+     */
     @Override
     public String execute(HttpServletRequest request) {
         String password = request.getParameter(ParameterName.PASSWORD);

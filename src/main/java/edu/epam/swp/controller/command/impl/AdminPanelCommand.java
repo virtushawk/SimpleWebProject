@@ -22,6 +22,10 @@ import org.apache.logging.log4j.Logger;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
+/**
+ * Command to open admin panel.
+ * @author romab
+ */
 public class AdminPanelCommand implements Command {
 
     private static final Logger logger = LogManager.getLogger(AdminPanelCommand.class);
@@ -30,6 +34,11 @@ public class AdminPanelCommand implements Command {
     private static final CreatureService creatureService = CreatureServiceImpl.getInstance();
     private static final CorrectionService correctionService = CorrectionServiceImpl.getInstance();
 
+    /**
+     * Executes the command.
+     * @param request HttpServletRequest object.
+     * @return String containing the path to the page.
+     */
     @Override
     public String execute(HttpServletRequest request) {
         try {

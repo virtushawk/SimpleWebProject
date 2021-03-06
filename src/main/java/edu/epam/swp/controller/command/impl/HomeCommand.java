@@ -13,11 +13,20 @@ import org.apache.logging.log4j.Logger;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
+/**
+ * Command to open home page.
+ * @author romab
+ */
 public class HomeCommand implements Command {
 
     private static final Logger logger = LogManager.getLogger(HomeCommand.class);
     private static final CreatureService service = CreatureServiceImpl.getInstance();
 
+    /**
+     * Executes the command.
+     * @param request HttpServletRequest object.
+     * @return String containing the path to the page.
+     */
     @Override
     public String execute(HttpServletRequest request) {
         try {

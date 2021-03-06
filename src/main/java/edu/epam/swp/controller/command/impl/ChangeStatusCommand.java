@@ -13,11 +13,20 @@ import org.apache.logging.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 
+/**
+ * Command to change status.
+ * @author romab
+ */
 public class ChangeStatusCommand implements Command {
 
     private static final Logger logger = LogManager.getLogger(ChangeStatusCommand.class);
     private static final UserService service = UserServiceImpl.getInstance();
 
+    /**
+     * Executes the command.
+     * @param request HttpServletRequest object.
+     * @return String containing the path to the page.
+     */
     @Override
     public String execute(HttpServletRequest request) {
         String accountIdParameter = request.getParameter(ParameterName.ID);

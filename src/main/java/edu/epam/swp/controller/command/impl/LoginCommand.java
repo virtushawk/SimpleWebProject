@@ -14,11 +14,20 @@ import org.apache.logging.log4j.Logger;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Optional;
 
+/**
+ * Command to login
+ * @author romab
+ */
 public class LoginCommand implements Command {
 
     private static final Logger logger = LogManager.getLogger(LoginCommand.class);
     private static final UserService service = UserServiceImpl.getInstance();
 
+    /**
+     * Executes the command.
+     * @param request HttpServletRequest object.
+     * @return String containing the path to the page.
+     */
     @Override
     public String execute(HttpServletRequest request) {
         String password = request.getParameter(ParameterName.PASSWORD);
