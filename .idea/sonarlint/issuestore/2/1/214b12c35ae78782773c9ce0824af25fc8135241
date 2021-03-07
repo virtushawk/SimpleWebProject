@@ -1,7 +1,5 @@
 
-m	java:S117y"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¥«İò8‚­§Šù.
+K
+java:S1481p".Remove this unused "accountId" local variable.(İ¥ú8·ÆòÀ€/
 ‹
-java:S1192f"iDefine a constant instead of duplicating this literal "Error occurred while deleting correction" 4 times.(³ñ˜Õûÿÿÿÿ8ÃÃ±¦û.
-L
-java:S1481y"/Remove this unused "account_id" local variable.(¥«İò8ñª²Šù.
-m	java:S117x"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(³ã 8‚­§Šù.
+java:S1192]"iDefine a constant instead of duplicating this literal "Error occurred while deleting correction" 4 times.(³ñ˜Õûÿÿÿÿ8ÃÃ±¦û.

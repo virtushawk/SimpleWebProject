@@ -5,6 +5,12 @@ import edu.epam.swp.model.entity.AccountRole;
 
 import java.util.*;
 
+/**
+ * Class contains a enum map with users roles and their allowed commands.
+ * This class is used by AccessFilter class.
+ * @see AccessFilter
+ * @author romab
+ */
 class AccessMap {
 
     static final Map<AccountRole, List<CommandType>> COMMAND_MAP = new EnumMap<>(AccountRole.class);

@@ -8,15 +8,29 @@ import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 
+/**
+ * Filter controls client's locale.
+ * @author romab
+ */
 @WebFilter(filterName = "SessionLocaleFilter", urlPatterns = {"/*"})
 public class SessionLocaleFilter implements Filter {
 
-    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
+    /**
+     * checks for request parameter and if its not null set's value to session attribute.
+     * @param servletRequest ServletRequest
+     * @param servletResponse object
+     * @param filterChain object
+     * @throws IOException Signals that an I/O exception of some sort has occurred.
+     * This class is the general class of exceptions produced by failed or interrupted I/O operations.
+     * @throws ServletException
+     */
+    @Override
+    public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain)
             throws IOException, ServletException {
-        HttpServletRequest req = (HttpServletRequest) request;
+        HttpServletRequest req = (HttpServletRequest) servletRequest;
         if (req.getParameter(ParameterName.LOCALE) != null) {
-            req.getSession().setAttribute(AttributeName.LANGUAGE, req.getParameter(ParameterName.LOCALE));
+            req.getSession().setAttribute(AttributeName.LANGUAGE,req.getParameter(ParameterName.LOCALE));
         }
-        chain.doFilter(request, response);
+        filterChain.doFilter(servletRequest, servletResponse);
     }
 }

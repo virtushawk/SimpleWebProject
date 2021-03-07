@@ -1,5 +1,10 @@
 package edu.epam.swp.controller;
 
+/**
+ * Class contains paths to pages.
+ * Used by commands.
+ * @author romab
+ */
 public class PagePath {
 
     private PagePath() {}

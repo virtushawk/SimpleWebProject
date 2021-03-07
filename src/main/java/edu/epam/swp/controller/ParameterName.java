@@ -1,5 +1,10 @@
 package edu.epam.swp.controller;
 
+/**
+ * Class contains request and session parameters.
+ * Used by commands.
+ * @author romab
+ */
 public class ParameterName {
 
     private ParameterName() {}

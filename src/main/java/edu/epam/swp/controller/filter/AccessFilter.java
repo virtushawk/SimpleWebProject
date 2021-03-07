@@ -13,9 +13,25 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+/**
+ * Filter controls access to commands and checks for valid command.
+ * Filter uses AccessMap class to check for user's allowed commands.
+ * @see AccessMap
+ * @author romab
+ */
 @WebFilter(filterName = "accessFilter",urlPatterns = {"/controller"})
 public class AccessFilter implements Filter {
 
+    /**
+     * Checks the role of the user and validates the command.
+     * Based on this data, gives access or returns to the 403 error page.
+     * @param servletRequest object
+     * @param servletResponse object
+     * @param filterChain object
+     * @throws IOException Signals that an I/O exception of some sort has occurred.
+     * This class is the general class of exceptions produced by failed or interrupted I/O operations.
+     * @throws ServletException
+     */
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         HttpServletRequest request = (HttpServletRequest) servletRequest;
