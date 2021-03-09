@@ -194,7 +194,7 @@ public class ReviewServiceImplTest {
         long accountId = 1;
         long reviewId = 1;
         Optional<Review> expected = Optional.empty();
-        Mockito.when(dao.findReviewByUserIdCreatureId(Mockito.anyLong(),Mockito.anyLong())).thenReturn(expected);
+        Mockito.when(dao.findReviewByAccountIdCreatureId(Mockito.anyLong(),Mockito.anyLong())).thenReturn(expected);
         Optional<Review> actual = service.findUserReview(accountId,reviewId);
         Assert.assertEquals(actual,expected);
     }
@@ -203,7 +203,7 @@ public class ReviewServiceImplTest {
     public void findUserReviewExceptionTest() throws DaoException, ServiceException {
         long accountId = 1;
         long reviewId = 1;
-        Mockito.when(dao.findReviewByUserIdCreatureId(Mockito.anyLong(),Mockito.anyLong())).thenThrow(new DaoException());
+        Mockito.when(dao.findReviewByAccountIdCreatureId(Mockito.anyLong(),Mockito.anyLong())).thenThrow(new DaoException());
         service.findUserReview(accountId,reviewId);
     }
 

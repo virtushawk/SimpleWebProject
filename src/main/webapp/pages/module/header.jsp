@@ -1,5 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@taglib prefix="custom" uri="/WEB-INF/tld/custom.tld"%>
 <fmt:setLocale value="${sessionScope.lang}"/>
 <fmt:setBundle basename="property.text"/>
 <!DOCTYPE html>
@@ -23,13 +24,13 @@
                     ${sessionScope.user.role}
                 </a>
             </li>
-            <c:if test="${sessionScope.user.role.name().equals('ADMIN')}">
+            <custom:access accessRole="ADMIN">
                 <li class="nav-item">
                     <a class="nav-link" href="${pageContext.request.contextPath}/controller?command=admin_panel">
                         <fmt:message key="header.adminPanel"/>
                     </a>
                 </li>
-            </c:if>
+            </custom:access>
         </ul>
     </div>
     <div class="collapse navbar-collapse text-center ms-5">

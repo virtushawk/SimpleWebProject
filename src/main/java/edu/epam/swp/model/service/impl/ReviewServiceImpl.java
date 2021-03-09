@@ -143,7 +143,7 @@ public class ReviewServiceImpl implements ReviewService {
     public Optional<Review> findUserReview(long userId,long creatureId) throws ServiceException {
         Optional<Review> review;
         try {
-            review = dao.findReviewByUserIdCreatureId(userId,creatureId);
+            review = dao.findReviewByAccountIdCreatureId(userId,creatureId);
         } catch (DaoException e) {
             logger.error("Error occurred while finding user's review",e);
             throw new ServiceException("Error occurred while finding user's review",e);

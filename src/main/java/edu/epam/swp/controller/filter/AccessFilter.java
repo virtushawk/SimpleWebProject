@@ -45,7 +45,7 @@ public class AccessFilter implements Filter {
         AccountRole accountRole = user.getRole();
         try {
             CommandType command = CommandType.valueOf(commandType.toUpperCase());
-            boolean flag = AccessMap.COMMAND_MAP.get(accountRole).contains(command);
+            boolean flag = AccessMap.commandMap.get(accountRole).contains(command);
             if (flag) {
                 filterChain.doFilter(servletRequest,servletResponse);
             } else {

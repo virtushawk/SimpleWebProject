@@ -1,4 +1,4 @@
-<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@taglib prefix="custom" uri="/WEB-INF/tld/custom.tld"%>
@@ -133,7 +133,7 @@
     <form class="d-flex justify-content-end g-1 me-5" action="${pageContext.request.contextPath}/controller?command=${param.command}">
         <input type="hidden" name="command" value="${param.command}"/>
         <c:if test="${not empty param.text}">
-            <input type="hidden" name="text" value="${param.text}"/>
+            <input type="hidden" name="text" value="<e:forHtml value="${param.text}"/>"/>
         </c:if>
         <select name="filter">
             <option value="name">
@@ -177,10 +177,10 @@
     </c:forEach>
 </div>
 <div class="container text-center">
-    <a href="${pageContext.request.contextPath}/controller?command=${param.command}&start=${pageStart - perPage}<c:if test="${not empty param.text}">&text=${param.text}</c:if><c:if test="${not empty param.filter}">&filter=${param.filter}</c:if>">
+    <a href="${pageContext.request.contextPath}/controller?command=${param.command}&start=${pageStart - perPage}<c:if test="${not empty param.text}">&text=<e:forHtml value="${param.text}"/></c:if><c:if test="${not empty param.filter}">&filter=${param.filter}</c:if>">
         <<
     </a>${pageStart + 1} - ${pageStart + perPage}
-    <a href="${pageContext.request.contextPath}/controller?command=${param.command}&start=${pageStart + perPage}<c:if test="${not empty param.text}">&text=${param.text}</c:if><c:if test="${not empty param.filter}">&filter=${param.filter}</c:if>">
+    <a href="${pageContext.request.contextPath}/controller?command=${param.command}&start=${pageStart + perPage}<c:if test="${not empty param.text}">&text=<e:forHtml value="${param.text}"/></c:if><c:if test="${not empty param.filter}">&filter=${param.filter}</c:if>">
         >>
     </a>
 </div>

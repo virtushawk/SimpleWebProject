@@ -152,7 +152,7 @@ public class ReviewDaoImpl implements ReviewDao {
     }
 
     @Override
-    public Optional<Review> findReviewByUserIdCreatureId(long userId,long creatureId) throws DaoException {
+    public Optional<Review> findReviewByAccountIdCreatureId(long userId, long creatureId) throws DaoException {
         Optional<Review> result = Optional.empty();
         try(Connection connection = pool.getConnection();
             PreparedStatement statement = connection.prepareStatement(SELECT_REVIEW_BY_USER_ID_CREATURE_ID)) {
