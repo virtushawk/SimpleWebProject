@@ -261,10 +261,6 @@ r
 Bsrc/test/java/edu/epam/swp/model/validation/UserValidatorTest.java,9\0\906cc2e53706def00554a2f9035d9ff99404470c
 {
 Ksrc/main/java/edu/epam/swp/controller/command/impl/ChangeStatusCommand.java,f\d\fd76f45eeab973887be0a66e3d9e941d836fb974
-[
-+src/main/resources/property/text.properties,2\c\2c898547fdf57d98ea1f205476ea3e4866b1f51f
-a
-1src/main/resources/property/text_en_US.properties,a\8\a84d0d8472a532c8d87fdf5ab8626f4e46c198df
 g
 7src/main/java/edu/epam/swp/model/entity/UserStatus.java,7\2\723fc7f9fc6ebf2796390e572a230a5cab9ef584
 U

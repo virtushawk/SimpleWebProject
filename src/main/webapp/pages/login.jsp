@@ -1,4 +1,4 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <fmt:setLocale value="${sessionScope.lang}"/>
@@ -32,7 +32,7 @@
             <fmt:message key="login.forgetPassword.success"/>
         </div>
     </div>
-    <c:remove var="confirmedMessage" scope="session"/>
+    <c:remove var="emailConfirmed" scope="session"/>
 </c:if>
 <c:if test="${sessionScope.restoreError}">
     <div class="container">
@@ -87,7 +87,7 @@
                             <fmt:message key="createCreature.valid"/>
                         </div>
                         <div class="invalid-feedback">
-                            <fmt:message key="createCreature.image.invalid"/>
+                            <fmt:message key="login.forgetPassword.invalid"/>
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -95,7 +95,7 @@
                             <fmt:message key="creature.editCreatureModal.button.close"/>
                         </button>
                         <button type="submit" class="btn btn-primary">
-                            <fmt:message key="creature.editReviewModal.button.save"/>
+                            <fmt:message key="login.forgetPassword.button.change"/>
                         </button>
                     </div>
                 </form>
@@ -121,5 +121,6 @@
     </c:if>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+<script src="${pageContext.request.contextPath}/js/form-validation.js"></script>
 </body>
 </html>
