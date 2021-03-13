@@ -25,7 +25,7 @@ public interface BaseDao<T> {
      * @return Optional of object.
      * @throws DaoException if SQLException was thrown.
      */
-    Optional<T> get(long id) throws DaoException;
+    Optional<T> find(long id) throws DaoException;
 
     /**
      * Default method to create the object.

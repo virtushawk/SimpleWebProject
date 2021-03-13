@@ -12,6 +12,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Implementation of {@link ReviewDao}. Contains methods to work with Review object.
+ * @see Review
+ * @author romab
+ */
 public class ReviewDaoImpl implements ReviewDao {
 
     private static final Logger logger = LogManager.getLogger(ReviewDaoImpl.class);
@@ -41,10 +46,19 @@ public class ReviewDaoImpl implements ReviewDao {
 
     private ReviewDaoImpl() {}
 
+    /**
+     * Returns the instance of ReviewDao.
+     * @return instance
+     */
     public static ReviewDao getInstance() {
         return instance;
     }
 
+    /**
+     * Finds all reviews.
+     * @return List of review.
+     * @throws DaoException If SQLException was thrown.
+     */
     @Override
     public List<Review> findAll() throws DaoException {
         List<Review> reviews = new ArrayList<>();
@@ -74,12 +88,18 @@ public class ReviewDaoImpl implements ReviewDao {
         return reviews;
     }
 
+    /**
+     * Finds Creature's reviews.
+     * @param creatureId Creature's id.
+     * @return List of reviews.
+     * @throws DaoException if SQLException was thrown.
+     */
     @Override
-    public List<Review> findReviewsByCreatureId(long id) throws DaoException {
+    public List<Review> findReviewsByCreatureId(long creatureId) throws DaoException {
         List<Review> reviews = new ArrayList<>();
         try(Connection connection = pool.getConnection();
             PreparedStatement statement = connection.prepareStatement(SELECT_REVIEW_BY_CREATURE_ID)) {
-            statement.setLong(1,id);
+            statement.setLong(1,creatureId);
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
                 long reviewId = resultSet.getLong(1);
@@ -90,7 +110,7 @@ public class ReviewDaoImpl implements ReviewDao {
                 String avatar = resultSet.getString(6);
                 String accountName = resultSet.getString(7);
                 Date date = new Date(time);
-                Review review = new Review.ReviewBuilder().withCreatureId(id).withReviewId(reviewId)
+                Review review = new Review.ReviewBuilder().withCreatureId(creatureId).withReviewId(reviewId)
                         .withAccountId(accountId).withText(text).withDate(date).withRating(rating).withAvatar(avatar)
                         .withAccountName(accountName).build();
                 reviews.add(review);
@@ -102,16 +122,22 @@ public class ReviewDaoImpl implements ReviewDao {
         return reviews;
     }
 
+    /**
+     * Finds user's reviews.
+     * @param accountId User's id.
+     * @return List of reviews.
+     * @throws DaoException if SQLException was thrown.
+     */
+    //todo : ???
     @Override
-    public List<Review> findReviewsByUserId(long id) throws DaoException {
+    public List<Review> findReviewsByUserId(long accountId) throws DaoException {
         List<Review> reviews = new ArrayList<>();
         try(Connection connection = pool.getConnection();
             PreparedStatement statement = connection.prepareStatement(SELECT_REVIEW_BY_USER_ID)) {
-            statement.setLong(1,id);
+            statement.setLong(1,accountId);
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
                 long reviewId = resultSet.getLong(1);
-                long accountId = resultSet.getLong(2);
                 String text = resultSet.getString(3);
                 long time = resultSet.getLong(4);
                 int rating = resultSet.getInt(5);
@@ -132,6 +158,12 @@ public class ReviewDaoImpl implements ReviewDao {
         return reviews;
     }
 
+    /**
+     * Creates review.
+     * @param review Review object.
+     * @return True if review was created, otherwise false.
+     * @throws DaoException If SQLException was thrown.
+     */
     @Override
     public boolean create(Review review) throws DaoException {
         boolean flag;
@@ -151,12 +183,19 @@ public class ReviewDaoImpl implements ReviewDao {
         return flag;
     }
 
+    /**
+     * Finds User's specific review.
+     * @param accountId User's id.
+     * @param creatureId Creature's id.
+     * @return Optional of review.
+     * @throws DaoException if SQLException was thrown.
+     */
     @Override
-    public Optional<Review> findReviewByAccountIdCreatureId(long userId, long creatureId) throws DaoException {
+    public Optional<Review> findReviewByAccountIdCreatureId(long accountId, long creatureId) throws DaoException {
         Optional<Review> result = Optional.empty();
         try(Connection connection = pool.getConnection();
             PreparedStatement statement = connection.prepareStatement(SELECT_REVIEW_BY_USER_ID_CREATURE_ID)) {
-            statement.setLong(1,userId);
+            statement.setLong(1,accountId);
             statement.setLong(2,creatureId);
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
@@ -168,7 +207,7 @@ public class ReviewDaoImpl implements ReviewDao {
                 String avatar = resultSet.getString(5);
                 String username = resultSet.getString(6);
                 Review review = new Review.ReviewBuilder().withCreatureId(creatureId).withReviewId(reviewId)
-                        .withAccountId(userId).withText(text).withDate(date).withRating(rating).withAvatar(avatar)
+                        .withAccountId(accountId).withText(text).withDate(date).withRating(rating).withAvatar(avatar)
                         .withAccountName(username).build();
                 result = Optional.of(review);
             }
@@ -179,6 +218,13 @@ public class ReviewDaoImpl implements ReviewDao {
         return result;
     }
 
+    /**
+     * Deletes User's review.
+     * @param reviewId Review's id.
+     * @param accountId User's id.
+     * @return true if review was deleted successfully, otherwise false.
+     * @throws DaoException if SQLException was thrown.
+     */
     @Override
     public boolean delete(long reviewId, long accountId) throws DaoException {
         boolean flag;
@@ -194,6 +240,13 @@ public class ReviewDaoImpl implements ReviewDao {
         return flag;
     }
 
+    /**
+     * Updates user's review.
+     * @param accountId User's id.
+     * @param review The new review.
+     * @return true if review was updated successfully, otherwise false.
+     * @throws DaoException if SQLException was thrown.
+     */
     @Override
     public boolean update(long accountId, Review review) throws DaoException {
         boolean flag;
@@ -213,6 +266,12 @@ public class ReviewDaoImpl implements ReviewDao {
         return flag;
     }
 
+    /**
+     * Updates review.
+     * @param review Review object.
+     * @return True if review was updated, otherwise false.
+     * @throws DaoException If SQLException was thrown.
+     */
     @Override
     public boolean update(Review review) throws DaoException {
         boolean flag;
@@ -231,6 +290,12 @@ public class ReviewDaoImpl implements ReviewDao {
         return flag;
     }
 
+    /**
+     * Deletes review.
+     * @param reviewId Review's id.
+     * @return True if review was deleted, otherwise false.
+     * @throws DaoException If SQLException was thrown.
+     */
     @Override
     public boolean delete(long reviewId) throws DaoException {
         boolean flag;
@@ -245,8 +310,14 @@ public class ReviewDaoImpl implements ReviewDao {
         return flag;
     }
 
+    /**
+     * Method currently unsupported.
+     * @param reviewId Correction's id.
+     * @return Optional of review.
+     * @throws DaoException
+     */
     @Override
-    public Optional<Review> get(long id) throws DaoException {
+    public Optional<Review> find(long reviewId) throws DaoException {
         throw new UnsupportedOperationException();
     }
 }

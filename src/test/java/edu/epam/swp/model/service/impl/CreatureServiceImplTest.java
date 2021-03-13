@@ -107,7 +107,7 @@ public class CreatureServiceImplTest {
         long id = 1;
         Creature creature = new Creature.CreatureBuilder().withName("Test name").build();
         Optional<Creature> expected = Optional.of(creature);
-        Mockito.when(dao.get(Mockito.anyLong())).thenReturn(expected);
+        Mockito.when(dao.find(Mockito.anyLong())).thenReturn(expected);
         Optional<Creature> actual = service.get(id);
         Assert.assertEquals(actual,expected);
     }
@@ -116,7 +116,7 @@ public class CreatureServiceImplTest {
     public void getEmptyTest() throws DaoException, ServiceException {
         long id = 1;
         Optional<Creature> expected = Optional.empty();
-        Mockito.when(dao.get(Mockito.anyLong())).thenReturn(expected);
+        Mockito.when(dao.find(Mockito.anyLong())).thenReturn(expected);
         Optional<Creature> actual = service.get(id);
         Assert.assertEquals(actual,expected);
     }
@@ -124,7 +124,7 @@ public class CreatureServiceImplTest {
     @Test(dependsOnMethods = {"getCreatureTest","getEmptyTest"},expectedExceptions = ServiceException.class)
     public void getExceptionTest() throws DaoException, ServiceException {
         long id = 1;
-        Mockito.when(dao.get(Mockito.anyLong())).thenThrow(new DaoException());
+        Mockito.when(dao.find(Mockito.anyLong())).thenThrow(new DaoException());
         service.get(id);
     }
 

@@ -15,7 +15,6 @@ public interface CorrectionDao extends BaseDao<Correction> {
 
     /**
      * Approves correction.
-     *
      * @param correctionId Correction id.
      * @return true if approves successfully,otherwise false.
      * @throws DaoException if SQLException was thrown.

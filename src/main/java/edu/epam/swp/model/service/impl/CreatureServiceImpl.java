@@ -71,7 +71,7 @@ public class CreatureServiceImpl implements CreatureService {
     public Optional<Creature> get(long id) throws ServiceException {
         Optional<Creature> creature;
         try {
-            creature = dao.get(id);
+            creature = dao.find(id);
         } catch (DaoException e) {
             logger.error("An error occurred while finding a creature",e);
             throw new ServiceException("An error occurred while finding a creature",e);

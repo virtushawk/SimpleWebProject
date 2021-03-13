@@ -142,7 +142,7 @@ public class UserServiceImplTest {
     public void getTest() throws DaoException,ServiceException {
         long id = 1;
         Optional<User> expected = Optional.empty();
-        Mockito.when(dao.get(Mockito.anyLong())).thenReturn(expected);
+        Mockito.when(dao.find(Mockito.anyLong())).thenReturn(expected);
         Optional<User> actual = service.get(id);
         Assert.assertEquals(actual,expected);
     }
@@ -150,7 +150,7 @@ public class UserServiceImplTest {
     @Test(dependsOnMethods = "getTest",expectedExceptions = ServiceException.class)
     public void getExceptionTest() throws DaoException,ServiceException {
         long id = 1;
-        Mockito.when(dao.get(Mockito.anyLong())).thenThrow(new DaoException());
+        Mockito.when(dao.find(Mockito.anyLong())).thenThrow(new DaoException());
         service.get(id);
     }
 

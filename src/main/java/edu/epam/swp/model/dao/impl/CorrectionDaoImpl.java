@@ -12,6 +12,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+
+/**
+ * The implementation of {@link CorrectionDao}. Contains methods to work with Correction object.
+ * @see Correction
+ * @author romab
+ */
 public class CorrectionDaoImpl implements CorrectionDao {
 
     private static final Logger logger = LogManager.getLogger(CorrectionDaoImpl.class);
@@ -34,10 +40,19 @@ public class CorrectionDaoImpl implements CorrectionDao {
 
     private CorrectionDaoImpl() {}
 
+    /**
+     * Gets instance of CorrectionDao.
+     * @return the instance
+     */
     public static CorrectionDao getInstance() {
         return instance;
     }
 
+    /**
+     * Finds all corrections.
+     * @return List of correction.
+     * @throws DaoException If SQLException was thrown.
+     */
     @Override
     public List<Correction> findAll() throws DaoException {
         List<Correction> corrections = new ArrayList<>();
@@ -63,6 +78,12 @@ public class CorrectionDaoImpl implements CorrectionDao {
         return corrections;
     }
 
+    /**
+     * Creates correction.
+     * @param correction Correction object.
+     * @return True if correction was created, otherwise false.
+     * @throws DaoException If SQLException was thrown.
+     */
     @Override
     public boolean create(Correction correction) throws DaoException {
         boolean flag;
@@ -82,12 +103,18 @@ public class CorrectionDaoImpl implements CorrectionDao {
         return flag;
     }
 
+    /**
+     * Deletes correction.
+     * @param correctionId Correction's id.
+     * @return true if correction was deleted, otherwise false.
+     * @throws DaoException If SQLException was thrown.
+     */
     @Override
-    public boolean delete(long id) throws DaoException {
+    public boolean delete(long correctionId) throws DaoException {
         boolean flag;
         try(Connection connection = pool.getConnection();
             PreparedStatement statement = connection.prepareStatement(DELETE_CORRECTION)) {
-            statement.setLong(1,id);
+            statement.setLong(1,correctionId);
             flag = statement.executeUpdate() > 0;
         } catch (SQLException e) {
             logger.error("Error occurred while deleting correction",e);
@@ -96,15 +123,21 @@ public class CorrectionDaoImpl implements CorrectionDao {
         return flag;
     }
 
+    /**
+     * Approves correction.
+     * @param correctionId Correction id.
+     * @return true if approves successfully,otherwise false.
+     * @throws DaoException if SQLException was thrown.
+     */
     @Override
-    public boolean approveCorrection(long id) throws DaoException {
+    public boolean approveCorrection(long correctionId) throws DaoException {
         boolean flag = false;
         Connection connection = pool.getConnection();
         try(PreparedStatement correctionStatement = connection.prepareStatement(SELECT_CORRECTION_BY_ID);
             PreparedStatement creatureStatement = connection.prepareStatement(UPDATE_CREATURE);
             PreparedStatement deleteStatement = connection.prepareStatement(DELETE_CORRECTION)) {
-            correctionStatement.setLong(1,id);
-            deleteStatement.setLong(1,id);
+            correctionStatement.setLong(1,correctionId);
+            deleteStatement.setLong(1,correctionId);
             connection.setAutoCommit(false);
             ResultSet resultSet = correctionStatement.executeQuery();
             if (resultSet.next()) {
@@ -141,6 +174,12 @@ public class CorrectionDaoImpl implements CorrectionDao {
         return flag;
     }
 
+    /**
+     * Finds corrections by account's id.
+     * @param accountId account's id.
+     * @return List of corrections.
+     * @throws DaoException if SQLException was thrown.
+     */
     @Override
     public List<Correction> findCorrectionsByAccountId(long accountId) throws DaoException {
         List<Correction> corrections = new ArrayList<>();
@@ -166,6 +205,14 @@ public class CorrectionDaoImpl implements CorrectionDao {
         return corrections;
     }
 
+    /**
+     * Updates user's correction.
+     * @param accountId User's id.
+     * @param correction new Correction object.
+     * @return true - if the correction was updated successfully,
+     * false - if the correction has not been updated.
+     * @throws DaoException if SQLException was thrown.
+     */
     @Override
     public boolean update(long accountId, Correction correction) throws DaoException {
         boolean flag;
@@ -185,6 +232,14 @@ public class CorrectionDaoImpl implements CorrectionDao {
         return flag;
     }
 
+    /**
+     * Deletes user's correction.
+     * @param accountId User's id.
+     * @param correctionId Correction's id.
+     * @return true - if the correction was deleted successfully,
+     * false - if the correction has not been deleted.
+     * @throws DaoException if SQLException was thrown.
+     */
     @Override
     public boolean delete(long accountId, long correctionId) throws DaoException {
         boolean flag;
@@ -200,11 +255,23 @@ public class CorrectionDaoImpl implements CorrectionDao {
         return flag;
     }
 
+    /**
+     * Method currently unsupported.
+     * @param correctionId Correction's id.
+     * @return Optional of correction.
+     * @throws DaoException
+     */
     @Override
-    public Optional<Correction> get(long id) throws DaoException {
+    public Optional<Correction> find(long correctionId) throws DaoException {
         throw new UnsupportedOperationException();
     }
 
+    /**
+     * Method currently unsupported.
+     * @param correction Correction object.
+     * @return boolean.
+     * @throws DaoException
+     */
     @Override
     public boolean update(Correction correction) throws DaoException {
         throw new UnsupportedOperationException();

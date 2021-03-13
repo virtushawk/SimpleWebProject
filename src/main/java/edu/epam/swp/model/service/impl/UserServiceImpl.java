@@ -116,7 +116,7 @@ public class UserServiceImpl implements UserService {
     public Optional<User> get(long id) throws ServiceException {
         Optional<User> user;
         try {
-            user = dao.get(id);
+            user = dao.find(id);
         } catch (DaoException e) {
             logger.error("An error occurred while finding user",e);
             throw new ServiceException("An error occurred while finding user",e);

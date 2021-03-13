@@ -14,12 +14,17 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Implementation of {@link UserDao}. Contains methods to work with user object.
+ * @see User
+ * @author romab
+ */
 public class UserDaoImpl implements UserDao {
 
     private static final Logger logger = LogManager.getLogger(UserDaoImpl.class);
     private static final UserDao instance = new UserDaoImpl();
     private ConnectionPool pool = ConnectionPool.INSTANCE;
-    private static final String ERROR_DUP_KEY = "23000";
+    private static final String ERROR_DUPLICATION_KEY = "23000";
     private static final String INSERT_ACCOUNT = "INSERT INTO accounts(account_id,email,username,password,role_id,user_status_id) " +
             "VALUES(?,?,?,?,?,?)";
     private static final String SELECT_ACCOUNT_BY_USERNAME_PASSWORD =
@@ -44,10 +49,19 @@ public class UserDaoImpl implements UserDao {
 
     private UserDaoImpl() {}
 
+    /**
+     * Returns the instance of UserDao.
+     * @return The instance.
+     */
     public static UserDao getInstance() {
         return instance;
     }
 
+    /**
+     * Finds all users.
+     * @return List of users.
+     * @throws DaoException If SQLException was thrown.
+     */
     @Override
     public List<User> findAll() throws DaoException {
         List<User> users = new ArrayList<>();
@@ -72,12 +86,18 @@ public class UserDaoImpl implements UserDao {
         return users;
     }
 
+    /**
+     * Finds user.
+     * @param accountId User's id.
+     * @return Optional of user.
+     * @throws DaoException If SQLException was thrown.
+     */
     @Override
-    public Optional<User> get(long id) throws DaoException {
+    public Optional<User> find(long accountId) throws DaoException {
         Optional<User> result = Optional.empty();
         try(Connection connection = pool.getConnection();
             PreparedStatement statement = connection.prepareStatement(SELECT_ACCOUNT_BY_ID)) {
-            statement.setLong(1,id);
+            statement.setLong(1,accountId);
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
                 String email = resultSet.getString(1);
@@ -88,7 +108,7 @@ public class UserDaoImpl implements UserDao {
                 int userStatusId = resultSet.getInt(6);
                 UserStatus userStatus = UserStatus.values()[userStatusId];
                 User user = new User.UserBuilder().withEmail(email).withUsername(username).withAvatar(avatar)
-                        .withAccountId(id).withName(name).withNumberReviews(reviewsNumber).withUserStatus(userStatus)
+                        .withAccountId(accountId).withName(name).withNumberReviews(reviewsNumber).withUserStatus(userStatus)
                         .build();
                 result = Optional.of(user);
             }
@@ -99,6 +119,13 @@ public class UserDaoImpl implements UserDao {
         return result;
     }
 
+    /**
+     * Finds user by username and password.
+     * @param username String containing the username.
+     * @param password String containing the password.
+     * @return Optional of user.
+     * @throws DaoException if SQLException was thrown.
+     */
     @Override
     public Optional<User> findUserByUsernamePassword(String username, String password) throws DaoException {
         Optional<User> result = Optional.empty();
@@ -129,6 +156,12 @@ public class UserDaoImpl implements UserDao {
         return result;
     }
 
+    /**
+     * Finds user by username.
+     * @param username String containing the username.
+     * @return Optional of user.
+     * @throws DaoException if SQLException was thrown.
+     */
     @Override
     public Optional<User> findUserByUsername(String username) throws DaoException {
         Optional<User> result = Optional.empty();
@@ -154,6 +187,13 @@ public class UserDaoImpl implements UserDao {
         return result;
     }
 
+    /**
+     * Creates user.
+     * @param user User object.
+     * @param password String containing the password.
+     * @return Id of User. If user was not created returns 0.
+     * @throws DaoException if SQException was thrown.
+     */
     @Override
     public long create(User user,String password) throws DaoException {
         long id = 0;
@@ -173,7 +213,7 @@ public class UserDaoImpl implements UserDao {
                 id = resultSet.getLong(1);
             }
         } catch (SQLException e) {
-            if (!(e.getSQLState().equals(ERROR_DUP_KEY))) {
+            if (!(e.getSQLState().equals(ERROR_DUPLICATION_KEY))) {
                 logger.error("Error occurred while creating user",e);
                 throw new DaoException("Error occurred while creating user",e);
             }
@@ -181,6 +221,13 @@ public class UserDaoImpl implements UserDao {
         return id;
     }
 
+    /**
+     * Updates user's avatar.
+     * @param avatar String containing path to the image.
+     * @param accountId User's id.
+     * @return true if avatar was updated successfully, otherwise false.
+     * @throws DaoException If SQLException was thrown.
+     */
     @Override
     public boolean updateAvatarById(String avatar, long accountId) throws DaoException {
         boolean flag;
@@ -196,14 +243,20 @@ public class UserDaoImpl implements UserDao {
         return flag;
     }
 
+    /**
+     * Confirms email.
+     * @param accountId User's id.
+     * @return true if email was confirmed, otherwise false.
+     * @throws DaoException If SQLException was thrown.
+     */
     @Override
-    public boolean confirmEmail(long id) throws DaoException {
+    public boolean confirmEmail(long accountId) throws DaoException {
         boolean flag;
         try(Connection connection = pool.getConnection();
             PreparedStatement statement = connection.prepareStatement(UPDATE_ROLE)) {
             int roleUser = AccountRole.USER.ordinal();
             statement.setLong(1,roleUser);
-            statement.setLong(2,id);
+            statement.setLong(2,accountId);
             flag = statement.executeUpdate() > 0;
         } catch (SQLException e) {
             logger.error("An error occurred while requesting a database",e);
@@ -212,14 +265,20 @@ public class UserDaoImpl implements UserDao {
         return flag;
     }
 
+    /**
+     * Blocks user.
+     * @param accountId User's id.
+     * @return true if user was blocked, otherwise false.
+     * @throws DaoException If SQLException was thrown.
+     */
     @Override
-    public boolean blockUser(long id) throws DaoException {
+    public boolean blockUser(long accountId) throws DaoException {
         boolean flag;
         try(Connection connection = pool.getConnection();
             PreparedStatement statement = connection.prepareStatement(UPDATE_ROLE)) {
             int roleUser = AccountRole.BLOCKED.ordinal();
             statement.setLong(1,roleUser);
-            statement.setLong(2,id);
+            statement.setLong(2,accountId);
             flag = statement.executeUpdate() > 0;
         } catch (SQLException e) {
             logger.error("An error occurred while blocking user",e);
@@ -228,14 +287,20 @@ public class UserDaoImpl implements UserDao {
         return flag;
     }
 
+    /**
+     * Unblocks user.
+     * @param accountId User's id.
+     * @return True if user was unblocked, otherwise false.
+     * @throws DaoException If SQLException was thrown.
+     */
     @Override
-    public boolean unblockUser(long id) throws DaoException {
+    public boolean unblockUser(long accountId) throws DaoException {
         boolean flag;
         try(Connection connection = pool.getConnection();
             PreparedStatement statement = connection.prepareStatement(UPDATE_ROLE)) {
             int roleUser = AccountRole.USER.ordinal();
             statement.setLong(1,roleUser);
-            statement.setLong(2,id);
+            statement.setLong(2,accountId);
             flag = statement.executeUpdate() > 0;
         } catch (SQLException e) {
             logger.error("An error occurred while unblocking user",e);
@@ -244,14 +309,20 @@ public class UserDaoImpl implements UserDao {
         return flag;
     }
 
+    /**
+     * Gives user admin privileges.
+     * @param accountId User's id.
+     * @return True if user became admin, otherwise false.
+     * @throws DaoException If SQLException was thrown.
+     */
     @Override
-    public boolean makeAdmin(long id) throws DaoException {
+    public boolean makeAdmin(long accountId) throws DaoException {
         boolean flag;
         try(Connection connection = pool.getConnection();
             PreparedStatement statement = connection.prepareStatement(UPDATE_ROLE)) {
             int roleUser = AccountRole.ADMIN.ordinal();
             statement.setLong(1,roleUser);
-            statement.setLong(2,id);
+            statement.setLong(2,accountId);
             flag = statement.executeUpdate() > 0;
         } catch (SQLException e) {
             logger.error("An error occurred while making the user admin",e);
@@ -260,6 +331,13 @@ public class UserDaoImpl implements UserDao {
         return flag;
     }
 
+    /**
+     * Updates user's name.
+     * @param name String containing the name.
+     * @param accountId User's id.
+     * @return true if name was updated, otherwise false.
+     * @throws DaoException If SQLException was thrown.
+     */
     @Override
     public boolean updateName(String name,long accountId) throws DaoException {
         boolean flag;
@@ -275,13 +353,20 @@ public class UserDaoImpl implements UserDao {
         return flag;
     }
 
+    /**
+     * Updates user's email.
+     * @param email String containing the email.
+     * @param accountId User's id.
+     * @return true if email was updated, otherwise false.
+     * @throws DaoException If SQLException was thrown.
+     */
     @Override
-    public boolean updateEmail(String email, long id) throws DaoException {
+    public boolean updateEmail(String email, long accountId) throws DaoException {
         boolean flag;
         try(Connection connection = pool.getConnection();
             PreparedStatement statement = connection.prepareStatement(UPDATE_EMAIL)) {
             statement.setString(1,email);
-            statement.setLong(2,id);
+            statement.setLong(2,accountId);
             flag = statement.executeUpdate() > 0;
         } catch (SQLException e) {
             logger.error("An error occurred while updating email",e);
@@ -290,13 +375,20 @@ public class UserDaoImpl implements UserDao {
         return flag;
     }
 
+    /**
+     * Updates user's password.
+     * @param password String containing the password.
+     * @param accountId User's id.
+     * @return True if password was updated, otherwise false.
+     * @throws DaoException If SQLException was thrown.
+     */
     @Override
-    public boolean updatePassword(String password, long id) throws DaoException {
+    public boolean updatePassword(String password, long accountId) throws DaoException {
         boolean flag;
         try(Connection connection = pool.getConnection();
             PreparedStatement statement = connection.prepareStatement(UPDATE_PASSWORD)) {
             statement.setString(1,password);
-            statement.setLong(2,id);
+            statement.setLong(2,accountId);
             flag = statement.executeUpdate() > 0;
         } catch (SQLException e) {
             logger.error("An error occurred while updating password",e);
@@ -305,6 +397,13 @@ public class UserDaoImpl implements UserDao {
         return flag;
     }
 
+    /**
+     * Updates user's status.
+     * @param accountId User's id.
+     * @param userStatus UserStatus Object.
+     * @return true if status was updated, otherwise false.
+     * @throws DaoException If SQLException was thrown.
+     */
     @Override
     public boolean updateUserStatus(long accountId, UserStatus userStatus) throws DaoException {
         boolean flag;
@@ -320,18 +419,36 @@ public class UserDaoImpl implements UserDao {
         return flag;
     }
 
+    /**
+     * Method currently unsupported.
+     * @param user User object.
+     * @return boolean
+     * @throws DaoException
+     */
     @Override
     public boolean create(User user) throws DaoException {
         throw new UnsupportedOperationException();
     }
 
+    /**
+     * Method currently unsupported.
+     * @param user User object
+     * @return boolean
+     * @throws DaoException
+     */
     @Override
     public boolean update(User user) throws DaoException {
         throw new UnsupportedOperationException();
     }
 
+    /**
+     * Method currently unsupported.
+     * @param accountId User's id.
+     * @return boolean
+     * @throws DaoException
+     */
     @Override
-    public boolean delete(long id) throws DaoException {
+    public boolean delete(long accountId) throws DaoException {
         throw new UnsupportedOperationException();
     }
 }

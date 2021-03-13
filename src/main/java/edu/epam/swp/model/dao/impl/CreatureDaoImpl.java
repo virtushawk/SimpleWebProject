@@ -13,6 +13,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * The implementation of {@link CreatureDao}. Contains methods to work with Creature object.
+ * @author romab
+ * @see Creature
+ */
 public class CreatureDaoImpl implements CreatureDao {
 
     private static final Logger logger = LogManager.getLogger(CreatureDaoImpl.class);
@@ -50,10 +55,19 @@ public class CreatureDaoImpl implements CreatureDao {
 
     private CreatureDaoImpl() {}
 
+    /**
+     * Gets instance of CreatureDao.
+     * @return The instance
+     */
     public static CreatureDao getInstance() {
         return instance;
     }
 
+    /**
+     * Finds all creatures.
+     * @return List of creatures.
+     * @throws DaoException if SQLException was thrown.
+     */
     @Override
     public List<Creature> findAll() throws DaoException {
         List<Creature> creatures = new ArrayList<>();
@@ -80,6 +94,12 @@ public class CreatureDaoImpl implements CreatureDao {
         return creatures;
     }
 
+    /**
+     * Finds the newest creatures.
+     * @param limit The number of creatures that the method will return.
+     * @return List of creatures.
+     * @throws DaoException if SQLException was thrown.
+     */
     @Override
     public List<Creature> findNewCreatures(int limit) throws DaoException {
         List<Creature> creatures = new ArrayList<>();
@@ -105,6 +125,12 @@ public class CreatureDaoImpl implements CreatureDao {
         return creatures;
     }
 
+    /**
+     * Finds most popular creatures(creatures with the most reviews).
+     * @param limit The number of creatures that the method will return.
+     * @return List of creatures.
+     * @throws DaoException if SQLException was thrown.
+     */
     @Override
     public List<Creature> findPopularCreatures(int limit) throws DaoException {
         List<Creature> creatures = new ArrayList<>();
@@ -131,13 +157,20 @@ public class CreatureDaoImpl implements CreatureDao {
         return creatures;
     }
 
+    /**
+     * Updates creature's image.
+     * @param creatureId Creature's id.
+     * @param image String containing path to the image.
+     * @return True if image was updated successfully, otherwise false.
+     * @throws DaoException if SQLException was thrown.
+     */
     @Override
-    public boolean updateImageById(long id, String image) throws DaoException {
+    public boolean updateImageById(long creatureId, String image) throws DaoException {
         boolean flag;
         try(Connection connection = pool.getConnection();
             PreparedStatement statement = connection.prepareStatement(UPDATE_PICTURE)) {
             statement.setString(1,image);
-            statement.setLong(2,id);
+            statement.setLong(2,creatureId);
             flag = statement.executeUpdate() > 0;
         } catch (SQLException e) {
             logger.error("An error occurred while updating creature image",e);
@@ -146,13 +179,21 @@ public class CreatureDaoImpl implements CreatureDao {
         return flag;
     }
 
+    /**
+     * Updates User's unchecked creatures.
+     * @param creatureId Creature's id.
+     * @param accountId User's id.
+     * @param image String containing path to the image.
+     * @return true if image was updated successfully, otherwise false.
+     * @throws DaoException if SQLException was thrown.
+     */
     @Override
-    public boolean updateUncheckedImageByCreatureId(long id, long accountId, String image) throws DaoException {
+    public boolean updateUncheckedImageByCreatureId(long creatureId, long accountId, String image) throws DaoException {
         boolean flag;
         try(Connection connection = pool.getConnection();
             PreparedStatement statement = connection.prepareStatement(UPDATE_IMAGE_BY_USER_ID)) {
             statement.setString(1,image);
-            statement.setLong(2,id);
+            statement.setLong(2,creatureId);
             statement.setLong(3,accountId);
             flag = statement.executeUpdate() > 0;
         } catch (SQLException e) {
@@ -162,6 +203,13 @@ public class CreatureDaoImpl implements CreatureDao {
         return flag;
     }
 
+    /**
+     * Updates user's unchecked creature.
+     * @param accountId User's id.
+     * @param creature New creature.
+     * @return true if creature was updated successfully,otherwise false.
+     * @throws DaoException if SQLException was thrown.
+     */
     @Override
     public boolean updateUncheckedCreature(long accountId, Creature creature) throws DaoException {
         boolean flag;
@@ -181,6 +229,12 @@ public class CreatureDaoImpl implements CreatureDao {
         return flag;
     }
 
+    /**
+     * Finds user's creatures.
+     * @param accountId User's id.
+     * @return List of creatures.
+     * @throws DaoException if SQLException was thrown.
+     */
     @Override
     public List<Creature> findCreaturesByAccountId(long accountId) throws DaoException {
         List<Creature> creatures = new ArrayList<>();
@@ -206,6 +260,11 @@ public class CreatureDaoImpl implements CreatureDao {
         return creatures;
     }
 
+    /**
+     * Finds all unchecked creatures.
+     * @return List of creatures.
+     * @throws DaoException if SQLException was thrown.
+     */
     @Override
     public List<Creature> findUncheckedCreatures() throws DaoException {
         List<Creature> creatures = new ArrayList<>();
@@ -230,14 +289,20 @@ public class CreatureDaoImpl implements CreatureDao {
         return creatures;
     }
 
+    /**
+     * Approves creature.
+     * @param creatureId Creature's id.
+     * @return true if creature was approved successfully, otherwise false.
+     * @throws DaoException if SQLException was thrown.
+     */
     @Override
-    public boolean approveCreature(long id) throws DaoException {
+    public boolean approveCreature(long creatureId) throws DaoException {
         boolean flag;
         try(Connection connection = pool.getConnection();
             PreparedStatement statement = connection.prepareStatement(UPDATE_CREATURE_STATUS_ID)) {
             int statusId = CreatureStatus.APPROVED.ordinal();
             statement.setInt(1,statusId);
-            statement.setLong(2,id);
+            statement.setLong(2,creatureId);
             flag = statement.executeUpdate() > 0;
         } catch (SQLException e) {
             logger.error("An error occurred while approving creature",e);
@@ -246,6 +311,12 @@ public class CreatureDaoImpl implements CreatureDao {
         return flag;
     }
 
+    /**
+     * searches creatures by name.
+     * @param name String containing search name.
+     * @return List of creatures.
+     * @throws DaoException if SQLException was thrown.
+     */
     @Override
     public List<Creature> search(String name) throws DaoException {
         List<Creature> creatures = new ArrayList<>();
@@ -272,6 +343,12 @@ public class CreatureDaoImpl implements CreatureDao {
         return creatures;
     }
 
+    /**
+     * Finds user's unchecked creatures.
+     * @param accountId User's id.
+     * @return List of creatures.
+     * @throws DaoException if SQLException was thrown.
+     */
     @Override
     public List<Creature> findUncheckedCreaturesByAccountId(long accountId) throws DaoException {
         List<Creature> creatures = new ArrayList<>();
@@ -297,6 +374,13 @@ public class CreatureDaoImpl implements CreatureDao {
         return creatures;
     }
 
+    /**
+     * Deletes user's creature.
+     * @param accountId User's id.
+     * @param creatureId creature's id.
+     * @return true if creature was deleted successfully, otherwise false.
+     * @throws DaoException if SQLException was thrown.
+     */
     @Override
     public boolean delete(long accountId, long creatureId) throws DaoException {
         boolean flag;
@@ -312,6 +396,12 @@ public class CreatureDaoImpl implements CreatureDao {
         return flag;
     }
 
+    /**
+     * Creates creature.
+     * @param creature Creature object.
+     * @return True if creature was created, otherwise false.
+     * @throws DaoException If SQLException was thrown.
+     */
     @Override
     public boolean create(Creature creature) throws DaoException {
         boolean flag;
@@ -334,6 +424,12 @@ public class CreatureDaoImpl implements CreatureDao {
         return flag;
     }
 
+    /**
+     * Updates creature.
+     * @param creature Creature object.
+     * @return True if creature was updated, otherwise false.
+     * @throws DaoException If SQLException was thrown.
+     */
     @Override
     public boolean update(Creature creature) throws DaoException {
         boolean flag;
@@ -352,14 +448,20 @@ public class CreatureDaoImpl implements CreatureDao {
         return flag;
     }
 
+    /**
+     * Deletes creature.
+     * @param creatureId Creature's id.
+     * @return True if creature was deleted, otherwise false.
+     * @throws DaoException If SQLException was thrown.
+     */
     @Override
-    public boolean delete(long id) throws DaoException {
+    public boolean delete(long creatureId) throws DaoException {
         boolean flag;
         Connection connection = pool.getConnection();
         try(PreparedStatement creatureStatement = connection.prepareStatement(DELETE_CREATURE);
             PreparedStatement reviewStatement = connection.prepareStatement(DELETE_REVIEW)) {
-            creatureStatement.setLong(1,id);
-            reviewStatement.setLong(1,id);
+            creatureStatement.setLong(1,creatureId);
+            reviewStatement.setLong(1,creatureId);
             connection.setAutoCommit(false);
             reviewStatement.execute();
             flag = creatureStatement.executeUpdate() > 0;
@@ -384,12 +486,18 @@ public class CreatureDaoImpl implements CreatureDao {
         return flag;
     }
 
+    /**
+     * Finds creature.
+     * @param creatureId Creature's id.
+     * @return Optional of creature.
+     * @throws DaoException If SQLException was thrown.
+     */
     @Override
-    public Optional<Creature> get(long id) throws DaoException {
+    public Optional<Creature> find(long creatureId) throws DaoException {
         Optional<Creature> result = Optional.empty();
         try(Connection connection = pool.getConnection();
             PreparedStatement statement = connection.prepareStatement(SELECT_CREATURE_BY_ID)) {
-            statement.setLong(1,id);
+            statement.setLong(1,creatureId);
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
                 String name = resultSet.getString(1);
@@ -398,7 +506,7 @@ public class CreatureDaoImpl implements CreatureDao {
                 long lastUpdated = resultSet.getLong(4);
                 Date date = new Date(lastUpdated);
                 Creature creature = new Creature.CreatureBuilder().withName(name).withPicture(picture)
-                        .withDescription(description).withLastUpdated(date).withId(id).build();
+                        .withDescription(description).withLastUpdated(date).withId(creatureId).build();
                 result = Optional.of(creature);
             }
         } catch (SQLException e) {
