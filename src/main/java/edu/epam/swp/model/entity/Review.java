@@ -2,6 +2,10 @@ package edu.epam.swp.model.entity;
 
 import java.sql.Date;
 
+/**
+ * The Review class is used to encapsulate all data needed to work with review.
+ * @author romab
+ */
 public class Review {
 
     private long reviewId;
@@ -14,6 +18,9 @@ public class Review {
     private String text;
     private Date date;
 
+    /**
+     * The Review builder is used to create review object.
+     */
     public static class ReviewBuilder {
 
         private long reviewId;
@@ -26,58 +33,114 @@ public class Review {
         private String text;
         private Date date;
 
+        /**
+         * Instantiates a new Review builder.
+         */
         public ReviewBuilder() {}
 
+        /**
+         * Adds review's id to the builder.
+         * @param reviewId Review's id.
+         * @return ReviewBuilder object.
+         */
         public ReviewBuilder withReviewId(long reviewId) {
             this.reviewId = reviewId;
             return this;
         }
 
+        /**
+         * Adds User's id to the builder.
+         * @param accountId User's builder.
+         * @return ReviewBuilder object.
+         */
         public ReviewBuilder withAccountId(long accountId) {
             this.accountId = accountId;
             return this;
         }
 
+        /**
+         * Adds creature's id to the builder.
+         * @param creatureId Creature's id.
+         * @return ReviewBuilder object.
+         */
         public ReviewBuilder withCreatureId(long creatureId) {
             this.creatureId = creatureId;
             return this;
         }
 
+        /**
+         * Adds rating to the builder.
+         * @param rating rating.
+         * @return ReviewBuilder object.
+         */
         public ReviewBuilder withRating(int rating) {
             this.rating = rating;
             return this;
         }
 
+        /**
+         * Adds avatar to the builder.
+         * @param avatar String containing path to the avatar.
+         * @return ReviewBuilder object.
+         */
         public ReviewBuilder withAvatar(String avatar) {
             this.avatar = avatar;
             return this;
         }
 
+        /**
+         * Adds User's name to the builder.
+         * @param accountName String containing the user's name.
+         * @return ReviewBuilder object.
+         */
         public ReviewBuilder withAccountName(String accountName) {
             this.accountName = accountName;
             return this;
         }
 
+        /**
+         * Adds creature's name to the builder.
+         * @param creatureName String containing the name.
+         * @return ReviewBuilder object.
+         */
         public ReviewBuilder withCreatureName(String creatureName) {
             this.creatureName = creatureName;
             return this;
         }
 
+        /**
+         * Adds text to the builder.
+         * @param text String containing the text.
+         * @return ReviewBuilder object.
+         */
         public ReviewBuilder withText(String text) {
             this.text = text;
             return this;
         }
 
+        /**
+         * Adds date to the builder.
+         * @param date Date
+         * @return ReviewBuilder object.
+         */
         public ReviewBuilder withDate(Date date) {
             this.date = date;
             return this;
         }
 
+        /**
+         * Builds review.
+         * @return Review object.
+         */
         public Review build() {
             return new Review(this);
         }
     }
 
+    /**
+     * Creates Review object with help of review builder.
+     * @param reviewBuilder object
+     */
     private Review(ReviewBuilder reviewBuilder) {
         reviewId = reviewBuilder.reviewId;
         accountId = reviewBuilder.accountId;

@@ -84,7 +84,7 @@ public class CreatureDaoImpl implements CreatureDao {
                 Date date = new Date(lastUpdated);
                 Creature creature = new Creature.CreatureBuilder().withName(name).withPicture(picture).
                         withDescription(description).withLastUpdated(date).withAverageRating(averageRating).
-                        withId(id).build();
+                        withCreatureId(id).build();
                 creatures.add(creature);
             }
         } catch (SQLException e) {
@@ -115,7 +115,7 @@ public class CreatureDaoImpl implements CreatureDao {
                 long lastUpdated = resultSet.getLong(5);
                 Date date = new Date(lastUpdated);
                 Creature creature = new Creature.CreatureBuilder().withName(name).withPicture(picture)
-                        .withDescription(description).withLastUpdated(date).withId(id).build();
+                        .withDescription(description).withLastUpdated(date).withCreatureId(id).build();
                 creatures.add(creature);
             }
         } catch (SQLException e) {
@@ -147,7 +147,7 @@ public class CreatureDaoImpl implements CreatureDao {
                 long lastUpdated = resultSet.getLong(6);
                 Date date = new Date(lastUpdated);
                 Creature creature = new Creature.CreatureBuilder().withName(name).withPicture(picture)
-                        .withDescription(description).withLastUpdated(date).withId(id).build();
+                        .withDescription(description).withLastUpdated(date).withCreatureId(id).build();
                 creatures.add(creature);
             }
         } catch (SQLException e) {
@@ -219,7 +219,7 @@ public class CreatureDaoImpl implements CreatureDao {
             statement.setString(2,creature.getDescription());
             long time = creature.getLastUpdated().getTime();
             statement.setLong(3,time);
-            statement.setLong(4,creature.getId());
+            statement.setLong(4,creature.getCreatureId());
             statement.setLong(5,accountId);
             flag = statement.executeUpdate() > 0;
         } catch (SQLException e) {
@@ -250,7 +250,7 @@ public class CreatureDaoImpl implements CreatureDao {
                 long lastUpdated = resultSet.getLong(5);
                 Date date = new Date(lastUpdated);
                 Creature creature = new Creature.CreatureBuilder().withName(name).withPicture(picture)
-                        .withDescription(description).withLastUpdated(date).withId(creatureId).build();
+                        .withDescription(description).withLastUpdated(date).withCreatureId(creatureId).build();
                 creatures.add(creature);
             }
         } catch (SQLException e) {
@@ -279,7 +279,7 @@ public class CreatureDaoImpl implements CreatureDao {
                 long lastUpdated = resultSet.getLong(5);
                 Date date = new Date(lastUpdated);
                 Creature creature = new Creature.CreatureBuilder().withName(name).withPicture(picture)
-                        .withDescription(description).withLastUpdated(date).withId(id).build();
+                        .withDescription(description).withLastUpdated(date).withCreatureId(id).build();
                 creatures.add(creature);
             }
         } catch (SQLException e) {
@@ -333,7 +333,7 @@ public class CreatureDaoImpl implements CreatureDao {
                 long lastUpdated = resultSet.getLong(5);
                 Date date = new Date(lastUpdated);
                 Creature creature = new Creature.CreatureBuilder().withName(creatureName).withPicture(picture)
-                        .withDescription(description).withLastUpdated(date).withId(id).build();
+                        .withDescription(description).withLastUpdated(date).withCreatureId(id).build();
                 creatures.add(creature);
             }
         } catch (SQLException e) {
@@ -364,7 +364,7 @@ public class CreatureDaoImpl implements CreatureDao {
                 long lastUpdated = resultSet.getLong(5);
                 Date date = new Date(lastUpdated);
                 Creature creature = new Creature.CreatureBuilder().withName(name).withPicture(picture)
-                        .withDescription(description).withLastUpdated(date).withId(creatureId).build();
+                        .withDescription(description).withLastUpdated(date).withCreatureId(creatureId).build();
                 creatures.add(creature);
             }
         } catch (SQLException e) {
@@ -439,7 +439,7 @@ public class CreatureDaoImpl implements CreatureDao {
             statement.setString(2,creature.getDescription());
             long time = creature.getLastUpdated().getTime();
             statement.setLong(3,time);
-            statement.setLong(4,creature.getId());
+            statement.setLong(4,creature.getCreatureId());
             flag = statement.executeUpdate() > 0;
         } catch (SQLException e) {
             logger.error("An error occurred while updating creature",e);
@@ -506,7 +506,7 @@ public class CreatureDaoImpl implements CreatureDao {
                 long lastUpdated = resultSet.getLong(4);
                 Date date = new Date(lastUpdated);
                 Creature creature = new Creature.CreatureBuilder().withName(name).withPicture(picture)
-                        .withDescription(description).withLastUpdated(date).withId(creatureId).build();
+                        .withDescription(description).withLastUpdated(date).withCreatureId(creatureId).build();
                 result = Optional.of(creature);
             }
         } catch (SQLException e) {

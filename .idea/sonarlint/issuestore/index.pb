@@ -291,3 +291,5 @@ x
 Hsrc/test/java/edu/epam/swp/model/service/impl/ReviewServiceImplTest.java,5\7\5793512e9e067a514026594c6d81cd70a6c09919
 v
 Fsrc/test/java/edu/epam/swp/model/service/impl/UserServiceImplTest.java,a\5\a5a08278661402839868d789a2fea6e2522ef04e
+W
+'src/main/webapp/pages/module/footer.jsp,0\2\02696410088f5b9ae896a553c7b6a3178dfddd80

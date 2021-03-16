@@ -35,7 +35,7 @@ public class EditCreatureCommand implements Command {
         long id = Long.parseLong(request.getParameter(ParameterName.ID));
         long time = System.currentTimeMillis();
         Date date = new Date(time);
-        Creature creature = new Creature.CreatureBuilder().withName(name).withDescription(text).withId(id).
+        Creature creature = new Creature.CreatureBuilder().withName(name).withDescription(text).withCreatureId(id).
                 withLastUpdated(date).build();
         boolean flag;
         try {

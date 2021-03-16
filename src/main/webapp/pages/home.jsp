@@ -62,7 +62,7 @@
             <div class="card h-100 border-0">
                 <img src="${pageContext.request.contextPath}/uploadController?url=${creature.picture}" class="card-img-top" alt="<fmt:message key="home.image.alt"/>" style="width: 100%;object-fit: cover;height: 15vw">
                 <div class="card-body">
-                    <a href="${pageContext.request.contextPath}/controller?command=creature&id=${creature.id}" class="text-decoration-none stretched-link">
+                    <a href="${pageContext.request.contextPath}/controller?command=creature&id=${creature.creatureId}" class="text-decoration-none stretched-link">
                         <e:forHtml value="${creature.name}"/>
                     </a>
                     <p class="card-text text-truncate">
@@ -87,7 +87,7 @@
             <div class="card h-100 border-0">
                 <img src="${pageContext.request.contextPath}/uploadController?url=${creature.picture}" class="card-img-top" alt="<fmt:message key="home.image.alt"/>" style="width: 100%;object-fit: cover;height: 15vw">
                 <div class="card-body">
-                    <a href="${pageContext.request.contextPath}/controller?command=creature&id=${creature.id}" class="text-decoration-none stretched-link">
+                    <a href="${pageContext.request.contextPath}/controller?command=creature&id=${creature.creatureId}" class="text-decoration-none stretched-link">
                         <e:forHtml value="${creature.name}"/>
                     </a>
                     <p class="card-text text-truncate">

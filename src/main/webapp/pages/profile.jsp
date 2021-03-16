@@ -447,7 +447,7 @@
                                                 </div>
                                                 <div class="col-md-8">
                                                     <div class="card-body">
-                                                        <a href="${pageContext.request.contextPath}/controller?command=creature&id=${creature.id}" class="text-decoration-none">
+                                                        <a href="${pageContext.request.contextPath}/controller?command=creature&id=${creature.creatureId}" class="text-decoration-none">
                                                             <e:forHtml value="${creature.name}"/>
                                                         </a>
                                                         <p class="card-text text-truncate">
@@ -568,10 +568,10 @@
                             <div class="card h-100 border-0">
                                 <img src="${pageContext.request.contextPath}/uploadController?url=${creature.picture}" class="card-img-top" alt="<fmt:message key="home.image.alt"/>" style=" width: 100%;object-fit: cover;height: 15vw">
                                 <div class="card-body">
-                                    <button type="button" class="btn btn-outline-primary mt-1" data-bs-toggle="modal" data-bs-target="#creatureModal${creature.id}">
+                                    <button type="button" class="btn btn-outline-primary mt-1" data-bs-toggle="modal" data-bs-target="#creatureModal${creature.creatureId}">
                                         <e:forHtml value="${creature.name}"/>
                                     </button>
-                                    <div class="modal fade" id="creatureModal${creature.id}" tabindex="-1">
+                                    <div class="modal fade" id="creatureModal${creature.creatureId}" tabindex="-1">
                                         <div class="modal-dialog modal-xl">
                                             <div class="modal-content">
                                                 <div class="modal-header">
@@ -615,19 +615,19 @@
                                     <p class="card-text text-truncate">
                                         <e:forHtml value="${creature.description}"/>
                                     </p>
-                                    <button type="button" class="btn btn-outline-primary mt-1" data-bs-toggle="modal" data-bs-target="#imageModal${creature.id}">
+                                    <button type="button" class="btn btn-outline-primary mt-1" data-bs-toggle="modal" data-bs-target="#imageModal${creature.creatureId}">
                                         <fmt:message key="adminPanel.creatureTab.button.changeImage"/>
                                     </button>
-                                    <button type="button" class="btn btn-outline-primary mt-1" data-bs-toggle="modal" data-bs-target="#editModal${creature.id}">
+                                    <button type="button" class="btn btn-outline-primary mt-1" data-bs-toggle="modal" data-bs-target="#editModal${creature.creatureId}">
                                         <fmt:message key="adminPanel.creatureTab.button.edit"/>
                                     </button>
-                                    <a class="btn btn-outline-danger mt-1" href="${pageContext.request.contextPath}/controller?command=delete_unchecked_creature&id=${creature.id}">
+                                    <a class="btn btn-outline-danger mt-1" href="${pageContext.request.contextPath}/controller?command=delete_unchecked_creature&id=${creature.creatureId}">
                                         <fmt:message key="adminPanel.correctionTab.delete"/>
                                     </a>
                                 </div>
-                                <div class="modal fade" id="imageModal${creature.id}" tabindex="-1">
+                                <div class="modal fade" id="imageModal${creature.creatureId}" tabindex="-1">
                                     <div class="modal-dialog">
-                                        <form class="modal-content needs-validation" action="${pageContext.request.contextPath}/controller?command=change_unchecked_image&id=${creature.id}" method="post" enctype="multipart/form-data" novalidate>
+                                        <form class="modal-content needs-validation" action="${pageContext.request.contextPath}/controller?command=change_unchecked_image&id=${creature.creatureId}" method="post" enctype="multipart/form-data" novalidate>
                                             <div class="modal-header">
                                                 <h5 class="modal-title">
                                                     <fmt:message key="adminPanel.creatureTab.button.changeImage"/>
@@ -654,9 +654,9 @@
                                         </form>
                                     </div>
                                 </div>
-                                <div class="modal fade" id="editModal${creature.id}" tabindex="-1">
+                                <div class="modal fade" id="editModal${creature.creatureId}" tabindex="-1">
                                     <div class="modal-dialog modal-xl">
-                                        <form class="modal-content needs-validation" action="${pageContext.request.contextPath}/controller?command=edit_unchecked_creature&id=${creature.id}" method="post" novalidate>
+                                        <form class="modal-content needs-validation" action="${pageContext.request.contextPath}/controller?command=edit_unchecked_creature&id=${creature.creatureId}" method="post" novalidate>
                                             <div class="modal-header">
                                                 <h5 class="modal-title">
                                                     <fmt:message key="creature.editCreatureModal.title"/>

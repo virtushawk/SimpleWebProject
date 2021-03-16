@@ -2,6 +2,10 @@ package edu.epam.swp.model.entity;
 
 import java.io.Serializable;
 
+/**
+ * The User class is used to encapsulate all data needed to work with users.
+ * @author romab
+ */
 public class User implements Serializable {
 
     private long accountId;
@@ -13,6 +17,9 @@ public class User implements Serializable {
     private int numberReviews;
     private UserStatus userStatus;
 
+    /**
+     * The User builder is used to create user object.
+     */
     public static class UserBuilder {
 
         private long accountId;
@@ -24,53 +31,104 @@ public class User implements Serializable {
         private int numberReviews;
         private UserStatus userStatus;
 
+        /**
+         * Instantiates a new User builder.
+         */
         public UserBuilder() {}
 
+        /**
+         * Adds User's id to the builder.
+         * @param accountId User's id.
+         * @return UserBuilder object.
+         */
         public UserBuilder withAccountId(long accountId) {
             this.accountId = accountId;
             return this;
         }
 
+        /**
+         * Adds email to the builder.
+         * @param email String containing the email.
+         * @return UserBuilder object.
+         */
         public UserBuilder withEmail(String email) {
             this.email = email;
             return this;
         }
 
+        /**
+         * Adds username to the builder.
+         * @param username String containing the username
+         * @return UserBuilder object.
+         */
         public UserBuilder withUsername(String username) {
             this.username = username;
             return this;
         }
 
+        /**
+         * Adds avatar to the builder.
+         * @param avatar String containing the path to the image.
+         * @return UserBuilder object.
+         */
         public UserBuilder withAvatar(String avatar) {
             this.avatar = avatar;
             return this;
         }
 
+        /**
+         * Adds role to the builder.
+         * @param role String containing the role.
+         * @return UserBuilder object.
+         */
         public UserBuilder withRole(AccountRole role) {
             this.role = role;
             return this;
         }
 
+        /**
+         * Adds the name to the builder.
+         * @param name String containing the name.
+         * @return UserBuilder object.
+         */
         public UserBuilder withName(String name) {
             this.name = name;
             return this;
         }
 
+        /**
+         * Adds the number of reviews to the builder.
+         * @param numberReviews number of reviews.
+         * @return UserBuilder object.
+         */
         public UserBuilder withNumberReviews(int numberReviews) {
             this.numberReviews = numberReviews;
             return this;
         }
 
+        /**
+         * Adds user's status to the builder.
+         * @param userStatus User's status.
+         * @return UserBuilder object.
+         */
         public UserBuilder withUserStatus(UserStatus userStatus) {
             this.userStatus = userStatus;
             return this;
         }
 
+        /**
+         * Builds user.
+         * @return User object
+         */
         public User build() {
             return new User(this);
         }
     }
 
+    /**
+     * Creates user object with help of UserBuilder.
+     * @param userBuilder object.
+     */
     private User(UserBuilder userBuilder) {
         accountId = userBuilder.accountId;
         email = userBuilder.email;

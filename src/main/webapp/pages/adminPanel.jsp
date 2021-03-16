@@ -358,10 +358,10 @@
                                     </div>
                                     <div class="col-md-8">
                                         <div class="card-body">
-                                            <button type="button" class="btn btn-outline-primary mt-1" data-bs-toggle="modal" data-bs-target="#creatureModal${creature.id}">
+                                            <button type="button" class="btn btn-outline-primary mt-1" data-bs-toggle="modal" data-bs-target="#creatureModal${creature.creatureId}">
                                                 ${creature.name}
                                             </button>
-                                            <div class="modal fade" id="creatureModal${creature.id}" tabindex="-1">
+                                            <div class="modal fade" id="creatureModal${creature.creatureId}" tabindex="-1">
                                                 <div class="modal-dialog modal-xl">
                                                     <div class="modal-content">
                                                         <div class="modal-header">
@@ -415,10 +415,10 @@
                                 </div>
                             </div>
                             <div class="d-flex justify-content-end">
-                                <a class="btn btn-outline-success mt-1" href="${pageContext.request.contextPath}/controller?command=approve_creature&id=${creature.id}">
+                                <a class="btn btn-outline-success mt-1" href="${pageContext.request.contextPath}/controller?command=approve_creature&id=${creature.creatureId}">
                                     <fmt:message key="adminPanel.correctionTab.approve"/>
                                 </a>
-                                <a class="btn btn-outline-danger mt-1" href="${pageContext.request.contextPath}/controller?command=delete_creature&id=${creature.id}">
+                                <a class="btn btn-outline-danger mt-1" href="${pageContext.request.contextPath}/controller?command=delete_creature&id=${creature.creatureId}">
                                     <fmt:message key="adminPanel.correctionTab.delete"/>
                                 </a>
                             </div>
@@ -637,7 +637,7 @@
                                     </div>
                                     <div class="col-md-8">
                                         <div class="card-body">
-                                            <a href="${pageContext.request.contextPath}/controller?command=creature&id=${creature.id}" class="text-decoration-none stretched-link">
+                                            <a href="${pageContext.request.contextPath}/controller?command=creature&id=${creature.creatureId}" class="text-decoration-none stretched-link">
                                                     ${creature.name}
                                             </a>
                                             <p class="card-text text-truncate">
@@ -653,19 +653,19 @@
                                 </div>
                             </div>
                             <div class="d-flex justify-content-end">
-                                <button type="button" class="btn btn-outline-primary mt-1" data-bs-toggle="modal" data-bs-target="#imageModal${creature.id}">
+                                <button type="button" class="btn btn-outline-primary mt-1" data-bs-toggle="modal" data-bs-target="#imageModal${creature.creatureId}">
                                     <fmt:message key="adminPanel.creatureTab.button.changeImage"/>
                                 </button>
-                                <button type="button" class="btn btn-outline-primary mt-1" data-bs-toggle="modal" data-bs-target="#bodyModal${creature.id}">
+                                <button type="button" class="btn btn-outline-primary mt-1" data-bs-toggle="modal" data-bs-target="#bodyModal${creature.creatureId}">
                                     <fmt:message key="adminPanel.creatureTab.button.edit"/>
                                 </button>
-                                <a class="btn btn-outline-danger mt-1" href="${pageContext.request.contextPath}/controller?command=delete_creature&id=${creature.id}">
+                                <a class="btn btn-outline-danger mt-1" href="${pageContext.request.contextPath}/controller?command=delete_creature&id=${creature.creatureId}">
                                     <fmt:message key="adminPanel.creatureTab.button.delete"/>
                                 </a>
                             </div>
-                            <div class="modal fade" id="imageModal${creature.id}" tabindex="-1">
+                            <div class="modal fade" id="imageModal${creature.creatureId}" tabindex="-1">
                                 <div class="modal-dialog">
-                                    <form class="modal-content needs-validation" action="${pageContext.request.contextPath}/controller?command=change_image&id=${creature.id}" method="post" enctype="multipart/form-data" novalidate>
+                                    <form class="modal-content needs-validation" action="${pageContext.request.contextPath}/controller?command=change_image&id=${creature.creatureId}" method="post" enctype="multipart/form-data" novalidate>
                                         <div class="modal-header">
                                             <h5 class="modal-title">
                                                 <fmt:message key="adminPanel.creatureTab.imageModal.title"/>
@@ -692,9 +692,9 @@
                                     </form>
                                 </div>
                             </div>
-                            <div class="modal fade" id="bodyModal${creature.id}" tabindex="-1">
+                            <div class="modal fade" id="bodyModal${creature.creatureId}" tabindex="-1">
                                 <div class="modal-dialog modal-xl">
-                                    <form class="modal-content needs-validation" action="${pageContext.request.contextPath}/controller?command=edit_creature&id=${creature.id}" method="post" novalidate>
+                                    <form class="modal-content needs-validation" action="${pageContext.request.contextPath}/controller?command=edit_creature&id=${creature.creatureId}" method="post" novalidate>
                                         <div class="modal-header">
                                             <h5 class="modal-title">
                                                 <fmt:message key="creature.editCreatureModal.title"/>

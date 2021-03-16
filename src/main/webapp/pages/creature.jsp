@@ -124,7 +124,7 @@
                 </custom:access>
                 <div class="modal fade" id="editCreatureModal" tabindex="-1">
                     <div class="modal-dialog modal-xl">
-                        <form class="modal-content needs-validation" action="${pageContext.request.contextPath}/controller?command=suggest_correction&id=${creature.id}" method="post" novalidate>
+                        <form class="modal-content needs-validation" action="${pageContext.request.contextPath}/controller?command=suggest_correction&id=${creature.creatureId}" method="post" novalidate>
                             <div class="modal-header">
                                 <h5 class="modal-title">
                                     <fmt:message key="creature.editCreatureModal.title"/>
@@ -171,7 +171,7 @@
 <c:choose>
     <c:when test="${(user.role.name().equals('USER') || user.role.name().equals('ADMIN')) && (empty requestScope.userReview)}">
         <div class="container-sm shadow p-3 mb-5 bg-white rounded w-50">
-            <form class="row g-1  needs-validation" action="${pageContext.request.contextPath}/controller?command=create_review&id=${creature.id}" method="post" novalidate>
+            <form class="row g-1  needs-validation" action="${pageContext.request.contextPath}/controller?command=create_review&id=${creature.creatureId}" method="post" novalidate>
                 <div class="col-md-3">
                     <img src="${pageContext.request.contextPath}/uploadController?url=${user.avatar}" alt="<fmt:message key="general.userImage.alt"/>"  class="img-thumbnail" style="height: 100px; width: 100px">
                     <p class="fs-3">
@@ -240,14 +240,14 @@
                     <button type="button" class="btn btn-outline-primary mt-1" data-bs-toggle="modal" data-bs-target="#reviewModal">
                         <fmt:message key="creature.button.edit"/>
                     </button>
-                    <a class="btn btn-outline-danger mt-1" href="${pageContext.request.contextPath}/controller?command=delete_review&id=${userReview.reviewId}&creature=${requestScope.creature.id}">
+                    <a class="btn btn-outline-danger mt-1" href="${pageContext.request.contextPath}/controller?command=delete_review&id=${userReview.reviewId}&creature=${requestScope.creature.creatureId}">
                         <fmt:message key="creature.review.button.delete"/>
                     </a>
                     <div class="modal fade" id="reviewModal" tabindex="-1">
                         <div class="modal-dialog modal-xl">
                             <form class="modal-content needs-validation" action="${pageContext.request.contextPath}/controller?command=edit_review" method="post" novalidate>
                                 <input type="hidden" name="id" value="${userReview.reviewId}">
-                                <input type="hidden" name="creature" value="${creature.id}">
+                                <input type="hidden" name="creature" value="${creature.creatureId}">
                                 <div class="modal-header">
                                     <h5 class="modal-title">
                                         <fmt:message key="creature.editReviewModal.title"/>
@@ -337,10 +337,10 @@
         </c:forEach>
     </div>
     <div class="container text-center">
-        <a href="${pageContext.request.contextPath}/controller?command=${param.command}&id=${requestScope.creature.id}&start=${pageStart - perPage}">
+        <a href="${pageContext.request.contextPath}/controller?command=${param.command}&id=${requestScope.creature.creatureId}&start=${pageStart - perPage}">
             <<
         </a>${pageStart + 1} - ${pageStart + perPage}
-        <a href="${pageContext.request.contextPath}/controller?command=${param.command}&id=${requestScope.creature.id}&start=${pageStart + perPage}">
+        <a href="${pageContext.request.contextPath}/controller?command=${param.command}&id=${requestScope.creature.creatureId}&start=${pageStart + perPage}">
             >>
         </a>
     </div>

@@ -39,7 +39,7 @@ public class EditUncheckedCreatureCommand implements Command {
         long time = System.currentTimeMillis();
         Date date = new Date(time);
         Creature creature = new Creature.CreatureBuilder().withName(name)
-                .withDescription(text).withLastUpdated(date).withId(id).build();
+                .withDescription(text).withLastUpdated(date).withCreatureId(id).build();
         boolean flag;
         try {
             flag = service.editUncheckedCreature(accountId,creature);
