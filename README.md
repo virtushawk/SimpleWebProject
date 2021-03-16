@@ -1,64 +1,65 @@
 [EN](/README.en.md) [RU](/README.md)
-# Сервис Бестиарий, Иллюстрированная энциклопедия вымышленных существ из мифологии, средневековых бестиариев, литературы и игр.
-## Автор - Бруханчик Роман
+# Service Bestiary, An Illustrated Encyclopedia of fictional creatures from mythology, medieval bestiaries, literature and games.
+## Author - Roman Brukhanchik
 
-## Описание 
-Веб-приложение, представляющие собой иллюстрированную энциклопедию вымышленных существ из мифологии, средневековых бестиариев, литературы и игр. Пользователи могут просматривать катало существ и оставлять отзыв с оценкой, уточнять описание, также могут предлагать своих существ.
-## Тип Пользователей
-**Гость(неавторизованный пользователь)**
+## Description
+A web application that is an illustrated encyclopedia of fictional creatures from mythology, medieval bestiaries, literature and games. Users can browse the catalog of creatures and leave a review with a rating, clarify the description, they can also suggest their creatures.
+## User Type
 
-Функционал:
-* просмотр домашней страницы
-* просмотр каталога сушеств(сортировка)
-* поиск сушеств
-* просмотр профилей пользователей
-* аутентификация/регистрация
-* Смена языка
+**Guest (unauthorized user)**
 
-**Пользователь**
+Functionality:
+* home page view
+* viewing the catalog of creatures (sorting)
+* search for creatures
+* view user's profiles
+* authentication / registration
+* Switch languages
 
-Категория пользователей разделяется на активных и неактивных.
-Сразу после регистрации, пользователь получает статус неактивного и становится активным после перехода по ссылке, отправленной на почту, указанную им при регистрации.
+**User**
 
-Функционал неактивного пользователя совпадает с функционалом гостя
+The category of users is divided into active and inactive.
+Immediately after registration, the user receives the status of inactive and becomes active after clicking on the link sent to the mail specified by him during registration.
 
-Функционал активного пользователя:
-* просмотр домашней страницы
-* просмотр каталога сушеств(сортировка)
-* поиск сушеств
-* просмотр профилей пользователей
-* выход из аккаунта
-* Возможность редактировать существ
-* Возможность просматривать свои правки и редактировать/удалять их 
-* Возможность оставлять отзывы с оценкой
-* Возможность редактировать свои отзывы
-* Возможность удалять свои отзывы
-* Возможность предлагать своих существ
-* Просмотр предложенных существ
-* Редактирование предложенных существ
-* Удаление предложенных существ
-* Получение различных статусов после оставление или предложения определенного числа отзывов.
-* Редактирование пользовательского аватара
-* Редактирование личной информации(имя,фамилия)
-* Смена пароля/почты
-* Смена языка
+The functionality of an inactive user is the same as that of a guest
 
-**Администратор**
+Active user functionality:
+* home page view
+* viewing the catalog of creatures (sorting)
+* search for creatures
+* view user's profiles
+* log out
+* Ability to edit creatures
+* Ability to view your edits and edit / delete them
+* Ability to leave rated reviews
+* Ability to edit your reviews
+* Ability to delete your reviews
+* Ability to offer your creatures
+* View suggested creatures
+* Editing suggested creatures
+* Remove suggested creatures
+* Getting different statuses after leaving or proposing a certain number of reviews.
+* Custom avatar editing
+* Editing personal information (name, surname)
+* Change password / mail
+* Switch languages
 
-Функционал администратора включает в себя фукционал всех остальных типов пользователей, а также:
-* Просматривание всего списка существ(сортировка)
-* Редактирование существ
-* Удаление сушеств
-* Просматривание всех отзывов(сортировка)
-* Редактирование отзывов
-* Удаление отзывов
-* Просматривание списка пользователей(сортировка)
-* Редактирование пользователей
-* Возможность блокировки/разблокировки пользователей
-* Возможность сделать администратором
-* Просмотр пользовательских существ(сортировка)
-* Редактирование пользовательских существ
-* Удаление/добавление пользовательских существ
-* Просмотр всех предложенных исправлений(сортировка)
-* Удаление/принятие предложенных исправлений
-* Выставление пользовательских статусов
+**Administrator**
+
+The administrator's functionality includes the functionality of all other types of users, as well as:
+* View the entire list of creatures (sorting)
+* Editing creatures
+* Removal of creatures
+* View all reviews (sorting)
+* Editing reviews
+* Remove reviews
+* Viewing the list of users (sorting)
+* Editing users
+* Ability to block / unblock users
+* Ability to make an administrator
+* View custom creatures (sorting)
+* Editing custom creatures
+* Remove / add custom creatures
+* View all suggested fixes (sort)
+* Deleting / accepting suggested fixes
+* Setting custom statuses
