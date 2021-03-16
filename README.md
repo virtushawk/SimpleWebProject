@@ -1,4 +1,4 @@
-[EN](/README.en.md) [RU](/README.md)
+[EN](/README.md) [RU](/README.ru.md)
 # Service Bestiary, An Illustrated Encyclopedia of fictional creatures from mythology, medieval bestiaries, literature and games.
 ## Author - Roman Brukhanchik
 
