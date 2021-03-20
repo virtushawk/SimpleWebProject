@@ -1,4 +1,4 @@
-[EN](/README.en.md) [RU](/README.md)
+[EN](/README.md) [RU](/README.ru.md)
 # Service Bestiary, An Illustrated Encyclopedia of fictional creatures from mythology, medieval bestiaries, literature and games.
 ## Author - Roman Brukhanchik
 
@@ -9,11 +9,11 @@ A web application that is an illustrated encyclopedia of fictional creatures fro
 **Guest (unauthorized user)**
 
 Functionality:
-* home page view
-* viewing the catalog of creatures (sorting)
-* search for creatures
-* view user's profiles
-* authentication / registration
+* Home page view
+* View the catalog of creatures (sorting)
+* Search for creatures
+* View user's profiles
+* Authentication / registration
 * Switch languages
 
 **User**
@@ -24,23 +24,23 @@ Immediately after registration, the user receives the status of inactive and bec
 The functionality of an inactive user is the same as that of a guest
 
 Active user functionality:
-* home page view
-* viewing the catalog of creatures (sorting)
-* search for creatures
-* view user's profiles
-* log out
-* Ability to edit creatures
-* Ability to view your edits and edit / delete them
-* Ability to leave rated reviews
-* Ability to edit your reviews
-* Ability to delete your reviews
-* Ability to offer your creatures
+* View home page
+* View the catalog of creatures (sorting)
+* Search for creatures
+* View user's profiles
+* Log out
+* Edit creatures
+* View your edits and edit / delete them
+* Leave rated reviews
+* Edit your reviews
+* Delete your reviews
+* Offer your creatures
 * View suggested creatures
-* Editing suggested creatures
+* Edit suggested creatures
 * Remove suggested creatures
-* Getting different statuses after leaving or proposing a certain number of reviews.
+* Get different statuses after leaving or proposing a certain number of reviews.
 * Custom avatar editing
-* Editing personal information (name, surname)
+* Edit personal information (name, surname)
 * Change password / mail
 * Switch languages
 
@@ -48,18 +48,18 @@ Active user functionality:
 
 The administrator's functionality includes the functionality of all other types of users, as well as:
 * View the entire list of creatures (sorting)
-* Editing creatures
+* Edit creatures
 * Removal of creatures
 * View all reviews (sorting)
-* Editing reviews
+* Edit reviews
 * Remove reviews
-* Viewing the list of users (sorting)
-* Editing users
-* Ability to block / unblock users
-* Ability to make an administrator
+* View the list of users (sorting)
+* Edit users
+* Block / unblock users
+* Make user an administrator
 * View custom creatures (sorting)
-* Editing custom creatures
+* Edit custom creatures
 * Remove / add custom creatures
-* View all suggested fixes (sort)
-* Deleting / accepting suggested fixes
-* Setting custom statuses
+* View all suggested corrections (sort)
+* Delete / accept suggested corrections
+* Set custom statuses
