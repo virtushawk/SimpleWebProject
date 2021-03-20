@@ -28,7 +28,7 @@ public interface ReviewDao extends BaseDao<Review>{
      * @return List of reviews.
      * @throws DaoException if SQLException was thrown.
      */
-    List<Review> findReviewsByUserId(long accountId) throws DaoException;
+    List<Review> findReviewsByAccountId(long accountId) throws DaoException;
 
     /**
      * Finds User's specific review.

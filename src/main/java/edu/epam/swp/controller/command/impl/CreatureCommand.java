@@ -41,7 +41,7 @@ public class CreatureCommand implements Command {
         Optional<Creature> creature;
         String page;
         try {
-            creature = creatureService.get(creatureId);
+            creature = creatureService.findCreature(creatureId);
             if (creature.isPresent()) {
                 User user = (User) request.getSession().getAttribute(AttributeName.USER);
                 long accountId = user.getAccountId();

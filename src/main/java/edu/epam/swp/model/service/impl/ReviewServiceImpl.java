@@ -13,6 +13,11 @@ import org.apache.logging.log4j.Logger;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * The implementation of {@link ReviewService}. Contains methods to work with Review object.
+ * @author romab
+ * @see Review
+ */
 public class ReviewServiceImpl implements ReviewService {
 
     private static final Logger logger = LogManager.getLogger(ReviewServiceImpl.class);
@@ -21,10 +26,20 @@ public class ReviewServiceImpl implements ReviewService {
 
     private ReviewServiceImpl() {}
 
+    /**
+     * Gets instance.
+     * @return the instance
+     */
     public static ReviewService getInstance() {
         return instance;
     }
 
+    /**
+     * Creates review.
+     * @param review Review object.
+     * @return True if object was created, otherwise false.
+     * @throws ServiceException If DaoException was thrown.
+     */
     @Override
     public boolean createReview(Review review) throws ServiceException {
         boolean flag;
@@ -43,11 +58,17 @@ public class ReviewServiceImpl implements ReviewService {
         return flag;
     }
 
+    /**
+     * Finds creature's reviews.
+     * @param creatureId Creature's id.
+     * @return List of reviews.
+     * @throws ServiceException If DaoException was thrown.
+     */
     @Override
-    public List<Review> findCreatureReviews(long id) throws ServiceException {
+    public List<Review> findCreatureReviews(long creatureId) throws ServiceException {
         List<Review> reviews;
         try {
-            reviews = dao.findReviewsByCreatureId(id);
+            reviews = dao.findReviewsByCreatureId(creatureId);
         } catch (DaoException e) {
             logger.error("An error occurred while finding reviews",e);
             throw new ServiceException("An error occurred while finding reviews",e);
@@ -55,11 +76,17 @@ public class ReviewServiceImpl implements ReviewService {
         return reviews;
     }
 
+    /**
+     * Finds user's reviews.
+     * @param accountId User's id.
+     * @return List of reviews.
+     * @throws ServiceException If DaoException was thrown.
+     */
     @Override
-    public List<Review> findUserReviews(long id) throws ServiceException {
+    public List<Review> findUserReviews(long accountId) throws ServiceException {
         List<Review> reviews;
         try {
-            reviews = dao.findReviewsByUserId(id);
+            reviews = dao.findReviewsByAccountId(accountId);
         } catch (DaoException e) {
             logger.error("An error occurred while finding user's reviews",e);
             throw new ServiceException("An error occurred while finding user's reviews",e);
@@ -67,6 +94,11 @@ public class ReviewServiceImpl implements ReviewService {
         return reviews;
     }
 
+    /**
+     * Finds all reviews.
+     * @return List of reviews.
+     * @throws ServiceException If DaoException was thrown.
+     */
     @Override
     public List<Review> findAll() throws ServiceException {
         List<Review> reviews;
@@ -79,6 +111,12 @@ public class ReviewServiceImpl implements ReviewService {
         return reviews;
     }
 
+    /**
+     * Edits review.
+     * @param review Review object.
+     * @return True if review was updated, otherwise false.
+     * @throws ServiceException If DaoException was thrown.
+     */
     @Override
     public boolean editReview(Review review) throws ServiceException {
         boolean flag;
@@ -97,6 +135,13 @@ public class ReviewServiceImpl implements ReviewService {
         return flag;
     }
 
+    /**
+     * Edits user's review.
+     * @param accountId User's id.
+     * @param review Review object.
+     * @return True if review was updated, otherwise false.
+     * @throws ServiceException If DaoException was thrown.
+     */
     @Override
     public boolean editReview(long accountId, Review review) throws ServiceException {
         boolean flag;
@@ -115,6 +160,12 @@ public class ReviewServiceImpl implements ReviewService {
         return flag;
     }
 
+    /**
+     * Deletes review.
+     * @param reviewId Review's id.
+     * @return True if review was deleted, otherwise false.
+     * @throws ServiceException If DaoException was thrown.
+     */
     @Override
     public boolean delete(long reviewId) throws ServiceException {
         boolean flag;
@@ -127,6 +178,13 @@ public class ReviewServiceImpl implements ReviewService {
         return flag;
     }
 
+    /**
+     * Deletes user's review.
+     * @param reviewId Review's id.
+     * @param accountId user's id.
+     * @return True if review was deleted, otherwise false.
+     * @throws ServiceException If DaoException was thrown.
+     */
     @Override
     public boolean delete(long reviewId, long accountId) throws ServiceException {
         boolean flag;
@@ -139,11 +197,18 @@ public class ReviewServiceImpl implements ReviewService {
         return flag;
     }
 
+    /**
+     * Finds user's review.
+     * @param accountId User's id.
+     * @param creatureId Creature's id.
+     * @return Optional of review.
+     * @throws ServiceException If DaoException was thrown.
+     */
     @Override
-    public Optional<Review> findUserReview(long userId,long creatureId) throws ServiceException {
+    public Optional<Review> findUserReview(long accountId,long creatureId) throws ServiceException {
         Optional<Review> review;
         try {
-            review = dao.findReviewByAccountIdCreatureId(userId,creatureId);
+            review = dao.findReviewByAccountIdCreatureId(accountId,creatureId);
         } catch (DaoException e) {
             logger.error("Error occurred while finding user's review",e);
             throw new ServiceException("Error occurred while finding user's review",e);

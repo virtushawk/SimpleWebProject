@@ -85,7 +85,7 @@ public class ReviewServiceImplTest {
     public void findUserReviewsTest() throws DaoException, ServiceException {
         long id = 1;
         List<Review> expected = new ArrayList<>();
-        Mockito.when(dao.findReviewsByUserId(Mockito.anyLong())).thenReturn(expected);
+        Mockito.when(dao.findReviewsByAccountId(Mockito.anyLong())).thenReturn(expected);
         List<Review> actual = service.findUserReviews(id);
         Assert.assertEquals(actual, expected);
     }
@@ -93,7 +93,7 @@ public class ReviewServiceImplTest {
     @Test(dependsOnMethods = "findUserReviewsTest", expectedExceptions = ServiceException.class)
     public void findUserReviewsExceptionTest() throws DaoException, ServiceException {
         long id = 1;
-        Mockito.when(dao.findReviewsByUserId(Mockito.anyLong())).thenThrow(new DaoException());
+        Mockito.when(dao.findReviewsByAccountId(Mockito.anyLong())).thenThrow(new DaoException());
         service.findUserReviews(id);
     }
 

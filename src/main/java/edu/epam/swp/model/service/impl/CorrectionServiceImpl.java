@@ -12,18 +12,33 @@ import org.apache.logging.log4j.Logger;
 
 import java.util.List;
 
+/**
+ * The implementation of {@link CorrectionService}. Contains methods to work with Correction object.
+ * @author romab
+ * @see Correction
+ */
 public class CorrectionServiceImpl implements CorrectionService {
 
     private static final Logger logger = LogManager.getLogger(CorrectionServiceImpl.class);
     private static final CorrectionService instance = new CorrectionServiceImpl();
     private CorrectionDao dao = CorrectionDaoImpl.getInstance();
 
+    private CorrectionServiceImpl() {}
+
+    /**
+     * Gets instance.
+     * @return Instance.
+     */
     public static CorrectionService getInstance() {
         return instance;
     }
 
-    private CorrectionServiceImpl() {}
-
+    /**
+     * Creates correction.
+     * @param correction Correction object.
+     * @return true if correction was created, false otherwise.
+     * @throws ServiceException If DaoException was  thrown.
+     */
     @Override
     public boolean create(Correction correction) throws ServiceException {
         boolean flag;
@@ -42,6 +57,11 @@ public class CorrectionServiceImpl implements CorrectionService {
         return flag;
     }
 
+    /**
+     * Finds all corrections.
+     * @return List containing corrections.
+     * @throws ServiceException If DaoException was thrown.
+     */
     @Override
     public List<Correction> findAll() throws ServiceException {
         List<Correction> corrections;
@@ -54,11 +74,17 @@ public class CorrectionServiceImpl implements CorrectionService {
         return corrections;
     }
 
+    /**
+     * Approves correction.
+     * @param correctionId Correction's id.
+     * @return True if correction was approved, otherwise false.
+     * @throws ServiceException If DaoException was thrown.
+     */
     @Override
-    public boolean approveCorrection(long id) throws ServiceException {
+    public boolean approveCorrection(long correctionId) throws ServiceException {
         boolean flag;
         try {
-            flag = dao.approveCorrection(id);
+            flag = dao.approveCorrection(correctionId);
         } catch (DaoException e) {
             logger.error("Error occurred while approving correction",e);
             throw new ServiceException("Error occurred while approving correction",e);
@@ -66,11 +92,17 @@ public class CorrectionServiceImpl implements CorrectionService {
         return flag;
     }
 
+    /**
+     * Deletes correction.
+     * @param correctionId Correction's id.
+     * @return True if correction was deleted, otherwise false.
+     * @throws ServiceException If DaoException was thrown.
+     */
     @Override
-    public boolean delete(long id) throws ServiceException {
+    public boolean delete(long correctionId) throws ServiceException {
         boolean flag;
         try {
-            flag = dao.delete(id);
+            flag = dao.delete(correctionId);
         } catch (DaoException e) {
             logger.error("Error occurred while deleting correction",e);
             throw new ServiceException("Error occurred while deleting correction",e);
@@ -78,6 +110,13 @@ public class CorrectionServiceImpl implements CorrectionService {
         return flag;
     }
 
+    /**
+     * Deletes user's correction.
+     * @param accountId User's id.
+     * @param correctionId Correction's id.
+     * @return True if correction was deleted, otherwise false.
+     * @throws ServiceException If DaoException was thrown.
+     */
     @Override
     public boolean delete(long accountId, long correctionId) throws ServiceException {
         boolean flag;
@@ -90,6 +129,12 @@ public class CorrectionServiceImpl implements CorrectionService {
         return flag;
     }
 
+    /**
+     * Finds User's corrections.
+     * @param accountId User's id.
+     * @return List containing user's corrections.
+     * @throws ServiceException if DaoException was thrown.
+     */
     @Override
     public List<Correction> findUserCorrections(long accountId) throws ServiceException {
         List<Correction> corrections;
@@ -102,6 +147,13 @@ public class CorrectionServiceImpl implements CorrectionService {
         return corrections;
     }
 
+    /**
+     * Edits user's correction.
+     * @param accountId  User's id.
+     * @param correction Correction object.
+     * @return true if correction was edited, otherwise false.
+     * @throws ServiceException If DaoException was thrown.
+     */
     @Override
     public boolean editCorrection(long accountId, Correction correction) throws ServiceException {
         boolean flag;

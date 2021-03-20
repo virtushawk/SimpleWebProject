@@ -130,7 +130,7 @@ public class ReviewDaoImpl implements ReviewDao {
      */
     //todo : ???
     @Override
-    public List<Review> findReviewsByUserId(long accountId) throws DaoException {
+    public List<Review> findReviewsByAccountId(long accountId) throws DaoException {
         List<Review> reviews = new ArrayList<>();
         try(Connection connection = pool.getConnection();
             PreparedStatement statement = connection.prepareStatement(SELECT_REVIEW_BY_USER_ID)) {

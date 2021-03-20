@@ -7,14 +7,26 @@ import edu.epam.swp.model.entity.User;
 import javax.servlet.http.HttpSession;
 import javax.servlet.jsp.tagext.TagSupport;
 
+/**
+ * AccessControlTag is used to check user's roles.
+ * @author romab
+ */
 public class AccessControlTag extends TagSupport {
 
     private String role;
 
+    /**
+     * Sets access role.
+     * @param role the role
+     */
     public void setAccessRole(String role) {
         this.role = role;
     }
 
+    /**
+     * Checks user's role and skips tag's body if role is wrong.
+     * @return 1 for EVAL_BODY_INCLUDE ro 0 for SKIP_BODY.
+     */
     @Override
     public int doStartTag() {
         HttpSession session = pageContext.getSession();

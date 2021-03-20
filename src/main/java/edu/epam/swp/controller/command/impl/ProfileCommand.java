@@ -47,7 +47,7 @@ public class ProfileCommand implements Command {
         Optional<User> user;
         String page;
         try {
-            user = userService.get(id);
+            user = userService.findUser(id);
             if (user.isPresent()) {
                 request.setAttribute(AttributeName.USER,user.get());
                 List<Review> reviews = reviewService.findUserReviews(id);

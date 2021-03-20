@@ -13,6 +13,11 @@ import org.apache.logging.log4j.Logger;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * The implementation of {@link CreatureService}. Contains methods to work with Creature object.
+ * @author romab
+ * @see Creature
+ */
 public class CreatureServiceImpl implements CreatureService {
 
     private static final Logger logger = LogManager.getLogger(CreatureServiceImpl.class);
@@ -21,10 +26,20 @@ public class CreatureServiceImpl implements CreatureService {
 
     private CreatureServiceImpl() {}
 
+    /**
+     * Gets instance.
+     * @return the instance
+     */
     public static CreatureService getInstance() {
         return instance;
     }
 
+    /**
+     * Finds new creatures.
+     * @param limit number of creatures to return.
+     * @return List of new creatures.
+     * @throws ServiceException If DaoException was thrown.
+     */
     @Override
     public List<Creature> findNewCreatures(int limit) throws ServiceException {
         List<Creature> creatures;
@@ -37,6 +52,12 @@ public class CreatureServiceImpl implements CreatureService {
         return creatures;
     }
 
+    /**
+     * Finds popular creatures.
+     * @param limit number of creatures to return.
+     * @return List of popular creatures.
+     * @throws ServiceException If DaoException was thrown.
+     */
     @Override
     public List<Creature> findPopularCreatures(int limit) throws ServiceException {
         List<Creature> creatures;
@@ -49,6 +70,12 @@ public class CreatureServiceImpl implements CreatureService {
         return creatures;
     }
 
+    /**
+     * Creates creature.
+     * @param creature Creature object.
+     * @return True if creature was created, otherwise false.
+     * @throws ServiceException If DaoException was thrown.
+     */
     @Override
     public boolean createCreature(Creature creature) throws ServiceException {
         boolean flag;
@@ -67,11 +94,17 @@ public class CreatureServiceImpl implements CreatureService {
         return flag;
     }
 
+    /**
+     * Gets creature by id.
+     * @param creatureId Creature's id.
+     * @return Optional of creature.
+     * @throws ServiceException if DaoException was thrown.
+     */
     @Override
-    public Optional<Creature> get(long id) throws ServiceException {
+    public Optional<Creature> findCreature(long creatureId) throws ServiceException {
         Optional<Creature> creature;
         try {
-            creature = dao.find(id);
+            creature = dao.find(creatureId);
         } catch (DaoException e) {
             logger.error("An error occurred while finding a creature",e);
             throw new ServiceException("An error occurred while finding a creature",e);
@@ -79,6 +112,11 @@ public class CreatureServiceImpl implements CreatureService {
         return creature;
     }
 
+    /**
+     * Finds all creatures.
+     * @return List of creatures.
+     * @throws ServiceException If DaoException was thrown.
+     */
     @Override
     public List<Creature> findAll() throws ServiceException {
         List<Creature> creatures;
@@ -91,11 +129,18 @@ public class CreatureServiceImpl implements CreatureService {
         return creatures;
     }
 
+    /**
+     * Changes creature's image.
+     * @param creatureId Creature's id.
+     * @param image String containing the path to the image.
+     * @return True if image was updated, otherwise false.
+     * @throws ServiceException If DaoException was thrown.
+     */
     @Override
-    public boolean changeImage(long id, String image) throws ServiceException {
+    public boolean changeImage(long creatureId, String image) throws ServiceException {
         boolean flag;
         try {
-            flag = dao.updateImageById(id,image);
+            flag = dao.updateImageById(creatureId,image);
         } catch (DaoException e) {
             logger.error("An error occurred while updating creature image",e);
             throw new ServiceException("An error occurred while updating creature image",e);
@@ -103,11 +148,19 @@ public class CreatureServiceImpl implements CreatureService {
         return flag;
     }
 
+    /**
+     * Changes unchecked creature's image.
+     * @param creatureId Creature's id.
+     * @param accountId User's id.
+     * @param image String containing the path to the image.
+     * @return True if image was updated, otherwise false.
+     * @throws ServiceException If DaoException was thrown.
+     */
     @Override
-    public boolean changeUncheckedImage(long id, long accountId, String image) throws ServiceException {
+    public boolean changeUncheckedImage(long creatureId, long accountId, String image) throws ServiceException {
         boolean flag;
         try {
-            flag = dao.updateUncheckedImageByCreatureId(id,accountId,image);
+            flag = dao.updateUncheckedImageByCreatureId(creatureId,accountId,image);
         } catch (DaoException e) {
             logger.error("An error occurred while updating unchecked image",e);
             throw new ServiceException("An error occurred while updating unchecked image",e);
@@ -115,6 +168,12 @@ public class CreatureServiceImpl implements CreatureService {
         return flag;
     }
 
+    /**
+     * Edits creature.
+     * @param creature Creature object.
+     * @return True if creature was updated, otherwise false.
+     * @throws ServiceException If DaoException was thrown.
+     */
     @Override
     public boolean editCreature(Creature creature) throws ServiceException {
         boolean flag;
@@ -133,6 +192,13 @@ public class CreatureServiceImpl implements CreatureService {
         return flag;
     }
 
+    /**
+     * Edits unchecked creature.
+     * @param accountId User's id.
+     * @param creature Creature object.
+     * @return true if creature was updated, otherwise false.
+     * @throws ServiceException If DaoException was thrown.
+     */
     @Override
     public boolean editUncheckedCreature(long accountId, Creature creature) throws ServiceException {
         boolean flag;
@@ -151,11 +217,17 @@ public class CreatureServiceImpl implements CreatureService {
         return flag;
     }
 
+    /**
+     * Deletes creature.
+     * @param creatureId Creature's id.
+     * @return true if Creature was deleted, otherwise false.
+     * @throws ServiceException If DaoException was thrown.
+     */
     @Override
-    public boolean delete(long id) throws ServiceException {
+    public boolean delete(long creatureId) throws ServiceException {
         boolean flag;
         try {
-            flag = dao.delete(id);
+            flag = dao.delete(creatureId);
         } catch (DaoException e) {
             logger.error("An error occurred while deleting creature",e);
             throw new ServiceException("An error occurred while deleting creature",e);
@@ -163,6 +235,13 @@ public class CreatureServiceImpl implements CreatureService {
         return flag;
     }
 
+    /**
+     * Deletes user's creature.
+     * @param accountId User's id.
+     * @param creatureId Creature's id.
+     * @return True if creature was deleted, otherwise false.
+     * @throws ServiceException If DaoException was thrown.
+     */
     @Override
     public boolean delete(long accountId, long creatureId) throws ServiceException {
         boolean flag;
@@ -175,11 +254,17 @@ public class CreatureServiceImpl implements CreatureService {
         return flag;
     }
 
+    /**
+     * Finds user's creatures.
+     * @param accountId User's id.
+     * @return List of creatures.
+     * @throws ServiceException If DaoException was thrown.
+     */
     @Override
-    public List<Creature> findUserCreatures(long id) throws ServiceException {
+    public List<Creature> findUserCreatures(long accountId) throws ServiceException {
         List<Creature> creatures;
         try {
-            creatures = dao.findCreaturesByAccountId(id);
+            creatures = dao.findCreaturesByAccountId(accountId);
         } catch (DaoException e) {
             logger.error("An error occurred while finding user's creatures",e);
             throw new ServiceException("An error occurred while finding user's creatures",e);
@@ -187,6 +272,11 @@ public class CreatureServiceImpl implements CreatureService {
         return creatures;
     }
 
+    /**
+     * Finds all unchecked creatures.
+     * @return List of unchecked creatures.
+     * @throws ServiceException If DaoException was thrown.
+     */
     @Override
     public List<Creature> findUncheckedCreatures() throws ServiceException {
         List<Creature> creatures;
@@ -199,11 +289,17 @@ public class CreatureServiceImpl implements CreatureService {
         return creatures;
     }
 
+    /**
+     * Approves creature.
+     * @param creatureId Creature's id.
+     * @return true if creature was approved, otherwise false.
+     * @throws ServiceException If DaoException was thrown.
+     */
     @Override
-    public boolean approveCreature(long id) throws ServiceException {
+    public boolean approveCreature(long creatureId) throws ServiceException {
         boolean flag;
         try {
-            flag = dao.approveCreature(id);
+            flag = dao.approveCreature(creatureId);
         } catch (DaoException e) {
             logger.error("An error occurred while approving creature",e);
             throw new ServiceException("An error occurred while approving creature",e);
@@ -211,7 +307,12 @@ public class CreatureServiceImpl implements CreatureService {
         return flag;
     }
 
-    // todo : xss attack
+    /**
+     * Finds suitable creatures
+     * @param text String containing the search text.
+     * @return List of creatures.
+     * @throws ServiceException If DaoException was thrown.
+     */
     @Override
     public List<Creature> search(String text) throws ServiceException {
         List<Creature> creatures;
@@ -224,6 +325,12 @@ public class CreatureServiceImpl implements CreatureService {
         return creatures;
     }
 
+    /**
+     * Finds user's suggested creatures.
+     * @param accountId User's id.
+     * @return List of suggested creatures.
+     * @throws ServiceException If DaoException was thrown.
+     */
     @Override
     public List<Creature> findUserSuggestedCreatures(long accountId) throws ServiceException {
         List<Creature> creatures;
