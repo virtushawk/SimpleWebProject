@@ -1,10 +1,5 @@
 package edu.epam.swp.controller;
 
-import edu.epam.swp.controller.command.Command;
-import edu.epam.swp.controller.command.CommandType;
-
-import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletException;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -44,19 +39,5 @@ public class  UploadServlet extends HttpServlet {
                 bufferedOutputStream.write(ch);
             }
         }
-    }
-    //todo : Проверить на использование и убрать
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        proceedRequest(request,response);
-    }
-
-    private void proceedRequest(HttpServletRequest request,HttpServletResponse response) throws ServletException, IOException {
-        String commandType = request.getParameter(ParameterName.COMMAND);
-        Command command = CommandType.valueOf(commandType.toUpperCase()).getCommand();
-        String page = command.execute(request);
-        RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(page);
-        dispatcher.forward(request,response);
     }
 }

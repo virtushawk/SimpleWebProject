@@ -35,6 +35,7 @@ public class ConfirmEmailCommand implements Command {
             flag = service.confirmEmail(id);
             if (flag) {
                 request.setAttribute(AttributeName.EMAIL_CONFIRMED_MESSAGE,true);
+                request.getSession().invalidate();
             } else {
                 request.setAttribute(AttributeName.GENERAL_ERROR_MESSAGE,true);
             }

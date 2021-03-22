@@ -10,6 +10,7 @@ import edu.epam.swp.model.validation.CreatureValidator;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.io.File;
 import java.util.List;
 import java.util.Optional;
 
@@ -83,6 +84,8 @@ public class CreatureServiceImpl implements CreatureService {
         String description = creature.getDescription();
         if ((!CreatureValidator.isName(name)) || (!CreatureValidator.isDescription(description))) {
             logger.info("Invalid credentials for creature");
+            File file = new File(creature.getPicture());
+            file.delete();
             return false;
         }
         try {

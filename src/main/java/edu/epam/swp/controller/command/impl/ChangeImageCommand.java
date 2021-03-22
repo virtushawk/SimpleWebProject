@@ -32,7 +32,7 @@ public class ChangeImageCommand implements Command {
     private static final String SLASH = "/";
     private static final int FILE_SIZE_THRESHOLD = 1024 * 1024;
     private static final int MAX_REQUEST_SIZE = 1024 * 1024 * 5 * 5;
-    private static final String UPLOAD_PATH = "C:/storage";
+    private static final String CONTEXT_UPLOAD_PATH = "uploadPath";
     private static final String TEMP_DIR = "javax.servlet.context.tempdir";
 
     /**
@@ -46,7 +46,7 @@ public class ChangeImageCommand implements Command {
         boolean flag;
         try {
             List<FileItem> fileItems = parseRequest(request);
-            String image = handleFileItems(fileItems);
+            String image = handleFileItems(fileItems,request);
             flag = service.changeImage(id,image);
             if (flag) {
                 request.getSession().setAttribute(AttributeName.IMAGE_CHANGE_VALID,true);
@@ -63,13 +63,16 @@ public class ChangeImageCommand implements Command {
     /**
      * Saves the image in the folder specified in UPLOAD_PATH variable.
      * @param fileItem object containing the image.
+     * @param request HttpServletRequest object.
      * @return String containing the name of the image.
      * @throws Exception
      */
-    private String saveImage(FileItem fileItem) throws Exception {
+    private String saveImage(FileItem fileItem,HttpServletRequest request) throws Exception {
         String itemName = fileItem.getName();
         String uploadName = generateName(itemName);
-        String appName = UPLOAD_PATH + SLASH + uploadName;
+        ServletContext context = request.getServletContext();
+        String uploadPath = context.getInitParameter(CONTEXT_UPLOAD_PATH);
+        String appName = uploadPath + SLASH + uploadName;
         File uploadedFile = new File(appName);
         fileItem.write(uploadedFile);
         return appName;
@@ -109,15 +112,16 @@ public class ChangeImageCommand implements Command {
     /**
      * Finds image and calls saveImage method.
      * @param fileItems List of FileItem.
+     * @param request HttpServletRequest object.
      * @return String containing generated name of image with extension.
      * @throws Exception
      */
-    private String handleFileItems(List<FileItem> fileItems) throws Exception {
+    private String handleFileItems(List<FileItem> fileItems, HttpServletRequest request) throws Exception {
         Iterator<FileItem> iterator = fileItems.iterator();
         String picture = null;
         if (iterator.hasNext()) {
             FileItem item = iterator.next();
-            picture = saveImage(item);
+            picture = saveImage(item,request);
         }
         return picture;
     }

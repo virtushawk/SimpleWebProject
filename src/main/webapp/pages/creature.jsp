@@ -140,7 +140,7 @@
                                     <fmt:message key="createCreature.valid"/>
                                 </div>
                                 <div class="invalid-feedback">
-                                    <fmt:message key="createCreature.name.invalid"/>
+                                    <fmt:message key="creature.editCreatureModal.name.invalid"/>
                                 </div>
                                 <label for="description" class="form-label">
                                     <fmt:message key="createCreature.description.label"/>

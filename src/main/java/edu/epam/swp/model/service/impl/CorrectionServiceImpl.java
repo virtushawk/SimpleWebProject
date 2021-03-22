@@ -159,6 +159,8 @@ public class CorrectionServiceImpl implements CorrectionService {
         boolean flag;
         String name = correction.getName();
         String text = correction.getText();
+        logger.info(name);
+        logger.info(text);
         if ((!CorrectionValidator.isName(name)) || (!CorrectionValidator.isText(text))) {
             logger.info("Invalid credentials for correction");
             return false;

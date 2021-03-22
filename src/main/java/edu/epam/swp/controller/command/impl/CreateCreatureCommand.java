@@ -36,7 +36,7 @@ public class CreateCreatureCommand implements Command {
     private static final String SLASH = "/";
     private static final int FILE_SIZE_THRESHOLD = 1024 * 1024;
     private static final int MAX_REQUEST_SIZE = 1024 * 1024 * 5 * 5;
-    private static final String UPLOAD_PATH = "C:/storage";
+    private static final String CONTEXT_UPLOAD_PATH = "uploadPath";
     private static final String TEMP_DIR = "javax.servlet.context.tempdir";
     private static final CreatureService service = CreatureServiceImpl.getInstance();
 
@@ -52,7 +52,7 @@ public class CreateCreatureCommand implements Command {
         boolean flag;
         try {
             List<FileItem> fileItems = parseRequest(request);
-            Creature creature = handleFileItems(fileItems);
+            Creature creature = handleFileItems(fileItems,request);
             creature.setAccountId(id);
             if (user.getRole().equals(AccountRole.ADMIN)) {
                 creature.setCreatureStatus(CreatureStatus.APPROVED);
@@ -76,13 +76,16 @@ public class CreateCreatureCommand implements Command {
     /**
      * Saves the image in the folder specified in UPLOAD_PATH variable.
      * @param fileItem object containing the image.
+     * @param request HttpServletRequest object.
      * @return String containing the name of the image.
      * @throws Exception
      */
-    private String saveImage(FileItem fileItem) throws Exception {
+    private String saveImage(FileItem fileItem, HttpServletRequest request) throws Exception {
         String itemName = fileItem.getName();
         String uploadName = generateName(itemName);
-        String appName = UPLOAD_PATH + SLASH + uploadName;
+        ServletContext context = request.getServletContext();
+        String uploadPath = context.getInitParameter(CONTEXT_UPLOAD_PATH);
+        String appName = uploadPath + SLASH + uploadName;
         File uploadedFile = new File(appName);
         fileItem.write(uploadedFile);
         return appName;
@@ -122,10 +125,11 @@ public class CreateCreatureCommand implements Command {
     /**
      * creates and returns Creature object from fileItems
      * @param fileItems List of FileItem.
+     * @param request HttpServletRequest object.
      * @return Creature object
      * @throws Exception
      */
-    private Creature handleFileItems(List<FileItem> fileItems) throws Exception {
+    private Creature handleFileItems(List<FileItem> fileItems, HttpServletRequest request) throws Exception {
         Iterator<FileItem> iterator = fileItems.iterator();
         String picture = null;
         String name = null;
@@ -139,7 +143,7 @@ public class CreateCreatureCommand implements Command {
                     description = item.getString();
                 }
             } else {
-                picture = saveImage(item);
+                picture = saveImage(item,request);
             }
         }
         long currentTime = System.currentTimeMillis();
