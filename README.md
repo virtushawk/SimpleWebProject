@@ -15,6 +15,7 @@ Functionality:
 * View user's profiles
 * Authentication / registration
 * Switch languages
+* password recovery
 
 **User**
 
