@@ -15,6 +15,7 @@ Functionality:
 * View user's profiles
 * Authentication / registration
 * Switch languages
+* Password recovery
 
 **User**
 
@@ -30,7 +31,7 @@ Active user functionality:
 * View user's profiles
 * Log out
 * Edit creatures
-* View your edits and edit / delete them
+* View your corrections and edit / delete them
 * Leave rated reviews
 * Edit your reviews
 * Delete your reviews
