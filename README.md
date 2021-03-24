@@ -45,6 +45,8 @@ Active user functionality:
 * Change password / mail
 * Switch languages
 
+The functionality of the blocked user is the same as that of the guest.
+
 **Administrator**
 
 The administrator's functionality includes the functionality of all other types of users, as well as:
