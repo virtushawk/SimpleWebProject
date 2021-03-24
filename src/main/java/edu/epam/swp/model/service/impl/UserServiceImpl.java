@@ -15,8 +15,10 @@ import edu.epam.swp.model.validation.UserValidator;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 /**
  * The implementation of {@link UserService}. Contains methods to work with User object.
@@ -28,6 +30,7 @@ public class UserServiceImpl implements UserService {
     private static final Logger logger = LogManager.getLogger(UserServiceImpl.class);
     private static final UserService instance = new UserServiceImpl();
     private UserDao dao = UserDaoImpl.getInstance();
+    private static HashMap<String,Long> confirmationMap = new HashMap<>();
 
     private UserServiceImpl() {}
 
@@ -76,7 +79,9 @@ public class UserServiceImpl implements UserService {
         try {
             id = dao.create(user,encryptedPassword);
             if (id > 0) {
-                MailUtility.sendConfirmMessage(user.getEmail(),id);
+                String confirmationKey = UUID.randomUUID().toString();
+                MailUtility.sendConfirmMessage(user.getEmail(),confirmationKey);
+                confirmationMap.put(confirmationKey,id);
             }
         } catch (DaoException e) {
             logger.error("Error occurred while creating account",e);
@@ -174,15 +179,19 @@ public class UserServiceImpl implements UserService {
 
     /**
      * Confirms email.
-     * @param accountId User's id.
+     * @param confirmationKey String containing the confirmation key
      * @return True if email was confirmed, otherwise false.
      * @throws ServiceException If DaoException was thrown.
      */
     @Override
-    public boolean confirmEmail(long accountId) throws ServiceException {
-        boolean flag;
+    public boolean confirmEmail(String confirmationKey) throws ServiceException {
+        boolean flag = false;
         try {
-            flag = dao.confirmEmail(accountId);
+            if (confirmationMap.containsKey(confirmationKey)) {
+                long accountId = confirmationMap.get(confirmationKey);
+                flag = dao.confirmEmail(accountId);
+                confirmationMap.remove(confirmationKey);
+            }
         } catch (DaoException e) {
             logger.error("An error occurred while confirming email",e);
             throw new ServiceException("An error occurred while confirming email",e);

@@ -42,6 +42,14 @@
     </div>
     <c:remove var="restoreError" scope="session"/>
 </c:if>
+<c:if test="${sessionScope.loginBlocked}">
+    <div class="container">
+        <div class="alert alert-danger text-center" role="alert">
+            <fmt:message key="login.loginBlocked.message"/>
+        </div>
+    </div>
+    <c:remove var="loginBlocked" scope="session"/>
+</c:if>
 <div>
     <form id="login_form" action="${pageContext.request.contextPath}/controller?command=login" method="post">
         <div class="form-group">
@@ -120,6 +128,7 @@
         <c:remove var="errorMessageDB" scope="session"/>
     </c:if>
 </div>
+<jsp:include page="module/footer.jsp"/>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
 <script src="${pageContext.request.contextPath}/js/form-validation.js"></script>
 </body>

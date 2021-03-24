@@ -4,6 +4,7 @@ import edu.epam.swp.controller.PagePath;
 import edu.epam.swp.controller.command.Command;
 import edu.epam.swp.controller.command.AttributeName;
 import edu.epam.swp.controller.ParameterName;
+import edu.epam.swp.model.entity.AccountRole;
 import edu.epam.swp.model.entity.User;
 import edu.epam.swp.exception.ServiceException;
 import edu.epam.swp.model.service.UserService;
@@ -37,9 +38,15 @@ public class LoginCommand implements Command {
         try {
             optional = service.findUser(username,password);
             if (optional.isPresent()) {
-                request.getSession().setAttribute(AttributeName.AUTHORISED,true);
-                request.getSession().setAttribute(AttributeName.USER,optional.get());
-                page = PagePath.SERVLET_HOME;
+                User user = optional.get();
+                if (user.getRole() != AccountRole.BLOCKED) {
+                    request.getSession().setAttribute(AttributeName.AUTHORISED,true);
+                    request.getSession().setAttribute(AttributeName.USER,optional.get());
+                    page = PagePath.SERVLET_HOME;
+                } else {
+                    request.getSession().setAttribute(AttributeName.LOGIN_MESSAGE_BLOCKED,true);
+                    page = PagePath.LOGIN;
+                }
             } else {
                 request.getSession().setAttribute(AttributeName.LOGIN_ERROR_MESSAGE, true);
                 page = PagePath.LOGIN;

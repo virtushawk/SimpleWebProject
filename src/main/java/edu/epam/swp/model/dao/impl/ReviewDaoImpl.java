@@ -21,7 +21,7 @@ public class ReviewDaoImpl implements ReviewDao {
 
     private static final Logger logger = LogManager.getLogger(ReviewDaoImpl.class);
     private static final ReviewDao instance = new ReviewDaoImpl();
-    private ConnectionPool pool = ConnectionPool.INSTANCE;
+    private ConnectionPool pool = ConnectionPool.getInstance();
     private static final String INSERT_REVIEW = "INSERT INTO reviews(account_id,creature_id,review,time,rating) " +
             "VALUES(?,?,?,?,?)";
     private static final String SELECT_REVIEW_BY_CREATURE_ID = "SELECT reviews.review_id,reviews.account_id," +

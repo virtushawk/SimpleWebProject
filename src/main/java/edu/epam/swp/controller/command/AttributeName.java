@@ -73,4 +73,5 @@ public class AttributeName {
     public static final String LANGUAGE = "lang";
     public static final String STATUS_CHANGE_VALID = "changeStatus";
     public static final String STATUS_CHANGE_ERROR = "changeStatusError";
+    public static final String LOGIN_MESSAGE_BLOCKED = "loginBlocked";
 }

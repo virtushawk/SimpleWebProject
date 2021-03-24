@@ -14,7 +14,7 @@ import java.util.Properties;
 public class MailUtility {
 
     private static final Logger logger = LogManager.getLogger(MailUtility.class);
-    private static final String MESSAGE_CONFIRM_TEXT = "confirmation link : http://localhost:8080/SWP_war_exploded/controller?command=confirm_email&id=%d";
+    private static final String MESSAGE_CONFIRM_TEXT = "confirmation link : http://localhost:8080/SWP_war_exploded/controller?command=confirm_email&key=%s";
     private static final String MESSAGE_RESTORE_TEXT = "Your new password : %s";
     private static final String MESSAGE_SUBJECT_CONFIRMATION = "Email confirmation";
     private static final String MESSAGE_SUBJECT_RESTORE_PASSWORD = "restore Password";
@@ -27,13 +27,13 @@ public class MailUtility {
     /**
      * Sends confirm email message.
      * @param email String containing the email.
-     * @param accountId User's id.
+     * @param confirmationKey String containing the confirmation key.
      */
-    public static void sendConfirmMessage(String email,long accountId) {
+    public static void sendConfirmMessage(String email,String confirmationKey) {
         PropertyReader propertyReader = new PropertyReader();
         try {
             Properties properties = propertyReader.readProperty(MAIL_PROPERTIES);
-            String messageText = String.format(MESSAGE_CONFIRM_TEXT,accountId);
+            String messageText = String.format(MESSAGE_CONFIRM_TEXT,confirmationKey);
             MailSender sender = new MailSender(email,MESSAGE_SUBJECT_CONFIRMATION,messageText,properties);
             sender.send();
         } catch (PropertyReaderException e) {

@@ -22,7 +22,7 @@ public class CorrectionDaoImpl implements CorrectionDao {
 
     private static final Logger logger = LogManager.getLogger(CorrectionDaoImpl.class);
     private static final CorrectionDao instance = new CorrectionDaoImpl();
-    private ConnectionPool pool = ConnectionPool.INSTANCE;
+    private ConnectionPool pool = ConnectionPool.getInstance();
     private static final String INSERT_CORRECTION = "INSERT INTO corrections(creature_id,account_id,description,name,date) " +
             "VALUES (?,?,?,?,?)";
     private static final String SELECT_CORRECTION = "SELECT correction_id,creature_id,account_id,description,name,date " +

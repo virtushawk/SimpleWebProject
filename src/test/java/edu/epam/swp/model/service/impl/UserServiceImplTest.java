@@ -155,26 +155,12 @@ public class UserServiceImplTest {
     }
 
     @Test
-    public void confirmEmailTrueTest() throws DaoException,ServiceException {
-        long id = 1;
-        Mockito.when(dao.confirmEmail(Mockito.anyLong())).thenReturn(true);
-        boolean actual = service.confirmEmail(id);
-        Assert.assertTrue(actual);
-    }
-
-    @Test
     public void confirmEmailFalseTest() throws DaoException,ServiceException {
+        String confirmationKey = "sample";
         long id = 1;
         Mockito.when(dao.confirmEmail(Mockito.anyLong())).thenReturn(false);
-        boolean actual = service.confirmEmail(id);
+        boolean actual = service.confirmEmail(confirmationKey);
         Assert.assertFalse(actual);
-    }
-
-    @Test(dependsOnMethods = {"confirmEmailTrueTest","confirmEmailFalseTest"},expectedExceptions = ServiceException.class)
-    public void confirmEmailExceptionTest() throws DaoException,ServiceException {
-        long id = 1;
-        Mockito.when(dao.confirmEmail(Mockito.anyLong())).thenThrow(new DaoException());
-        service.confirmEmail(id);
     }
 
     @Test

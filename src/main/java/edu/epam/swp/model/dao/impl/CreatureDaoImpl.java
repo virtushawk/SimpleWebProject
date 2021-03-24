@@ -22,7 +22,7 @@ public class CreatureDaoImpl implements CreatureDao {
 
     private static final Logger logger = LogManager.getLogger(CreatureDaoImpl.class);
     private static final CreatureDao instance = new CreatureDaoImpl();
-    private ConnectionPool pool = ConnectionPool.INSTANCE;
+    private ConnectionPool pool = ConnectionPool.getInstance();
     private static final String SELECT_CREATURE_BY_LAST_UPDATED_LIMIT = "SELECT creature_id,name,picture,description," +
             "last_updated FROM creatures WHERE status_id = 0 ORDER BY last_updated DESC LIMIT 0,?";
     private static final String SELECT_CREATURE_BY_RATING_LIMIT = "SELECT reviews.creature_id,count(reviews.rating) AS rate," +

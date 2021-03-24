@@ -13,19 +13,20 @@ import java.util.Properties;
 import java.util.Queue;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingDeque;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 /**
- * The enum Connection pool.
+ * The Connection pool class to work with connections.
  * @author romab
  */
-public enum ConnectionPool {
+public class ConnectionPool {
 
-    /**
-     * Instance connection pool.
-     */
-    INSTANCE;
-
-    private final Logger logger = LogManager.getLogger(ConnectionPool.class);
+    private static final Logger logger = LogManager.getLogger(ConnectionPool.class);
+    private static ConnectionPool instance;
+    private static final AtomicBoolean isPoolInitialize = new AtomicBoolean(true);
+    private static final Lock lockInstance = new ReentrantLock(true);
     private BlockingQueue<ProxyConnection> freeConnections;
     private Queue<ProxyConnection> givenAwayConnections;
     private static final int DEFAULT_POOL_SIZE = 32;
@@ -33,7 +34,7 @@ public enum ConnectionPool {
     private static final String DATABASE_URL = "url";
     private static final String DATABASE_DRIVER = "driverClassName";
 
-    ConnectionPool() {
+   private ConnectionPool() {
         PropertyReader propertyReader = new PropertyReader();
         Properties properties;
         try {
@@ -62,6 +63,22 @@ public enum ConnectionPool {
                 throw new RuntimeException("Error occurred while creating connection",e);
             }
         }
+    }
+
+    /**
+     * Gets instance
+     * @return ConnectionPool instance.
+     */
+    public static ConnectionPool getInstance() {
+       if (isPoolInitialize.get()) {
+           lockInstance.lock();
+           if (instance == null) {
+               instance = new ConnectionPool();
+               isPoolInitialize.set(false);
+           }
+           lockInstance.unlock();
+       }
+       return instance;
     }
 
     /**

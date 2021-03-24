@@ -28,11 +28,11 @@ public class ConfirmEmailCommand implements Command {
      */
     @Override
     public String execute(HttpServletRequest request) {
-        long id = Long.parseLong(request.getParameter(ParameterName.ID));
+        String confirmationKey = request.getParameter(ParameterName.KEY);
         String page;
         boolean flag;
         try {
-            flag = service.confirmEmail(id);
+            flag = service.confirmEmail(confirmationKey);
             if (flag) {
                 request.setAttribute(AttributeName.EMAIL_CONFIRMED_MESSAGE,true);
                 request.getSession().invalidate();

@@ -23,7 +23,7 @@ public class UserDaoImpl implements UserDao {
 
     private static final Logger logger = LogManager.getLogger(UserDaoImpl.class);
     private static final UserDao instance = new UserDaoImpl();
-    private ConnectionPool pool = ConnectionPool.INSTANCE;
+    private ConnectionPool pool = ConnectionPool.getInstance();
     private static final String ERROR_DUPLICATION_KEY = "23000";
     private static final String INSERT_ACCOUNT = "INSERT INTO accounts(account_id,email,username,password,role_id,user_status_id) " +
             "VALUES(?,?,?,?,?,?)";

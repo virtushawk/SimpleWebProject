@@ -17,7 +17,7 @@ import javax.servlet.annotation.*;
 @WebServlet(name = "controller", urlPatterns = {"/controller"})
 public class MainServlet extends HttpServlet {
 
-    private static final ConnectionPool pool = ConnectionPool.INSTANCE;
+    private static final ConnectionPool pool = ConnectionPool.getInstance();
 
     /**
      * Processes doGet request and forwards to page specified by command.

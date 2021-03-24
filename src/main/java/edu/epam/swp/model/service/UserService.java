@@ -67,11 +67,11 @@ public interface UserService {
 
     /**
      * Confirms email.
-     * @param accountId User's id.
+     * @param confirmationKey String containing the confirmation key.
      * @return True if email was confirmed, otherwise false.
      * @throws ServiceException If DaoException was thrown.
      */
-    boolean confirmEmail(long accountId) throws ServiceException;
+    boolean confirmEmail(String confirmationKey) throws ServiceException;
 
     /**
      * Blocks user.
