@@ -823,29 +823,7 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
 <script src="${pageContext.request.contextPath}/js/form-validation.js"></script>
 <script src="${pageContext.request.contextPath}/js/jquery-3.5.1.min.js"></script>
-<script>
-    $(document).ready(function(){
-        $('a[data-bs-toggle="tab"]').on('show.bs.tab', function(e) {
-            localStorage.setItem('activeTab', $(e.target).attr('href'));
-        });
-        var activeTab = localStorage.getItem('activeTab');
-        if(activeTab){
-            $('#myTab a[href="' + activeTab + '"]').tab('show');
-        }
-    });
-</script>
-<script>
-    var password = document.getElementById("password")
-        , confirm_password = document.getElementById("confirm_password");
-    function validatePassword(){
-        if(password.value !== confirm_password.value) {
-            confirm_password.setCustomValidity("Passwords Don't Match");
-        } else {
-            confirm_password.setCustomValidity('');
-        }
-    }
-    password.onchange = validatePassword;
-    confirm_password.onkeyup = validatePassword;
-</script>
+<script src="${pageContext.request.contextPath}/js/activeTab.js"></script>
+<script src="${pageContext.request.contextPath}/js/passwordConfirmation.js"></script>
 </body>
 </html>

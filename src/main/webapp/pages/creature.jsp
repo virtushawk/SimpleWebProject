@@ -169,7 +169,7 @@
     </div>
 </div>
 <c:choose>
-    <c:when test="${(user.role.name().equals('USER') || user.role.name().equals('ADMIN')) && (empty requestScope.userReview)}">
+    <c:when test="${(user.role.name().equals('USER')) && (empty requestScope.userReview)}">
         <div class="container-sm shadow p-3 mb-5 bg-white rounded w-50">
             <form class="row g-1  needs-validation" action="${pageContext.request.contextPath}/controller?command=create_review&id=${creature.creatureId}" method="post" novalidate>
                 <div class="col-md-3">
@@ -216,7 +216,7 @@
             </form>
         </div>
     </c:when>
-    <c:when test="${(user.role.name().equals('USER') || user.role.name().equals('ADMIN')) && (not empty requestScope.userReview)}">
+    <c:when test="${(user.role.name().equals('USER')) && (not empty requestScope.userReview)}">
         <div class="container-sm shadow p-3 mb-5 bg-white rounded w-50">
             <div class="row g-1">
                 <div class="col-md-3">

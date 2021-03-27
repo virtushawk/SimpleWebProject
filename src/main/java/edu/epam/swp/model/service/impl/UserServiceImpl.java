@@ -254,6 +254,24 @@ public class UserServiceImpl implements UserService {
     }
 
     /**
+     * Takes away admin privileges
+     * @param accountId User's id.
+     * @return True if user not an admin anymore, otherwise false.
+     * @throws ServiceException If DaoException was thrown.
+     */
+    @Override
+    public boolean removeAdmin(long accountId) throws ServiceException {
+        boolean flag;
+        try {
+            flag = dao.removeAdmin(accountId);
+        } catch (DaoException e) {
+            logger.error("An error occurred while removing the admin",e);
+            throw new ServiceException("An error occurred while removing the admin",e);
+        }
+        return flag;
+    }
+
+    /**
      * Changes user's name.
      * @param name String containing the name.
      * @param accountId User's id.

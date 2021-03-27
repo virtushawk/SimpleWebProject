@@ -42,7 +42,8 @@ public enum CommandType {
     EDIT_CORRECTION(new EditCorrectionCommand()),
     DELETE_UNCHECKED_CREATURE(new DeleteUncheckedCreatureCommand()),
     DISAPPROVE_CORRECTION(new DisapproveCorrectionCommand()),
-    CHANGE_STATUS(new ChangeStatusCommand());
+    CHANGE_STATUS(new ChangeStatusCommand()),
+    REMOVE_ADMIN(new RemoveAdminCommand());
 
     private final Command command;
 

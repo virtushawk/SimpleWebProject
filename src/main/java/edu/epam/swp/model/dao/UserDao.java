@@ -1,5 +1,6 @@
 package edu.epam.swp.model.dao;
 
+import edu.epam.swp.exception.ServiceException;
 import edu.epam.swp.model.entity.User;
 import edu.epam.swp.exception.DaoException;
 import edu.epam.swp.model.entity.UserStatus;
@@ -80,6 +81,14 @@ public interface UserDao extends BaseDao<User>{
      * @throws DaoException If SQLException was thrown.
      */
     boolean makeAdmin(long accountId) throws DaoException;
+
+    /**
+     * Takes away admin privileges
+     * @param accountId User's id.
+     * @return True if user not an admin anymore, otherwise false.
+     * @throws DaoException If SQLException was thrown.
+     */
+    boolean removeAdmin(long accountId) throws DaoException;
 
     /**
      * Updates user's name.

@@ -55,6 +55,8 @@ public class AttributeName {
     public static final String ACCOUNT_UNBLOCK_ERROR = "accountUnblockError";
     public static final String ACCOUNT_MAKE_ADMIN_VALID = "accountMadeAdmin";
     public static final String ACCOUNT_MAKE_ADMIN_ERROR = "accountMadeAdminError";
+    public static final String ACCOUNT_REMOVE_ADMIN_VALID = "accountRemoveAdmin";
+    public static final String ACCOUNT_REMOVE_ADMIN_ERROR = "accountRemoveAdminError";
     public static final String REVIEW_CHANGE_VALID = "reviewChanged";
     public static final String REVIEW_CHANGE_ERROR = "reviewChangeError";
     public static final String NEW_CREATURE_LIST = "newCreatures";

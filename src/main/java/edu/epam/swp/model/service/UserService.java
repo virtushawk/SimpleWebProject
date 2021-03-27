@@ -98,6 +98,14 @@ public interface UserService {
     boolean makeAdmin(long accountId) throws ServiceException;
 
     /**
+     * Takes away admin privileges
+     * @param accountId User's id.
+     * @return True if user not an admin anymore, otherwise false.
+     * @throws ServiceException If DaoException was thrown.
+     */
+    boolean removeAdmin(long accountId) throws ServiceException;
+
+    /**
      * Changes user's name.
      * @param name String containing the name.
      * @param accountId User's id.

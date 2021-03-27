@@ -23,10 +23,6 @@ class AccessMap {
         commandMap.put(AccountRole.INACTIVE,
                 List.of(CommandType.HOME,CommandType.CATALOG,CommandType.CHANGE_AVATAR,CommandType.CONFIRM_EMAIL,
                         CommandType.CREATURE,CommandType.LOGOUT, CommandType.PROFILE,CommandType.SEARCH));
-        commandMap.put(AccountRole.BLOCKED,
-                Arrays.asList(CommandType.HOME,CommandType.CATALOG,CommandType.CHANGE_AVATAR,
-                        CommandType.CONFIRM_EMAIL,CommandType.CREATURE,CommandType.LOGIN,CommandType.LOGOUT,CommandType.PROFILE,
-                        CommandType.REGISTER,CommandType.SEARCH,CommandType.FORGOT_PASSWORD));
         commandMap.put(AccountRole.ADMIN,
                 List.of(CommandType.HOME,CommandType.CONFIRM_EMAIL,CommandType.LOGIN,CommandType.CATALOG,CommandType.CREATURE,
                         CommandType.REGISTER,CommandType.EDIT_CREATURE,CommandType.PROFILE,CommandType.ADMIN_PANEL,
@@ -35,7 +31,8 @@ class AccessMap {
                         CommandType.LOGOUT,CommandType.MAKE_ADMIN,CommandType.UNBLOCK_USER,CommandType.APPROVE_CREATURE,
                         CommandType.SUGGEST_CORRECTION,CommandType.APPROVE_CORRECTION,CommandType.DELETE_CORRECTION,
                         CommandType.SEARCH,CommandType.EDIT_NAME,CommandType.EDIT_EMAIL,CommandType.CHANGE_PASSWORD,
-                        CommandType.FORGOT_PASSWORD,CommandType.DISAPPROVE_CORRECTION,CommandType.CHANGE_STATUS));
+                        CommandType.FORGOT_PASSWORD,CommandType.DISAPPROVE_CORRECTION,CommandType.CHANGE_STATUS,
+                        CommandType.REMOVE_ADMIN));
         commandMap.put(AccountRole.USER,
                 List.of(CommandType.HOME,CommandType.CATALOG,CommandType.CREATURE,CommandType.EDIT_CREATURE,
                         CommandType.PROFILE,CommandType.CHANGE_AVATAR,CommandType.CREATE_CREATURE,CommandType.CREATE_REVIEW,

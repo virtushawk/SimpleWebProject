@@ -1,9 +1,51 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@taglib prefix="custom" uri="/WEB-INF/tld/custom.tld"%>
+<%@taglib prefix="e" uri="https://www.owasp.org/index.php/OWASP_Java_Encoder_Project"%>
 <fmt:setLocale value="${sessionScope.lang}"/>
 <fmt:setBundle basename="property.text"/>
+<c:set var="ctotalCount" scope="session" value="${requestScope.creatures.size()}"/>
+<c:set var="rtotalCount" scope="session" value="${requestScope.reviews.size()}"/>
+<c:set var="utotalCount" scope="session" value="${requestScope.users.size()}"/>
+<c:set var="uctotalCount" scope="session" value="${requestScope.uncheckedCreatures.size()}"/>
+<c:set var="crtotalCount" scope="session" value="${requestScope.corrections.size()}"/>
+<c:set var="perPage" scope="session" value="${10}"/>
+<c:set var="cpageStart" value="${param.cstart}"/>
+<c:set var="rpageStart" value="${param.rstart}"/>
+<c:set var="upageStart" value="${param.ustart}"/>
+<c:set var="ucpageStart" value="${param.ucstart}"/>
+<c:set var="crpageStart" value="${param.ucstart}"/>
+<c:if test="${empty cpageStart or cpageStart < 0}">
+    <c:set var="cpageStart" value="0"/>
+</c:if>
+<c:if test="${empty rpageStart or rpageStart < 0}">
+    <c:set var="rpageStart" value="0"/>
+</c:if>
+<c:if test="${empty upageStart or upageStart < 0}">
+    <c:set var="upageStart" value="0"/>
+</c:if>
+<c:if test="${empty ucpageStart or ucpageStart < 0}">
+    <c:set var="ucpageStart" value="0"/>
+</c:if>
+<c:if test="${empty crpageStart or crpageStart < 0}">
+    <c:set var="crpageStart" value="0"/>
+</c:if>
+<c:if test="${ctotalCount < cpageStart}">
+    <c:set var="cpageStart" value="${cpageStart - perPage}"/>
+</c:if>
+<c:if test="${rtotalCount < rpageStart}">
+    <c:set var="rpageStart" value="${rpageStart - perPage}"/>
+</c:if>
+<c:if test="${utotalCount < upageStart}">
+    <c:set var="upageStart" value="${upageStart - perPage}"/>
+</c:if>
+<c:if test="${uctotalCount < ucpageStart}">
+    <c:set var="ucpageStart" value="${ucpageStart - perPage}"/>
+</c:if>
+<c:if test="${crtotalCount < crpageStart}">
+    <c:set var="crpageStart" value="${crpageStart - perPage}"/>
+</c:if>
 <c:set var="users" value="${requestScope.users}"/>
 <c:set var="reviews" value="${requestScope.reviews}"/>
 <c:set var="creatures" value="${requestScope.creatures}"/>
@@ -212,6 +254,34 @@
     </div>
     <c:remove var="creatureEditError" scope="session"/>
 </c:if>
+<c:if test="${requestScope.accountRemoveAdmin}">
+    <div class="container">
+        <div class="alert alert-success text-center" role="alert">
+            <fmt:message key="adminPanel.removeAdmin"/>
+        </div>
+    </div>
+</c:if>
+<c:if test="${requestScope.accountMadeAdminError}">
+    <div class="container">
+        <div class="alert alert-danger text-center" role="alert">
+            <fmt:message key="general.errorMessage"/>
+        </div>
+    </div>
+</c:if>
+<c:if test="${requestScope.reviewDeleted}">
+    <div class="container">
+        <div class="alert alert-success text-center" role="alert">
+            <fmt:message key="adminPanel.reviewDeleted"/>
+        </div>
+    </div>
+</c:if>
+<c:if test="${requestScope.reviewDeletedError}">
+    <div class="container">
+        <div class="alert alert-danger text-center" role="alert">
+            <fmt:message key="general.errorMessage"/>
+        </div>
+    </div>
+</c:if>
 <div class="container">
     <div class="col-sm-12 mb-3">
         <ul class="nav nav-tabs justify-content-center" id="myTab" role="tablist">
@@ -260,14 +330,14 @@
                     </form>
                 </div>
                 <ul class="list-group">
-                    <c:forEach var="correction" items="${corrections}">
+                    <c:forEach var="correction" items="${corrections}" begin="${crpageStart}" end="${crpageStart + perPage - 1}">
                         <li class="list-group-item d-flex justify-content-between align-items-center">
                             <div class="card mb-3">
                                 <div class="row g-4" style="width: 500px">
                                     <div class="col-md-8">
                                         <div class="card-body">
                                             <button type="button" class="btn btn-outline-primary mt-1" data-bs-toggle="modal" data-bs-target="#correctionModal${correction.correctionId}">
-                                                    ${correction.name}
+                                                    <e:forHtml value="${correction.name}"/>
                                             </button>
                                             <div class="modal fade" id="correctionModal${correction.correctionId}" tabindex="-1">
                                                 <div class="modal-dialog modal-xl">
@@ -284,10 +354,10 @@
                                                                     <div class="col-md-8">
                                                                         <div class="card-body">
                                                                             <h5 class="card-title">
-                                                                                    ${correction.name}
+                                                                                <e:forHtml value="${correction.name}"/>
                                                                             </h5>
                                                                             <p class="card-text">
-                                                                                    ${correction.text}
+                                                                                <e:forHtml value="${correction.text}"/>
                                                                             </p>
                                                                             <p class="card-text">
                                                                                 <small class="text-muted">
@@ -308,7 +378,7 @@
                                                 </div>
                                             </div>
                                             <p class="card-text text-truncate">
-                                                    ${correction.text}
+                                                <e:forHtml value="${correction.text}"/>
                                             </p>
                                             <p class="card-text">
                                                 <small class="text-muted">
@@ -330,6 +400,14 @@
                         </li>
                     </c:forEach>
                 </ul>
+                <div class="container text-center">
+                    <a href="${pageContext.request.contextPath}/controller?command=${param.command}&crstart=${crpageStart - perPage}<c:if test="${not empty param.text}">&text=<e:forHtml value="${param.text}"/></c:if><c:if test="${not empty param.filter}">&filter=${param.filter}</c:if>">
+                        <<
+                    </a>${crpageStart + 1} - ${crpageStart + perPage}
+                    <a href="${pageContext.request.contextPath}/controller?command=${param.command}&crstart=${crpageStart + perPage}<c:if test="${not empty param.text}">&text=<e:forHtml value="${param.text}"/></c:if><c:if test="${not empty param.filter}">&filter=${param.filter}</c:if>">
+                        >>
+                    </a>
+                </div>
             </div>
             <div class="tab-pane fade" id="userCreatures" role="tabpanel">
                 <div class="container">
@@ -349,7 +427,7 @@
                     </form>
                 </div>
                 <ul class="list-group">
-                    <c:forEach var="creature" items="${usersCreatures}">
+                    <c:forEach var="creature" items="${usersCreatures}" begin="${ucpageStart}" end="${ucpageStart + perPage - 1}">
                         <li class="list-group-item d-flex justify-content-between align-items-center">
                             <div class="card mb-3">
                                 <div class="row g-4" style="width: 500px">
@@ -359,7 +437,7 @@
                                     <div class="col-md-8">
                                         <div class="card-body">
                                             <button type="button" class="btn btn-outline-primary mt-1" data-bs-toggle="modal" data-bs-target="#creatureModal${creature.creatureId}">
-                                                ${creature.name}
+                                                <e:forHtml value="${creature.name}"/>
                                             </button>
                                             <div class="modal fade" id="creatureModal${creature.creatureId}" tabindex="-1">
                                                 <div class="modal-dialog modal-xl">
@@ -379,10 +457,10 @@
                                                                     <div class="col-md-8">
                                                                         <div class="card-body">
                                                                             <h5 class="card-title">
-                                                                                    ${creature.name}
+                                                                                <e:forHtml value="${creature.name}"/>
                                                                             </h5>
                                                                             <p class="card-text">
-                                                                                    ${creature.description}
+                                                                                <e:forHtml value="${creature.description}"/>
                                                                             </p>
                                                                             <p class="card-text">
                                                                                 <small class="text-muted">
@@ -403,7 +481,7 @@
                                                 </div>
                                             </div>
                                             <p class="card-text text-truncate">
-                                                    ${creature.description}
+                                                <e:forHtml value="${creature.description}"/>
                                             </p>
                                             <p class="card-text">
                                                 <small class="text-muted">
@@ -425,6 +503,14 @@
                         </li>
                     </c:forEach>
                 </ul>
+                <div class="container text-center">
+                    <a href="${pageContext.request.contextPath}/controller?command=${param.command}&ucstart=${ucpageStart - perPage}<c:if test="${not empty param.text}">&text=<e:forHtml value="${param.text}"/></c:if><c:if test="${not empty param.filter}">&filter=${param.filter}</c:if>">
+                        <<
+                    </a>${ucpageStart + 1} - ${ucpageStart + perPage}
+                    <a href="${pageContext.request.contextPath}/controller?command=${param.command}&ucstart=${ucpageStart + perPage}<c:if test="${not empty param.text}">&text=<e:forHtml value="${param.text}"/></c:if><c:if test="${not empty param.filter}">&filter=${param.filter}</c:if>">
+                        >>
+                    </a>
+                </div>
             </div>
             <div class="tab-pane fade show active" id="users" role="tabpanel">
                 <div class="container">
@@ -444,19 +530,19 @@
                     </form>
                 </div>
                 <ul class="list-group">
-                    <c:forEach var="user" items="${users}">
+                    <c:forEach var="user" items="${users}" begin="${upageStart}" end="${upageStart + perPage - 1}">
                         <li class="list-group-item d-flex justify-content-between align-items-center">
                             <div class="d-flex justify-content-start align-items-center">
                                 <img src="${pageContext.request.contextPath}/uploadController?url=${user.avatar}" class="rounded-circle" height="150" width="150">
                             </div>
                             <div class="d-flex">
                                 <a class="d-flex ms-2" href="${pageContext.request.contextPath}/controller?command=profile&id=${user.accountId}">
-                                        ${user.username}
+                                    <e:forHtml value="${user.username}"/>
                                 </a>
                             </div>
                             <div class="d-flex">
                                 <h6 class="d-flex ms-2">
-                                        ${user.email}
+                                    <e:forHtml value="${user.email}"/>
                                 </h6>
                             </div>
                             <div class="d-flex">
@@ -469,6 +555,14 @@
                                     <c:when test="${user.role.name().equals('BLOCKED')}">
                                         <a class="d-flex ms-2 btn btn-outline-primary mt-1" href="${pageContext.request.contextPath}/controller?command=unblock_user&id=${user.accountId}">
                                             <fmt:message key="adminPanel.userTab.unblock"/>
+                                        </a>
+                                    </c:when>
+                                    <c:when test="${user.role.name().equals('ADMIN')}">
+                                        <a class="d-flex ms-2 btn btn-outline-danger mt-1" href="${pageContext.request.contextPath}/controller?command=block_user&id=${user.accountId}">
+                                            <fmt:message key="adminPanel.userTab.block"/>
+                                        </a>
+                                        <a class="d-flex ms-2 btn btn-outline-danger mt-1" href="${pageContext.request.contextPath}/controller?command=remove_admin&id=${user.accountId}">
+                                            <fmt:message key="adminPanel.userTab.removeAdmin"/>
                                         </a>
                                     </c:when>
                                     <c:otherwise>
@@ -484,7 +578,13 @@
                         </li>
                     </c:forEach>
                 </ul>
-                <div class="text-center">
+                <div class="container text-center">
+                    <a href="${pageContext.request.contextPath}/controller?command=${param.command}&ustart=${upageStart - perPage}<c:if test="${not empty param.text}">&text=<e:forHtml value="${param.text}"/></c:if><c:if test="${not empty param.filter}">&filter=${param.filter}</c:if>">
+                        <<
+                    </a>${upageStart + 1} - ${upageStart + perPage}
+                    <a href="${pageContext.request.contextPath}/controller?command=${param.command}&ustart=${upageStart + perPage}<c:if test="${not empty param.text}">&text=<e:forHtml value="${param.text}"/></c:if><c:if test="${not empty param.filter}">&filter=${param.filter}</c:if>">
+                        >>
+                    </a>
                 </div>
             </div>
             <div class="tab-pane fade" id="reviews" role="tabpanel">
@@ -505,21 +605,28 @@
                     </form>
                 </div>
                 <ul class="list-group">
-                    <c:forEach var="review" items="${reviews}">
+                    <c:forEach var="review" items="${reviews}" begin="${rpageStart}" end="${rpageStart + perPage - 1}">
                         <li class="list-group-item">
                             <div class="row g-0">
-                                <div class="col-md-4">
+                                <div class="col-md-2">
                                     <img src="${pageContext.request.contextPath}/uploadController?url=${review.avatar}" alt="<fmt:message key="general.userImage.alt"/>" class="rounded-circle" height="150" width="150">
+                                </div>
+                                <div class="col-md-2 my-auto">
+                                   <p class="card-text">
+                                       <a href="${pageContext.request.contextPath}/controller?command=profile&id=${review.accountId}" class="text-decoration-none">
+                                           <e:forHtml value="${review.accountName}"/>
+                                       </a>
+                                   </p>
                                 </div>
                                 <div class="col-md-4">
                                     <div class="card-body">
                                         <h5 class="card-title">
                                             <fmt:message key="profile.review.title"/> <a href="${pageContext.request.contextPath}/controller?command=creature&id=${review.creatureId}" class="text-decoration-none">
-                                                ${review.creatureName}
+                                            <e:forHtml value="${review.creatureName}"/>
                                         </a>
                                         </h5>
                                         <p class="card-text">
-                                            ${review.text}
+                                            <e:forHtml value="${review.text}"/>
                                         </p>
                                         <p class="card-text">
                                             <small class="text-muted">
@@ -562,7 +669,7 @@
                                                     <div class="col-md-3">
                                                         <img src="${pageContext.request.contextPath}/uploadController?url=${review.avatar}" alt="<fmt:message key="general.userImage.alt"/>" class="img-thumbnail" style="height: 100px; width: 100px">
                                                         <p class="fs-3">
-                                                                ${review.accountName}
+                                                            <e:forHtml value="${review.accountName}"/>
                                                         </p>
                                                     </div>
                                                     <div class="col-md-6">
@@ -606,6 +713,14 @@
                         </li>
                     </c:forEach>
                 </ul>
+                <div class="container text-center">
+                    <a href="${pageContext.request.contextPath}/controller?command=${param.command}&rstart=${rpageStart - perPage}<c:if test="${not empty param.text}">&text=<e:forHtml value="${param.text}"/></c:if><c:if test="${not empty param.filter}">&filter=${param.filter}</c:if>">
+                        <<
+                    </a>${rpageStart + 1} - ${rpageStart + perPage}
+                    <a href="${pageContext.request.contextPath}/controller?command=${param.command}&rstart=${rpageStart + perPage}<c:if test="${not empty param.text}">&text=<e:forHtml value="${param.text}"/></c:if><c:if test="${not empty param.filter}">&filter=${param.filter}</c:if>">
+                        >>
+                    </a>
+                </div>
             </div>
             <div class="tab-pane fade " id="creatures" role="tabpanel">
                 <div class="container">
@@ -628,7 +743,7 @@
                     </form>
                 </div>
                 <ul class="list-group">
-                    <c:forEach var="creature" items="${creatures}">
+                    <c:forEach var="creature" items="${creatures}" begin="${cpageStart}" end="${cpageStart + perPage - 1}">
                         <li class="list-group-item d-flex justify-content-between align-items-center">
                             <div class="card mb-3">
                                 <div class="row g-4" style="width: 500px">
@@ -638,10 +753,10 @@
                                     <div class="col-md-8">
                                         <div class="card-body">
                                             <a href="${pageContext.request.contextPath}/controller?command=creature&id=${creature.creatureId}" class="text-decoration-none stretched-link">
-                                                    ${creature.name}
+                                                <e:forHtml value=" ${creature.name}"/>
                                             </a>
                                             <p class="card-text text-truncate">
-                                                    ${creature.description}
+                                                <e:forHtml value="${creature.description}"/>
                                             </p>
                                             <p class="card-text">
                                                 <small class="text-muted">
@@ -710,7 +825,7 @@
                                                 <fmt:message key="createCreature.valid"/>
                                             </div>
                                             <div class="invalid-feedback">
-                                                <fmt:message key="createCreature.name.invalid"/>
+                                                <fmt:message key="creature.editCreatureModal.name.invalid"/>
                                             </div>
                                             <label for="description" class="form-label">
                                                 <fmt:message key="createCreature.description.label"/>
@@ -720,7 +835,7 @@
                                                 <fmt:message key="createCreature.valid"/>
                                             </div>
                                             <div class="invalid-feedback">
-                                                <fmt:message key="createCreature.description.invalid"/>
+                                                    <fmt:message key="createCreature.description.invalid"/>
                                             </div>
                                         </div>
                                         <div class="modal-footer">
@@ -737,23 +852,22 @@
                         </li>
                     </c:forEach>
                 </ul>
+                <div class="container text-center">
+                    <a href="${pageContext.request.contextPath}/controller?command=${param.command}&cstart=${cpageStart - perPage}<c:if test="${not empty param.text}">&text=<e:forHtml value="${param.text}"/></c:if><c:if test="${not empty param.filter}">&filter=${param.filter}</c:if>">
+                        <<
+                    </a>${cpageStart + 1} - ${cpageStart + perPage}
+                    <a href="${pageContext.request.contextPath}/controller?command=${param.command}&cstart=${cpageStart + perPage}<c:if test="${not empty param.text}">&text=<e:forHtml value="${param.text}"/></c:if><c:if test="${not empty param.filter}">&filter=${param.filter}</c:if>">
+                        >>
+                    </a>
+                </div>
             </div>
         </div>
     </div>
 </div>
+<jsp:include page="module/footer.jsp"/>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
 <script src="${pageContext.request.contextPath}/js/form-validation.js"></script>
 <script src="${pageContext.request.contextPath}/js/jquery-3.5.1.min.js"></script>
-<script>
-    $(document).ready(function(){
-        $('a[data-bs-toggle="tab"]').on('show.bs.tab', function(e) {
-            localStorage.setItem('activeTab', $(e.target).attr('href'));
-        });
-        var activeTab = localStorage.getItem('activeTab');
-        if(activeTab){
-            $('#myTab a[href="' + activeTab + '"]').tab('show');
-        }
-    });
-</script>
+<script src="${pageContext.request.contextPath}/js/activeTab.js"></script>
 </body>
 </html>

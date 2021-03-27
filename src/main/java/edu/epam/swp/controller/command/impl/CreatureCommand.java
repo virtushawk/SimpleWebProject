@@ -28,7 +28,6 @@ public class CreatureCommand implements Command {
     private static final CreatureService creatureService = CreatureServiceImpl.getInstance();
     private static final ReviewService reviewService = ReviewServiceImpl.getInstance();
 
-    //todo : FIX ERROR PAGE?
     /**
      * Executes the command.
      * @param request HttpServletRequest object.

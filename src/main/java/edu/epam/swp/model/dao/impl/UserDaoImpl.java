@@ -332,6 +332,28 @@ public class UserDaoImpl implements UserDao {
     }
 
     /**
+     * Takes away admin privileges
+     * @param accountId User's id.
+     * @return True if user not an admin anymore, otherwise false.
+     * @throws DaoException If SQLException was thrown.
+     */
+    @Override
+    public boolean removeAdmin(long accountId) throws DaoException {
+        boolean flag;
+        try(Connection connection = pool.getConnection();
+            PreparedStatement statement = connection.prepareStatement(UPDATE_ROLE)) {
+            int roleUser = AccountRole.USER.ordinal();
+            statement.setLong(1,roleUser);
+            statement.setLong(2,accountId);
+            flag = statement.executeUpdate() > 0;
+        } catch (SQLException e) {
+            logger.error("An error occurred while removing the admin",e);
+            throw new DaoException("An error occurred while removing the admin",e);
+        }
+        return flag;
+    }
+
+    /**
      * Updates user's name.
      * @param name String containing the name.
      * @param accountId User's id.
