@@ -4,11 +4,11 @@ import org.passay.*;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-public class PasswordGeneratorTest {
+public class CustomPasswordGeneratorTest {
 
     @Test
     public void generatePasswordTest() {
-        String password = PasswordGenerator.generatePassword();
+        String password = CustomPasswordGenerator.generatePassword();
         PasswordData passwordData = new PasswordData(password);
         CharacterData lowerCaseChars = EnglishCharacterData.LowerCase;
         CharacterRule lowerCaseRule = new CharacterRule(lowerCaseChars);

@@ -306,6 +306,11 @@
 </c:choose>
 <div class="container shadow p-3 mb-5 bg-white rounded w-50">
     <div class="list-group">
+        <c:if test="${requestScope.reviews.size() eq 0}">
+            <p class="font-weight-light text-center text-muted">
+                <fmt:message key="creature.noReviews"/>
+            </p>
+        </c:if>
         <c:forEach var="review" items="${requestScope.reviews}" begin="${pageStart}" end="${pageStart + perPage - 1}">
             <div class="row g-1">
                 <div class="col-md-3">
@@ -336,14 +341,16 @@
             <hr/>
         </c:forEach>
     </div>
-    <div class="container text-center">
-        <a href="${pageContext.request.contextPath}/controller?command=${param.command}&id=${requestScope.creature.creatureId}&start=${pageStart - perPage}">
-            <<
-        </a>${pageStart + 1} - ${pageStart + perPage}
-        <a href="${pageContext.request.contextPath}/controller?command=${param.command}&id=${requestScope.creature.creatureId}&start=${pageStart + perPage}">
-            >>
-        </a>
-    </div>
+    <c:if test="${requestScope.reviews.size() != 0 and requestScope.reviews.size() > perPage}">
+        <div class="container text-center">
+            <a href="${pageContext.request.contextPath}/controller?command=${param.command}&id=${requestScope.creature.creatureId}&start=${pageStart - perPage}">
+                <<
+            </a>${pageStart + 1} - ${pageStart + perPage}
+            <a href="${pageContext.request.contextPath}/controller?command=${param.command}&id=${requestScope.creature.creatureId}&start=${pageStart + perPage}">
+                >>
+            </a>
+        </div>
+    </c:if>
 </div>
 <jsp:include page="module/footer.jsp"/>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>

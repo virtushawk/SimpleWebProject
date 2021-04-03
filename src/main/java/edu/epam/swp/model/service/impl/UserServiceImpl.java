@@ -8,7 +8,7 @@ import edu.epam.swp.exception.DaoException;
 import edu.epam.swp.exception.ServiceException;
 import edu.epam.swp.model.entity.UserStatus;
 import edu.epam.swp.model.service.UserService;
-import edu.epam.swp.util.PasswordGenerator;
+import edu.epam.swp.util.CustomPasswordGenerator;
 import edu.epam.swp.util.PasswordHash;
 import edu.epam.swp.util.mail.MailUtility;
 import edu.epam.swp.model.validation.UserValidator;
@@ -125,7 +125,7 @@ public class UserServiceImpl implements UserService {
             try {
                 user = dao.findUserByUsername(username);
                 if(user.isPresent()) {
-                    String password = PasswordGenerator.generatePassword();
+                    String password = CustomPasswordGenerator.generatePassword();
                     String encryptedPassword = PasswordHash.createHash(password);
                     flag = dao.updatePassword(encryptedPassword,user.get().getAccountId());
                     if (flag) {

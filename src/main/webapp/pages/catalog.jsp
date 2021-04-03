@@ -152,6 +152,13 @@
     </form>
 </div>
 <div class="row row-cols-1 row-cols-md-5 g-4 mx-auto shadow p-3 mb-5 bg-white rounded mt-0" style="width: 75rem;">
+    <c:if test="${requestScope.creatures.size() eq 0}">
+        <div class="col mx-auto">
+            <p class="font-weight-light text-center text-muted">
+                <fmt:message key="catalog.noCreatures"/>
+            </p>
+        </div>
+    </c:if>
     <c:forEach var="creature" items="${requestScope.creatures}" begin="${pageStart}" end="${pageStart + perPage - 1}">
         <div class="col">
             <div class="card h-100 border-0">
@@ -176,14 +183,16 @@
         </div>
     </c:forEach>
 </div>
-<div class="container text-center">
-    <a href="${pageContext.request.contextPath}/controller?command=${param.command}&start=${pageStart - perPage}<c:if test="${not empty param.text}">&text=<e:forHtml value="${param.text}"/></c:if><c:if test="${not empty param.filter}">&filter=${param.filter}</c:if>">
-        <<
-    </a>${pageStart + 1} - ${pageStart + perPage}
-    <a href="${pageContext.request.contextPath}/controller?command=${param.command}&start=${pageStart + perPage}<c:if test="${not empty param.text}">&text=<e:forHtml value="${param.text}"/></c:if><c:if test="${not empty param.filter}">&filter=${param.filter}</c:if>">
-        >>
-    </a>
-</div>
+<c:if test="${requestScope.creatures.size() > perPage}">
+    <div class="container text-center">
+        <a href="${pageContext.request.contextPath}/controller?command=${param.command}&start=${pageStart - perPage}<c:if test="${not empty param.text}">&text=<e:forHtml value="${param.text}"/></c:if><c:if test="${not empty param.filter}">&filter=${param.filter}</c:if>">
+            <<
+        </a>${pageStart + 1} - ${pageStart + perPage}
+        <a href="${pageContext.request.contextPath}/controller?command=${param.command}&start=${pageStart + perPage}<c:if test="${not empty param.text}">&text=<e:forHtml value="${param.text}"/></c:if><c:if test="${not empty param.filter}">&filter=${param.filter}</c:if>">
+            >>
+        </a>
+    </div>
+</c:if>
 <jsp:include page="module/footer.jsp"/>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
 <script src="${pageContext.request.contextPath}/js/form-validation.js"></script>

@@ -430,16 +430,23 @@
                                             </div>
                                             <hr>
                                         </c:forEach>
-                                        <div class="container text-center">
-                                            <a href="${pageContext.request.contextPath}/controller?command=profile&id=${param.id}&rstart=${rpageStart - perPage}">
-                                                <<
-                                            </a>${rpageStart + 1} - ${rpageStart + perPage}
-                                            <a href="${pageContext.request.contextPath}/controller?command=profile&id=${param.id}&rstart=${rpageStart + perPage}">
-                                                >>
-                                            </a>
-                                        </div>
+                                        <c:if test="${requestScope.reviews.size() > perPage}">
+                                            <div class="container text-center">
+                                                <a href="${pageContext.request.contextPath}/controller?command=profile&id=${param.id}&rstart=${rpageStart - perPage}">
+                                                    <<
+                                                </a>${rpageStart + 1} - ${rpageStart + perPage}
+                                                <a href="${pageContext.request.contextPath}/controller?command=profile&id=${param.id}&rstart=${rpageStart + perPage}">
+                                                    >>
+                                                </a>
+                                            </div>
+                                        </c:if>
                                     </div>
                                     <div class="tab-pane fade" id="creatures" role="tabpanel">
+                                        <c:if test="${requestScope.creatures.size() eq 0}">
+                                            <p class="font-weight-light text-center text-muted">
+                                                <fmt:message key="catalog.noCreatures"/>
+                                            </p>
+                                        </c:if>
                                         <c:forEach var="creature" items="${requestScope.creatures}" begin="${cpageStart}" end="${cpageStart + perPage - 1}">
                                             <div class="row g-0">
                                                 <div class="col-md-4">
@@ -463,14 +470,16 @@
                                             </div>
                                             <hr>
                                         </c:forEach>
-                                        <div class="container text-center">
-                                            <a href="${pageContext.request.contextPath}/controller?command=profile&id=${param.id}&cstart=${cpageStart - perPage}">
-                                                <<
-                                            </a>${cpageStart + 1} - ${cpageStart + perPage}
-                                            <a href="${pageContext.request.contextPath}/controller?command=profile&id=${param.id}&cstart=${cpageStart + perPage}">
-                                                >>
-                                            </a>
-                                        </div>
+                                        <c:if test="${requestScope.creatures.size() > perPage}">
+                                            <div class="container text-center">
+                                                <a href="${pageContext.request.contextPath}/controller?command=profile&id=${param.id}&cstart=${cpageStart - perPage}">
+                                                    <<
+                                                </a>${cpageStart + 1} - ${cpageStart + perPage}
+                                                <a href="${pageContext.request.contextPath}/controller?command=profile&id=${param.id}&cstart=${cpageStart + perPage}">
+                                                    >>
+                                                </a>
+                                            </div>
+                                        </c:if>
                                     </div>
                                 </div>
                             </div>

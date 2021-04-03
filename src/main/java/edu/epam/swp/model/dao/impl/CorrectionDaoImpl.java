@@ -12,7 +12,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-
 /**
  * The implementation of {@link CorrectionDao}. Contains methods to work with Correction object.
  * @see Correction

@@ -293,3 +293,9 @@ v
 Fsrc/test/java/edu/epam/swp/model/service/impl/UserServiceImplTest.java,a\5\a5a08278661402839868d789a2fea6e2522ef04e
 W
 'src/main/webapp/pages/module/footer.jsp,0\2\02696410088f5b9ae896a553c7b6a3178dfddd80
+O
+src/main/webapp/js/activeTab.js,7\c\7c84049d56311b7ffee92ea36ae0af441cd0b2c8
+Z
+*src/main/webapp/js/passwordConfirmation.js,5\4\54341d4021383adb3336100fa438d1fe30872f45
+z
+Jsrc/main/java/edu/epam/swp/controller/command/impl/RemoveAdminCommand.java,8\6\861c57caf994472a8918d08d2711c36d92d40b80

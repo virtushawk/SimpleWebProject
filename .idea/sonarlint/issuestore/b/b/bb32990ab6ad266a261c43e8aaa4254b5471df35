@@ -1,8 +1,8 @@
 
-\	java:S899X";Do something with the "boolean" value returned by "delete".(²Œ­ûÿÿÿÿ8ÓûŞÇ…/
 |
-java:S1192V"aDefine a constant instead of duplicating this literal "Invalid credentials for creature" 3 times.(¸“$8ËºÊİ‚/
-p
-java:S4042X"NUse "java.nio.file.Files#delete" here for better messages on error conditions.(²Œ­ûÿÿÿÿ8ÓûŞÇ…/
+java:S1192W"aDefine a constant instead of duplicating this literal "Invalid credentials for creature" 3 times.(¸“$8ËºÊİ‚/
 ˆ
-java:S1192ë"jDefine a constant instead of duplicating this literal "An error occurred while deleting creature" 4 times.(¹Òú8ËºÊİ‚/
+java:S1192ì"jDefine a constant instead of duplicating this literal "An error occurred while deleting creature" 4 times.(¹Òú8ËºÊİ‚/
+p
+java:S4042Y"NUse "java.nio.file.Files#delete" here for better messages on error conditions.(²Œ­ûÿÿÿÿ8ÓûŞÇ…/
+\	java:S899Y";Do something with the "boolean" value returned by "delete".(²Œ­ûÿÿÿÿ8ÓûŞÇ…/

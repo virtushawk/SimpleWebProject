@@ -11,6 +11,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -319,6 +320,10 @@ public class CreatureServiceImpl implements CreatureService {
     @Override
     public List<Creature> search(String text) throws ServiceException {
         List<Creature> creatures;
+        if (text.isEmpty()) {
+            creatures = new ArrayList<>();
+            return creatures;
+        }
         try {
             creatures = dao.search(text);
         } catch (DaoException e) {
