@@ -37,13 +37,13 @@ public class DeleteCorrectionCommand implements Command {
         try {
             flag = service.delete(accountId,id);
             if(flag) {
-                request.setAttribute(AttributeName.CORRECTION_DELETE_VALID,true);
+                request.getSession().setAttribute(AttributeName.CORRECTION_DELETE_VALID,true);
             } else {
-                request.setAttribute(AttributeName.CORRECTION_DELETE_ERROR,true);
+                request.getSession().setAttribute(AttributeName.CORRECTION_DELETE_ERROR,true);
             }
         } catch (ServiceException e) {
             logger.error("Error occurred while accessing database",e);
-            request.setAttribute(AttributeName.DATABASE_ERROR_MESSAGE,true);
+            request.getSession().setAttribute(AttributeName.DATABASE_ERROR_MESSAGE,true);
         }
         page = String.format(PagePath.SERVLET_PROFILE_ID,accountId);
         return page;

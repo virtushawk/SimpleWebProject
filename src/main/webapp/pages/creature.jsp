@@ -69,18 +69,20 @@
     </div>
     <c:remove var="reviewError" scope="session"/>
 </c:if>
-<c:if test="${requestScope.reviewDeleted}">
+<c:if test="${sessionScope.reviewDeleted}">
     <div class="container">
         <div class="alert alert-success text-center" role="alert">
             <fmt:message key="creature.reviewDeleted"/>
         </div>
+        <c:remove var="reviewDeleted" scope="session"/>
     </div>
 </c:if>
-<c:if test="${requestScope.reviewDeletedError}">
+<c:if test="${sessionScope.reviewDeletedError}">
     <div class="container">
         <div class="alert alert-danger text-center" role="alert">
             <fmt:message key="general.errorMessage"/>
         </div>
+        <c:remove var="reviewDeletedError" scope="session"/>
     </div>
 </c:if>
 <c:if test="${sessionScope.reviewChanged}">
@@ -240,9 +242,11 @@
                     <button type="button" class="btn btn-outline-primary mt-1" data-bs-toggle="modal" data-bs-target="#reviewModal">
                         <fmt:message key="creature.button.edit"/>
                     </button>
-                    <a class="btn btn-outline-danger mt-1" href="${pageContext.request.contextPath}/controller?command=delete_review&id=${userReview.reviewId}&creature=${requestScope.creature.creatureId}">
-                        <fmt:message key="creature.review.button.delete"/>
-                    </a>
+                    <form action="${pageContext.request.contextPath}/controller?command=delete_review&id=${userReview.reviewId}&creature=${requestScope.creature.creatureId}" method="post">
+                        <button type="submit" class="btn btn-outline-danger mt-1">
+                            <fmt:message key="creature.review.button.delete"/>
+                        </button>
+                    </form>
                     <div class="modal fade" id="reviewModal" tabindex="-1">
                         <div class="modal-dialog modal-xl">
                             <form class="modal-content needs-validation" action="${pageContext.request.contextPath}/controller?command=edit_review" method="post" novalidate>

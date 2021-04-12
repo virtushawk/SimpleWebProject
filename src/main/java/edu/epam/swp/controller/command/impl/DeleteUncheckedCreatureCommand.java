@@ -36,13 +36,13 @@ public class DeleteUncheckedCreatureCommand implements Command {
         try {
             flag = service.delete(accountId,id);
             if (flag) {
-                request.setAttribute(AttributeName.CREATURE_DELETE_VALID,true);
+                request.getSession().setAttribute(AttributeName.CREATURE_DELETE_VALID,true);
             } else {
-                request.setAttribute(AttributeName.CREATURE_DELETE_ERROR,true);
+                request.getSession().setAttribute(AttributeName.CREATURE_DELETE_ERROR,true);
             }
         } catch (ServiceException e) {
             logger.error("Error occurred while accessing database",e);
-            request.setAttribute(AttributeName.DATABASE_ERROR_MESSAGE,true);
+            request.getSession().setAttribute(AttributeName.DATABASE_ERROR_MESSAGE,true);
         }
         String page = String.format(PagePath.SERVLET_PROFILE_ID,accountId);
         return page;

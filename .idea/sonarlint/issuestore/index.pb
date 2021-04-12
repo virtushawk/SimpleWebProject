@@ -237,8 +237,6 @@ d
 4src/main/java/edu/epam/swp/util/mail/MailSender.java,6\7\671934619004fea9430a0388e0685f62563aa0dc
 e
 5src/main/java/edu/epam/swp/util/mail/MailUtility.java,3\f\3f9d570287970161028129a51b6804ffddef6a81
-f
-6src/main/java/edu/epam/swp/util/PasswordGenerator.java,c\b\cb0056405ac12b1ea96f01d74b43a63334fbb545
 a
 1src/main/java/edu/epam/swp/util/PasswordHash.java,5\c\5ce709455e94911207c427f1816e5c562c56ca89
 h
@@ -251,8 +249,6 @@ x
 Hsrc/test/java/edu/epam/swp/model/validation/CorrectionValidatorTest.java,5\3\53d656ceac62b2235d08763d137f49c61d50dc9f
 v
 Fsrc/test/java/edu/epam/swp/model/validation/CreatureValidatorTest.java,5\a\5a89ec154bb1f815671e3b9d8351bda4465c77a7
-j
-:src/test/java/edu/epam/swp/util/PasswordGeneratorTest.java,9\9\9977040aac6d7cf89986cb86b8118c75a51d6769
 e
 5src/test/java/edu/epam/swp/util/PasswordHashTest.java,c\c\cc0664597b14776775d0386874a61dbcaccc684d
 t
@@ -299,3 +295,7 @@ Z
 *src/main/webapp/js/passwordConfirmation.js,5\4\54341d4021383adb3336100fa438d1fe30872f45
 z
 Jsrc/main/java/edu/epam/swp/controller/command/impl/RemoveAdminCommand.java,8\6\861c57caf994472a8918d08d2711c36d92d40b80
+p
+@src/test/java/edu/epam/swp/util/CustomPasswordGeneratorTest.java,d\9\d95034b42f35706516fc65dac1b96223858085af
+l
+<src/main/java/edu/epam/swp/util/CustomPasswordGenerator.java,6\0\60e18b3038292fb4314763fbcd1a34ed7f973d61

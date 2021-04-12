@@ -99,18 +99,20 @@
     </div>
     <c:remove var="passwordError" scope="session"/>
 </c:if>
-<c:if test="${requestScope.creatureDeleted}">
+<c:if test="${sessionScope.creatureDeleted}">
     <div class="container">
         <div class="alert alert-success text-center" role="alert">
             <fmt:message key="profile.creatureDeleted"/>
         </div>
+        <c:remove var="creatureDeleted" scope="session"/>
     </div>
 </c:if>
-<c:if test="${requestScope.creatureError}">
+<c:if test="${sessionScope.creatureError}">
     <div class="container">
         <div class="alert alert-danger text-center" role="alert">
             <fmt:message key="general.errorMessage"/>
         </div>
+        <c:remove var="creatureError" scope="session"/>
     </div>
 </c:if>
 <c:if test="${sessionScope.imageChanged}">
@@ -145,18 +147,20 @@
     </div>
     <c:remove var="creatureEditError" scope="session"/>
 </c:if>
-<c:if test="${requestScope.correctionDeleted}">
+<c:if test="${sessionScope.correctionDeleted}">
     <div class="container">
         <div class="alert alert-success text-center" role="alert">
             <fmt:message key="profile.correctionDeleted"/>
         </div>
+        <c:remove var="correctionDeleted" scope="session"/>
     </div>
 </c:if>
-<c:if test="${requestScope.correctionDeleteError}">
+<c:if test="${sessionScope.correctionDeleteError}">
     <div class="container">
         <div class="alert alert-danger text-center" role="alert">
             <fmt:message key="general.errorMessage"/>
         </div>
+        <c:remove var="correctionDeleteError" scope="session"/>
     </div>
 </c:if>
 <c:if test="${sessionScope.correctionEdited}">
@@ -630,9 +634,11 @@
                                     <button type="button" class="btn btn-outline-primary mt-1" data-bs-toggle="modal" data-bs-target="#editModal${creature.creatureId}">
                                         <fmt:message key="adminPanel.creatureTab.button.edit"/>
                                     </button>
-                                    <a class="btn btn-outline-danger mt-1" href="${pageContext.request.contextPath}/controller?command=delete_unchecked_creature&id=${creature.creatureId}">
-                                        <fmt:message key="adminPanel.correctionTab.delete"/>
-                                    </a>
+                                    <form action="${pageContext.request.contextPath}/controller?command=delete_unchecked_creature&id=${creature.creatureId}" method="post">
+                                        <button type="submit" class="btn btn-outline-danger mt-1">
+                                            <fmt:message key="adminPanel.correctionTab.delete"/>
+                                        </button>
+                                    </form>
                                 </div>
                                 <div class="modal fade" id="imageModal${creature.creatureId}" tabindex="-1">
                                     <div class="modal-dialog">
@@ -770,9 +776,11 @@
                                     <button type="button" class="btn btn-outline-primary mt-1" data-bs-toggle="modal" data-bs-target="#editCorrectionModal${correction.correctionId}">
                                         <fmt:message key="adminPanel.creatureTab.button.edit"/>
                                     </button>
-                                    <a class="btn btn-outline-danger mt-1" href="${pageContext.request.contextPath}/controller?command=delete_correction&id=${correction.correctionId}">
-                                        <fmt:message key="adminPanel.correctionTab.delete"/>
-                                    </a>
+                                    <form action="${pageContext.request.contextPath}/controller?command=delete_correction&id=${correction.correctionId}" method="post">
+                                        <button type="submit" class="btn btn-outline-danger mt-1">
+                                            <fmt:message key="adminPanel.correctionTab.delete"/>
+                                        </button>
+                                    </form>
                                 </div>
                                 <div class="modal fade" id="editCorrectionModal${correction.correctionId}" tabindex="-1">
                                     <div class="modal-dialog modal-xl">
@@ -829,6 +837,7 @@
         </div>
     </div>
 </div>
+<jsp:include page="module/footer.jsp"/>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
 <script src="${pageContext.request.contextPath}/js/form-validation.js"></script>
 <script src="${pageContext.request.contextPath}/js/jquery-3.5.1.min.js"></script>
