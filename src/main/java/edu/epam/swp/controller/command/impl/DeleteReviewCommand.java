@@ -38,13 +38,13 @@ public class DeleteReviewCommand implements Command {
             try {
                 flag = service.delete(id);
                 if (flag) {
-                    request.setAttribute(AttributeName.REVIEW_DELETE_MESSAGE_VALID,true);
+                    request.getSession().setAttribute(AttributeName.REVIEW_DELETE_MESSAGE_VALID,true);
                 } else {
-                    request.setAttribute(AttributeName.REVIEW_DELETE_MESSAGE_ERROR,true);
+                    request.getSession().setAttribute(AttributeName.REVIEW_DELETE_MESSAGE_ERROR,true);
                 }
             } catch (ServiceException e) {
                 logger.error("Error occurred while accessing database",e);
-                request.setAttribute(AttributeName.DATABASE_ERROR_MESSAGE,true);
+                request.getSession().setAttribute(AttributeName.DATABASE_ERROR_MESSAGE,true);
             }
             page = PagePath.SERVLET_ADMIN_PAGE;
         } else {

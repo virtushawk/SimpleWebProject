@@ -33,13 +33,13 @@ public class ApproveCorrectionCommand implements Command {
         try {
             flag = service.approveCorrection(id);
             if (flag) {
-                request.setAttribute(AttributeName.CORRECTION_APPROVE_VALID,true);
+                request.getSession().setAttribute(AttributeName.CORRECTION_APPROVE_VALID,true);
             } else {
-                request.setAttribute(AttributeName.CORRECTION_APPROVE_ERROR,true);
+                request.getSession().setAttribute(AttributeName.CORRECTION_APPROVE_ERROR,true);
             }
         } catch (ServiceException e) {
             logger.error("Error occurred while approving correction",e);
-            request.setAttribute(AttributeName.DATABASE_ERROR_MESSAGE,true);
+            request.getSession().setAttribute(AttributeName.DATABASE_ERROR_MESSAGE,true);
         }
         return PagePath.SERVLET_ADMIN_PAGE;
     }

@@ -33,13 +33,13 @@ public class RemoveAdminCommand implements Command {
         try {
             flag = service.removeAdmin(id);
             if (flag) {
-                request.setAttribute(AttributeName.ACCOUNT_REMOVE_ADMIN_VALID,true);
+                request.getSession().setAttribute(AttributeName.ACCOUNT_REMOVE_ADMIN_VALID,true);
             } else {
-                request.setAttribute(AttributeName.ACCOUNT_REMOVE_ADMIN_ERROR,true);
+                request.getSession().setAttribute(AttributeName.ACCOUNT_REMOVE_ADMIN_ERROR,true);
             }
         } catch (ServiceException e) {
             logger.error("Error occurred while removing the admin",e);
-            request.setAttribute(AttributeName.DATABASE_ERROR_MESSAGE,true);
+            request.getSession().setAttribute(AttributeName.DATABASE_ERROR_MESSAGE,true);
         }
         return PagePath.SERVLET_ADMIN_PAGE;
     }

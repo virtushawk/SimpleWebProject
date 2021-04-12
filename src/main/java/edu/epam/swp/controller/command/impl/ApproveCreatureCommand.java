@@ -33,13 +33,13 @@ public class ApproveCreatureCommand implements Command {
         try {
             flag = service.approveCreature(id);
             if (flag) {
-                request.setAttribute(AttributeName.CREATURE_APPROVE_VALID,true);
+                request.getSession().setAttribute(AttributeName.CREATURE_APPROVE_VALID,true);
             } else {
-                request.setAttribute(AttributeName.CREATURE_APPROVE_ERROR,true);
+                request.getSession().setAttribute(AttributeName.CREATURE_APPROVE_ERROR,true);
             }
         } catch (ServiceException e) {
             logger.error("Error occurred while approving creature",e);
-            request.setAttribute(AttributeName.DATABASE_ERROR_MESSAGE,true);
+            request.getSession().setAttribute(AttributeName.DATABASE_ERROR_MESSAGE,true);
         }
         return PagePath.SERVLET_ADMIN_PAGE;
     }

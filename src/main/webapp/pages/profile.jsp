@@ -409,6 +409,13 @@
                                 </ul>
                                 <div class="tab-content" id="myTabContent">
                                     <div class="tab-pane fade show active" id="reviews" role="tabpanel">
+                                        <c:if test="${requestScope.reviews.size() eq 0}">
+                                            <div class="col mx-auto">
+                                                <p class="font-weight-light text-center text-muted">
+                                                    <fmt:message key="profile.noReviews"/>
+                                                </p>
+                                            </div>
+                                        </c:if>
                                         <c:forEach var="review" items="${requestScope.reviews}" begin="${rpageStart}" end="${rpageStart + perPage - 1}">
                                             <div class="row g-0">
                                                 <div class="col-md-4">
@@ -576,6 +583,13 @@
         <div class="tab-pane fade" id="v-pills-userCreatures" role="tabpanel">
             <div class="container">
                 <div class="row row-cols-1 row-cols-md-5 g-4 mx-auto shadow p-3 mb-5 bg-white rounded mt-0" style="width: 75rem;">
+                    <c:if test="${requestScope.uncheckedCreatures.size() eq 0}">
+                        <div class="col mx-auto">
+                            <p class="font-weight-light text-center text-muted">
+                                <fmt:message key="profile.noUncheckedCreatures"/>
+                            </p>
+                        </div>
+                    </c:if>
                     <c:forEach var="creature" items="${requestScope.uncheckedCreatures}">
                         <div class="col">
                             <div class="card h-100 border-0">
@@ -725,6 +739,13 @@
         <div class="tab-pane fade" id="v-pills-userCorrections" role="tabpanel">
             <div class="container">
                 <div class="row row-cols-1 row-cols-md-5 g-4 mx-auto shadow p-3 mb-5 bg-white rounded mt-0" style="width: 75rem;">
+                    <c:if test="${requestScope.corrections.size() eq 0}">
+                        <div class="col mx-auto">
+                            <p class="font-weight-light text-center text-muted">
+                                <fmt:message key="profile.noCorrections"/>
+                            </p>
+                        </div>
+                    </c:if>
                     <c:forEach var="correction" items="${requestScope.corrections}">
                         <div class="col">
                             <div class="card h-100 border-0">

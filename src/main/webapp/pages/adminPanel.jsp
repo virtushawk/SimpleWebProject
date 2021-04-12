@@ -108,103 +108,117 @@
     </div>
     <c:remove var="errorMessageDB" scope="session"/>
 </c:if>
-<c:if test="${requestScope.correctionApproved}">
+<c:if test="${sessionScope.correctionApproved}">
     <div class="container">
         <div class="alert alert-success text-center" role="alert">
             <fmt:message key="adminPanel.correctionApproved"/>
         </div>
     </div>
+    <c:remove var="correctionApproved" scope="session"/>
 </c:if>
-<c:if test="${requestScope.correctionApproveError}">
+<c:if test="${sessionScope.correctionApproveError}">
     <div class="container">
         <div class="alert alert-danger text-center" role="alert">
             <fmt:message key="general.errorMessage"/>
         </div>
     </div>
+    <c:remove var="correctionApproveError" scope="session"/>
 </c:if>
-<c:if test="${requestScope.correctionDeleted}">
+<c:if test="${sessionScope.correctionDeleted}">
     <div class="container">
         <div class="alert alert-success text-center" role="alert">
             <fmt:message key="profile.correctionDeleted"/>
         </div>
     </div>
+    <c:remove var="correctionDeleted" scope="session"/>
 </c:if>
-<c:if test="${requestScope.correctionDeleteError}">
+<c:if test="${sessionScope.correctionDeleteError}">
     <div class="container">
         <div class="alert alert-danger text-center" role="alert">
             <fmt:message key="general.errorMessage"/>
         </div>
     </div>
+    <c:remove var="correctionDeleteError" scope="session"/>
 </c:if>
-<c:if test="${requestScope.creatureApproved}">
+<c:if test="${sessionScope.creatureApproved}">
     <div class="container">
         <div class="alert alert-success text-center" role="alert">
             <fmt:message key="adminPanel.creatureApproved"/>
         </div>
     </div>
+    <c:remove var="creatureApproved" scope="session"/>
 </c:if>
-<c:if test="${requestScope.creatureApproveError}">
+<c:if test="${sessionScope.creatureApproveError}">
     <div class="container">
         <div class="alert alert-danger text-center" role="alert">
             <fmt:message key="general.errorMessage"/>
         </div>
     </div>
+    <c:remove var="creatureApproveError" scope="session"/>
 </c:if>
-<c:if test="${requestScope.creatureDeleted}">
+<c:if test="${sessionScope.creatureDeleted}">
     <div class="container">
         <div class="alert alert-success text-center" role="alert">
             <fmt:message key="profile.creatureDeleted"/>
         </div>
     </div>
+    <c:remove var="creatureDeleted" scope="session"/>
 </c:if>
-<c:if test="${requestScope.creatureError}">
+<c:if test="${sessionScope.creatureError}">
     <div class="container">
         <div class="alert alert-danger text-center" role="alert">
             <fmt:message key="general.errorMessage"/>
         </div>
     </div>
+    <c:remove var="creatureError" scope="session"/>
 </c:if>
-<c:if test="${requestScope.accountUnblocked}">
+<c:if test="${sessionScope.accountUnblocked}">
     <div class="container">
         <div class="alert alert-success text-center" role="alert">
             <fmt:message key="adminPanel.accountUnblocked"/>
         </div>
     </div>
+    <c:remove var="accountUnblocked" scope="session"/>
 </c:if>
-<c:if test="${requestScope.accountUnblockError}">
+<c:if test="${sessionScope.accountUnblockError}">
     <div class="container">
         <div class="alert alert-danger text-center" role="alert">
             <fmt:message key="general.errorMessage"/>
         </div>
     </div>
+    <c:remove var="accountUnblockError" scope="session"/>
 </c:if>
-<c:if test="${requestScope.accountBlocked}">
+<c:if test="${sessionScope.accountBlocked}">
     <div class="container">
         <div class="alert alert-success text-center" role="alert">
             <fmt:message key="adminPanel.accountBlocked"/>
         </div>
     </div>
+    <c:remove var="accountBlocked" scope="session"/>
 </c:if>
-<c:if test="${requestScope.accountBlockError}">
+<c:if test="${sessionScope.accountBlockError}">
     <div class="container">
         <div class="alert alert-danger text-center" role="alert">
             <fmt:message key="general.errorMessage"/>
         </div>
     </div>
+    <c:remove var="accountBlockError" scope="session"/>
 </c:if>
-<c:if test="${requestScope.accountMadeAdmin}">
+<c:if test="${sessionScope.accountMadeAdmin}">
     <div class="container">
         <div class="alert alert-success text-center" role="alert">
             <fmt:message key="adminPanel.accountMadeAdmin"/>
         </div>
     </div>
+    <c:remove var="accountMadeAdmin" scope="session"/>
 </c:if>
-<c:if test="${requestScope.accountMadeAdminError}">
+<c:if test="${sessionScope.accountMadeAdminError}">
     <div class="container">
         <div class="alert alert-danger text-center" role="alert">
             <fmt:message key="general.errorMessage"/>
         </div>
     </div>
+    <c:remove var="accountMadeAdminError" scope="session"/>
 </c:if>
 <c:if test="${sessionScope.reviewChanged}">
     <div class="container">
@@ -254,33 +268,37 @@
     </div>
     <c:remove var="creatureEditError" scope="session"/>
 </c:if>
-<c:if test="${requestScope.accountRemoveAdmin}">
+<c:if test="${sessionScope.accountRemoveAdmin}">
     <div class="container">
         <div class="alert alert-success text-center" role="alert">
             <fmt:message key="adminPanel.removeAdmin"/>
         </div>
     </div>
+    <c:remove var="accountRemoveAdmin" scope="session"/>
 </c:if>
-<c:if test="${requestScope.accountMadeAdminError}">
+<c:if test="${sessionScope.accountRemoveAdminError}">
     <div class="container">
         <div class="alert alert-danger text-center" role="alert">
             <fmt:message key="general.errorMessage"/>
         </div>
     </div>
+    <c:remove var="accountRemoveAdminError" scope="session"/>
 </c:if>
-<c:if test="${requestScope.reviewDeleted}">
+<c:if test="${sessionScope.reviewDeleted}">
     <div class="container">
         <div class="alert alert-success text-center" role="alert">
             <fmt:message key="adminPanel.reviewDeleted"/>
         </div>
     </div>
+    <c:remove var="reviewDeleted" scope="session"/>
 </c:if>
-<c:if test="${requestScope.reviewDeletedError}">
+<c:if test="${sessionScope.reviewDeletedError}">
     <div class="container">
         <div class="alert alert-danger text-center" role="alert">
             <fmt:message key="general.errorMessage"/>
         </div>
     </div>
+    <c:remove var="reviewDeletedError" scope="session"/>
 </c:if>
 <div class="container">
     <div class="col-sm-12 mb-3">
@@ -390,12 +408,16 @@
                                 </div>
                             </div>
                             <div class="d-flex justify-content-end">
-                                <a class="btn btn-outline-success mt-1" href="${pageContext.request.contextPath}/controller?command=approve_correction&id=${correction.correctionId}">
-                                    <fmt:message key="adminPanel.correctionTab.approve"/>
-                                </a>
-                                <a class="btn btn-outline-danger mt-1" href="${pageContext.request.contextPath}/controller?command=disapprove_correction&id=${correction.correctionId}">
-                                    <fmt:message key="adminPanel.correctionTab.delete"/>
-                                </a>
+                                <form action="${pageContext.request.contextPath}/controller?command=approve_correction&id=${correction.correctionId}" method="post">
+                                    <button type="submit" class="btn btn-outline-success mt-1">
+                                        <fmt:message key="adminPanel.correctionTab.approve"/>
+                                    </button>
+                                </form>
+                                <form action="${pageContext.request.contextPath}/controller?command=disapprove_correction&id=${correction.correctionId}" method="post">
+                                    <button type="submit" class="btn btn-outline-danger mt-1">
+                                        <fmt:message key="adminPanel.correctionTab.delete"/>
+                                    </button>
+                                </form>
                             </div>
                         </li>
                     </c:forEach>
@@ -493,12 +515,16 @@
                                 </div>
                             </div>
                             <div class="d-flex justify-content-end">
-                                <a class="btn btn-outline-success mt-1" href="${pageContext.request.contextPath}/controller?command=approve_creature&id=${creature.creatureId}">
-                                    <fmt:message key="adminPanel.correctionTab.approve"/>
-                                </a>
-                                <a class="btn btn-outline-danger mt-1" href="${pageContext.request.contextPath}/controller?command=delete_creature&id=${creature.creatureId}">
-                                    <fmt:message key="adminPanel.correctionTab.delete"/>
-                                </a>
+                                <form action="${pageContext.request.contextPath}/controller?command=approve_creature&id=${creature.creatureId}" method="post">
+                                    <button type="submit" class="btn btn-outline-success mt-1">
+                                        <fmt:message key="adminPanel.correctionTab.approve"/>
+                                    </button>
+                                </form>
+                                <form action="${pageContext.request.contextPath}/controller?command=delete_creature&id=${creature.creatureId}" method="post">
+                                    <button type="submit" class="btn btn-outline-danger mt-1">
+                                        <fmt:message key="adminPanel.correctionTab.delete"/>
+                                    </button>
+                                </form>
                             </div>
                         </li>
                     </c:forEach>
@@ -553,25 +579,35 @@
                             <div class="d-flex justify-content-end">
                                 <c:choose>
                                     <c:when test="${user.role.name().equals('BLOCKED')}">
-                                        <a class="d-flex ms-2 btn btn-outline-primary mt-1" href="${pageContext.request.contextPath}/controller?command=unblock_user&id=${user.accountId}">
-                                            <fmt:message key="adminPanel.userTab.unblock"/>
-                                        </a>
+                                        <form action="${pageContext.request.contextPath}/controller?command=unblock_user&id=${user.accountId}" method="post">
+                                            <button type="submit" class="btn btn-outline-primary mt-1">
+                                                <fmt:message key="adminPanel.userTab.unblock"/>
+                                            </button>
+                                        </form>
                                     </c:when>
                                     <c:when test="${user.role.name().equals('ADMIN')}">
-                                        <a class="d-flex ms-2 btn btn-outline-danger mt-1" href="${pageContext.request.contextPath}/controller?command=block_user&id=${user.accountId}">
-                                            <fmt:message key="adminPanel.userTab.block"/>
-                                        </a>
-                                        <a class="d-flex ms-2 btn btn-outline-danger mt-1" href="${pageContext.request.contextPath}/controller?command=remove_admin&id=${user.accountId}">
-                                            <fmt:message key="adminPanel.userTab.removeAdmin"/>
-                                        </a>
+                                        <form action="${pageContext.request.contextPath}/controller?command=block_user&id=${user.accountId}" method="post">
+                                            <button type="submit" class="btn btn-outline-danger mt-1">
+                                                <fmt:message key="adminPanel.userTab.block"/>
+                                            </button>
+                                        </form>
+                                        <form action="${pageContext.request.contextPath}/controller?command=remove_admin&id=${user.accountId}" method="post">
+                                            <button type="submit" class="btn btn-outline-danger mt-1">
+                                                <fmt:message key="adminPanel.userTab.removeAdmin"/>
+                                            </button>
+                                        </form>
                                     </c:when>
                                     <c:otherwise>
-                                        <a class="d-flex ms-2 btn btn-outline-danger mt-1" href="${pageContext.request.contextPath}/controller?command=block_user&id=${user.accountId}">
-                                            <fmt:message key="adminPanel.userTab.block"/>
-                                        </a>
-                                        <a class="d-flex ms-2 btn btn-outline-primary mt-1" href="${pageContext.request.contextPath}/controller?command=make_admin&id=${user.accountId}">
-                                            <fmt:message key="adminPanel.userTab.makeAdmin"/>
-                                        </a>
+                                        <form action="${pageContext.request.contextPath}/controller?command=block_user&id=${user.accountId}" method="post">
+                                            <button type="submit" class="btn btn-outline-danger mt-1">
+                                                <fmt:message key="adminPanel.userTab.block"/>
+                                            </button>
+                                        </form>
+                                        <form action="${pageContext.request.contextPath}/controller?command=make_admin&id=${user.accountId}" method="post">
+                                            <button type="submit" class="btn btn-outline-primary mt-1">
+                                                <fmt:message key="adminPanel.userTab.makeAdmin"/>
+                                            </button>
+                                        </form>
                                     </c:otherwise>
                                 </c:choose>
                             </div>
@@ -649,9 +685,11 @@
                                     </button>
                                 </div>
                                 <div class="col-md-1 my-auto">
-                                    <a class="btn btn-outline-danger mt-1" href="${pageContext.request.contextPath}/controller?command=delete_review&id=${review.reviewId}">
-                                        <fmt:message key="creature.review.button.delete"/>
-                                    </a>
+                                    <form action="${pageContext.request.contextPath}/controller?command=delete_review&id=${review.reviewId}" method="post">
+                                        <button type="submit" class="btn btn-outline-danger mt-1">
+                                            <fmt:message key="creature.review.button.delete"/>
+                                        </button>
+                                    </form>
                                 </div>
                                 <div class="modal fade" id="editReviewModal${review.reviewId}" tabindex="-1">
                                     <div class="modal-dialog modal-lg">
@@ -774,9 +812,11 @@
                                 <button type="button" class="btn btn-outline-primary mt-1" data-bs-toggle="modal" data-bs-target="#bodyModal${creature.creatureId}">
                                     <fmt:message key="adminPanel.creatureTab.button.edit"/>
                                 </button>
-                                <a class="btn btn-outline-danger mt-1" href="${pageContext.request.contextPath}/controller?command=delete_creature&id=${creature.creatureId}">
-                                    <fmt:message key="adminPanel.creatureTab.button.delete"/>
-                                </a>
+                                <form action="${pageContext.request.contextPath}/controller?command=delete_creature&id=${creature.creatureId}" method="post">
+                                    <button type="submit" class="btn btn-outline-danger mt-1">
+                                        <fmt:message key="adminPanel.creatureTab.button.delete"/>
+                                    </button>
+                                </form>
                             </div>
                             <div class="modal fade" id="imageModal${creature.creatureId}" tabindex="-1">
                                 <div class="modal-dialog">
